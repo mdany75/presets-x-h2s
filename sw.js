@@ -4,8 +4,8 @@
 // l'ouverture suivante), copie locale si le réseau est absent ou trop lent.
 // Polices Google : copie locale d'abord, elles ne changent pas.
 
-var CACHE = "presets-x-h2s-v1";
-var SHELL = ["./", "manifest.webmanifest", "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png"];
+var CACHE = "presets-x-h2s-v2";
+var SHELL = ["./", "selection.js", "manifest.webmanifest", "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png"];
 var NETWORK_TIMEOUT_MS = 4000;
 
 self.addEventListener("install", function (event) {

@@ -49,7 +49,13 @@ html.xh-phone .chip{ flex:0 0 auto; }
 <script>
 (function(){
   var phone = navigator.maxTouchPoints > 0 && Math.min(screen.width, screen.height) <= 500;
-  if (!phone) return;
+  if (!phone){
+    // Sur ordinateur : sélection et impression de fiches (l'application Mac injecte sa propre copie).
+    var s = document.createElement("script");
+    s.src = "selection.js";
+    document.head.appendChild(s);
+    return;
+  }
   var root = document.documentElement;
   var TABS = ["bibliotheque", "banques", "iso-auto", "reference"];
   var scrolls = {};   // position de défilement de chaque onglet, retrouvée quand on y revient

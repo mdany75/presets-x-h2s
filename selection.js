@@ -1,8 +1,11 @@
-// selection.js — injecté par l'application dans la page des presets (la page elle-même n'est pas modifiée).
+// selection.js — sélection et impression de fiches, hors du corps de la page (artifact-source.html ne l'a pas).
 // Ajoute à chaque fiche et à chaque banque C1–C7 une pastille de sélection, une barre d'action
 // en bas de fenêtre, et la mise en page d'impression : seules les fiches sélectionnées sont imprimées.
+// Chargé par le <head> de index.html sur ordinateur (application web, Windows compris) et injecté
+// par l'application Mac, qui affiche une copie locale de la page.
 (function () {
   if (window.xhSelection) return;
+  window.xhSelection = {};   // réservé tout de suite : un second chargement ne refait rien
 
   var CARDS = ".pcard, .card.bank";
 
@@ -12,13 +15,13 @@
     ".card.bank .card-title{ padding-right:30px; }",
     ".xh-pick{ position:absolute; top:10px; right:10px; width:24px; height:24px; padding:0; border-radius:50%;",
     "  border:1.5px solid var(--border); background:var(--surface); color:transparent; cursor:pointer;",
-    "  font:700 14px/1 -apple-system,system-ui,sans-serif; display:flex; align-items:center; justify-content:center; }",
+    "  font:700 14px/1 -apple-system,system-ui,'Segoe UI',sans-serif; display:flex; align-items:center; justify-content:center; }",
     ".xh-pick:hover{ border-color:var(--accent); }",
     ".xh-pick[aria-pressed='true']{ background:var(--accent); border-color:var(--accent); color:var(--bg); }",
     ".xh-sel{ outline:2px solid var(--accent); outline-offset:-1px; }",
     "#xh-bar{ position:fixed; left:50%; bottom:18px; transform:translateX(-50%); z-index:50; display:flex; align-items:center;",
     "  gap:6px; padding:7px 8px 7px 16px; border-radius:100px; background:var(--text); color:var(--bg);",
-    "  font:600 13px/1.2 -apple-system,system-ui,sans-serif; box-shadow:0 6px 24px rgba(0,0,0,.3); white-space:nowrap; }",
+    "  font:600 13px/1.2 -apple-system,system-ui,'Segoe UI',sans-serif; box-shadow:0 6px 24px rgba(0,0,0,.3); white-space:nowrap; }",
     "#xh-bar[hidden]{ display:none; }",
     "#xh-bar span{ margin-right:8px; }",
     "#xh-bar button{ font:inherit; border:0; border-radius:100px; padding:7px 14px; cursor:pointer; }",
@@ -33,9 +36,10 @@
     "    --accent-soft:#f1e2cc !important; --accent2-soft:#dcefec !important; --mono-bg:#eeebe3 !important; }",
     "  *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }",
     "  html, body{ background:#fff !important; }",
-    "  body{ padding:0 !important; }",
-    "  body > *:not(#xh-print){ display:none !important; }",
-    "  #xh-print{ display:block; }",
+    // Sans sélection (html sans .xh-printing), la page entière s'imprime normalement.
+    "  html.xh-printing body{ padding:0 !important; }",
+    "  html.xh-printing body > *:not(#xh-print){ display:none !important; }",
+    "  html.xh-printing #xh-print{ display:block; }",
     "  #xh-print .xh-head{ display:flex; justify-content:space-between; align-items:baseline; gap:16px;",
     "    border-bottom:1px solid var(--border); padding-bottom:5px; margin-bottom:10px; color:var(--text-dim); font-size:.72rem; }",
     "  #xh-print .xh-head b{ color:var(--text); font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-size:.95rem; }",
@@ -46,13 +50,13 @@
     "  #xh-print .pcard, #xh-print .card{ margin:0; outline:none; }",
     // À plusieurs, les fiches sont resserrées (corps d'environ 8 pt) pour tenir à quatre par page ;
     // une fiche seule garde la taille de l'écran.
-    "  html:not(.xh-one){ font-size:12px !important; }",
-    "  html:not(.xh-one) body{ font-size:11.5px !important; line-height:1.3 !important; }",
-    "  html:not(.xh-one) #xh-print .pcard, html:not(.xh-one) #xh-print .card{ padding:9px 11px 10px; gap:4px; }",
-    "  html:not(.xh-one) #xh-print dl.spec{ gap:1px 9px; margin-top:2px; }",
-    "  html:not(.xh-one) #xh-print dl.spec dt{ min-width:0; }",
-    "  html:not(.xh-one) #xh-print .badges{ gap:4px; }",
-    "  html:not(.xh-one) #xh-print .badge{ padding:1px 6px; }",
+    "  html.xh-printing:not(.xh-one){ font-size:12px !important; }",
+    "  html.xh-printing:not(.xh-one) body{ font-size:11.5px !important; line-height:1.3 !important; }",
+    "  html.xh-printing:not(.xh-one) #xh-print .pcard, html.xh-printing:not(.xh-one) #xh-print .card{ padding:9px 11px 10px; gap:4px; }",
+    "  html.xh-printing:not(.xh-one) #xh-print dl.spec{ gap:1px 9px; margin-top:2px; }",
+    "  html.xh-printing:not(.xh-one) #xh-print dl.spec dt{ min-width:0; }",
+    "  html.xh-printing:not(.xh-one) #xh-print .badges{ gap:4px; }",
+    "  html.xh-printing:not(.xh-one) #xh-print .badge{ padding:1px 6px; }",
     "  #xh-print .xh-pick{ display:none; }",
     "}"
   ].join("\n");
@@ -72,31 +76,44 @@
     if (pick) pick.setAttribute("aria-pressed", on ? "true" : "false");
   }
 
-  cards().forEach(function (card) {
-    var pick = document.createElement("button");
-    pick.type = "button";
-    pick.className = "xh-pick";
-    pick.textContent = "✓";
-    pick.title = "Sélectionner pour l'impression";
-    pick.setAttribute("aria-label", "Sélectionner pour l'impression");
-    pick.setAttribute("aria-pressed", "false");
-    pick.addEventListener("click", function () {
-      setSelected(card, !card.classList.contains("xh-sel"));
-      refresh();
-    });
-    card.appendChild(pick);
-  });
-
   var bar = document.createElement("div");
-  bar.id = "xh-bar";
-  bar.hidden = true;
-  bar.innerHTML = '<span></span><button type="button" class="xh-print">Imprimer…</button>' +
-                  '<button type="button" class="xh-clear">Tout désélectionner</button>';
-  document.body.appendChild(bar);
-  bar.querySelector(".xh-print").addEventListener("click", function () {
-    window.webkit.messageHandlers.presets.postMessage("print");
-  });
-  bar.querySelector(".xh-clear").addEventListener("click", function () { api.clear(); });
+
+  function init() {
+    cards().forEach(function (card) {
+      var pick = document.createElement("button");
+      pick.type = "button";
+      pick.className = "xh-pick";
+      pick.textContent = "✓";
+      pick.title = "Sélectionner pour l'impression";
+      pick.setAttribute("aria-label", "Sélectionner pour l'impression");
+      pick.setAttribute("aria-pressed", "false");
+      pick.addEventListener("click", function () {
+        setSelected(card, !card.classList.contains("xh-sel"));
+        refresh();
+      });
+      card.appendChild(pick);
+    });
+
+    bar.id = "xh-bar";
+    bar.hidden = true;
+    bar.innerHTML = '<span></span><button type="button" class="xh-print">Imprimer…</button>' +
+                    '<button type="button" class="xh-clear">Tout désélectionner</button>';
+    document.body.appendChild(bar);
+    bar.querySelector(".xh-print").addEventListener("click", function () {
+      // Application Mac : dialogue d'impression natif. Navigateur : impression du navigateur.
+      var native = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.presets;
+      if (native) native.postMessage("print");
+      else window.print();
+    });
+    bar.querySelector(".xh-clear").addEventListener("click", function () { api.clear(); });
+  }
+
+  // Les fiches sont créées par le script de la page : attendre qu'elles existent.
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  // Ctrl+P / ⌘P du navigateur : imprime la sélection s'il y en a une, sinon la page entière.
+  window.addEventListener("beforeprint", function () { api.prepare(); });
 
   function refresh() {
     var n = selected().length;
@@ -125,6 +142,7 @@
       var old = document.getElementById("xh-print");
       if (old) old.remove();
       var picked = selected();
+      document.documentElement.classList.toggle("xh-printing", picked.length > 0);
       if (!picked.length) return 0;
       document.documentElement.classList.toggle("xh-one", picked.length === 1);
       var box = document.createElement("div");

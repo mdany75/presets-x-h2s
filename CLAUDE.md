@@ -17,8 +17,10 @@ Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier
 | `artifact-source.html` | Identique à `index.html` sans `<!doctype>/<html>/<head>/<body>` — version publiée comme artifact claude.ai (« Presets X-H2S »). À garder synchrone. |
 | `presets-x-h2s.md` | Export Markdown généré, jamais édité à la main. |
 | `tools/export_md.py` | Génère le Markdown : `python3 tools/export_md.py` (dépendance `beautifulsoup4`). |
-| `app/` | Application macOS native « Presets X-H2S » (Swift, `app/build.sh --install`). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement, imprime les fiches sélectionnées (`app/Resources/selection.js`, injecté : la page n'est pas modifiée). |
-| `manifest.webmanifest`, `sw.js`, `icons/` | Application web pour iPhone servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>), avec les blocs « Application web » et « Sur téléphone » (une section à la fois, menu en onglets) du `<head>` de `index.html`. Ces blocs sont le seul contenu de `index.html` absent de `artifact-source.html` (qui n'a pas de `<head>`) : la comparaison des deux fichiers porte sur le contenu de `<body>`. |
+| `app/` | Application macOS native « Presets X-H2S » (Swift, `app/build.sh --install`). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement, imprime les fiches sélectionnées (injecte `selection.js` : le corps de la page n'est pas modifié). |
+| `selection.js` | Sélection et impression de fiches, partagé : chargé par le `<head>` de `index.html` sur ordinateur (version PC Windows), injecté par l'application Mac. |
+| `manifest.webmanifest`, `sw.js`, `icons/` | Application web servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>) : version PC Windows (installée depuis Edge ou Chrome) et version iPhone (écran d'accueil). Tout ce qui est propre aux applications est dans le `<head>` de `index.html` : installation, hors-ligne, onglets sur téléphone, chargement de `selection.js`. Ce `<head>` est le seul contenu de `index.html` absent de `artifact-source.html` : la comparaison des deux fichiers porte sur le contenu de `<body>`. Si `sw.js` ou la liste des fichiers gardés hors ligne change, incrémenter `CACHE` dans `sw.js`. |
+| `docs/` | Captures d'écran du README (Mac, PC, iPhone). |
 
 ## Schéma d'une fiche (objet dans DATA)
 

@@ -50,7 +50,7 @@ iconutil -c icns "$WORK/AppIcon.iconset" -o "$APP/Contents/Resources/AppIcon.icn
 echo "› Ressources"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp "$PAGE" "$APP/Contents/Resources/index.html"
-cp Resources/selection.js "$APP/Contents/Resources/selection.js"
+cp ../selection.js "$APP/Contents/Resources/selection.js"
 # fr.lproj : sa présence suffit pour que les panneaux système s'affichent en français.
 printf '"CFBundleName" = "%s";\n"CFBundleDisplayName" = "%s";\n' "$APP_NAME" "$APP_NAME" \
   > "$APP/Contents/Resources/fr.lproj/InfoPlist.strings"
