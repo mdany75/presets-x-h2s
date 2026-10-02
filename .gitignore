@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Application Mac assemblée (reconstruite par app/build.sh)
+app/build/
