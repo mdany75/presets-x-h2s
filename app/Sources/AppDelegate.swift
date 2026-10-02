@@ -254,9 +254,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
 
     @objc private func focusSearch(_ sender: Any?) {
         window.makeFirstResponder(webView)
+        // La recherche est dans l'onglet Bibliothèque ; elle reste collée sous l'en-tête, sans défilement.
         webView.evaluateJavaScript("""
+            if (window.xhShowTab) xhShowTab('bibliotheque');
             var s = document.getElementById('libsearch');
-            if (s) { s.scrollIntoView({block: 'center'}); s.focus(); s.select(); }
+            if (s) { if (!window.xhShowTab) s.scrollIntoView({block: 'center'}); s.focus({preventScroll: true}); s.select(); }
             """)
     }
 

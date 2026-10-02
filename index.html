@@ -19,27 +19,32 @@ if ("serviceWorker" in navigator && location.protocol === "https:") {
   window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js"); });
 }
 </script>
-<!-- Sur téléphone : une section à la fois (Bibliothèque, Banques C1–C7, ISO Auto, Référence),
-     le menu du haut sert d'onglets. Sans effet sur Mac, iPad et ordinateur. -->
+<!-- Une section à la fois (Bibliothèque, Banques C1–C7, ISO Auto, Référence) : le menu du haut
+     sert d'onglets, sur ordinateur comme sur téléphone. Le téléphone a en plus un en-tête compact. -->
 <style>
-html.xh-phone[data-tab="bibliotheque"] section:not(#bibliotheque),
-html.xh-phone[data-tab="banques"] section:not(#banques),
-html.xh-phone[data-tab="iso-auto"] section:not(#iso-auto),
-html.xh-phone[data-tab="reference"] section:not(#reference){ display:none; }
-html.xh-phone section{ padding-block:16px 28px; border-bottom:none; }
-/* En-tête compact : titre, version, puis les onglets */
+html.xh-tabs[data-tab="bibliotheque"] section:not(#bibliotheque),
+html.xh-tabs[data-tab="banques"] section:not(#banques),
+html.xh-tabs[data-tab="iso-auto"] section:not(#iso-auto),
+html.xh-tabs[data-tab="reference"] section:not(#reference){ display:none; }
+html.xh-tabs section{ border-bottom:none; }
+html.xh-tabs nav.toc a{ padding-bottom:3px; border-bottom:2px solid transparent; }
+html.xh-tabs[data-tab="bibliotheque"] nav.toc a[href="#bibliotheque"],
+html.xh-tabs[data-tab="banques"] nav.toc a[href="#banques"],
+html.xh-tabs[data-tab="iso-auto"] nav.toc a[href="#iso-auto"],
+html.xh-tabs[data-tab="reference"] nav.toc a[href="#reference"]{ color:var(--accent); border-bottom-color:var(--accent); }
+/* La recherche et les catégories se collent juste sous l'en-tête, quelle que soit sa hauteur */
+html.xh-tabs .libctl{ top:var(--xh-header,74px); }
+
+/* Téléphone — en-tête compact : titre, version, puis les onglets sur une ligne */
+html.xh-phone section{ padding-block:16px 28px; }
 html.xh-phone header.top{ padding-block:10px 0; }
 html.xh-phone header.top .wrap{ gap:6px; }
 html.xh-phone header.top .tagline{ display:none; }
 html.xh-phone header.top .titleblock{ width:100%; gap:0; }
 html.xh-phone nav.toc{ margin-left:0; width:100%; flex-wrap:nowrap; justify-content:space-between; gap:0; }
-html.xh-phone nav.toc a{ font-size:.72rem; white-space:nowrap; padding:7px 2px 8px; border-bottom:2px solid transparent; }
-html.xh-phone[data-tab="bibliotheque"] nav.toc a[href="#bibliotheque"],
-html.xh-phone[data-tab="banques"] nav.toc a[href="#banques"],
-html.xh-phone[data-tab="iso-auto"] nav.toc a[href="#iso-auto"],
-html.xh-phone[data-tab="reference"] nav.toc a[href="#reference"]{ color:var(--accent); border-bottom-color:var(--accent); }
-/* Recherche et catégories : collées sous l'en-tête, catégories sur une ligne qui défile */
-html.xh-phone .libctl{ top:var(--xh-header,84px); gap:8px 10px; margin-inline:-16px; padding:8px 16px; border-bottom:1px solid var(--border); }
+html.xh-phone nav.toc a{ font-size:.72rem; white-space:nowrap; padding:7px 2px 8px; }
+/* Téléphone — catégories sur une ligne qui défile */
+html.xh-phone .libctl{ gap:8px 10px; margin-inline:-16px; padding:8px 16px; border-bottom:1px solid var(--border); }
 html.xh-phone .libctl input[type=search]{ order:1; flex:1 1 0; min-width:0; }
 html.xh-phone .count{ order:2; margin-left:0; white-space:nowrap; }
 html.xh-phone .chips{ order:3; flex:0 0 calc(100% + 32px); margin-inline:-16px; padding-inline:16px; box-sizing:border-box; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
@@ -49,18 +54,20 @@ html.xh-phone .chip{ flex:0 0 auto; }
 <script>
 (function(){
   var phone = navigator.maxTouchPoints > 0 && Math.min(screen.width, screen.height) <= 500;
+  var root = document.documentElement;
+  var TABS = ["bibliotheque", "banques", "iso-auto", "reference"];
+  var scrolls = {};   // position de défilement de chaque onglet, retrouvée quand on y revient
+  var first = location.hash.slice(1);
+  root.classList.add("xh-tabs");
+  if (phone) root.classList.add("xh-phone");
+  root.setAttribute("data-tab", TABS.indexOf(first) === -1 ? TABS[0] : first);
+
   if (!phone){
     // Sur ordinateur : sélection et impression de fiches (l'application Mac injecte sa propre copie).
     var s = document.createElement("script");
     s.src = "selection.js";
     document.head.appendChild(s);
-    return;
   }
-  var root = document.documentElement;
-  var TABS = ["bibliotheque", "banques", "iso-auto", "reference"];
-  var scrolls = {};   // position de défilement de chaque onglet, retrouvée quand on y revient
-  root.classList.add("xh-phone");
-  root.setAttribute("data-tab", TABS[0]);
 
   function show(tab, target){
     var current = root.getAttribute("data-tab");
@@ -69,9 +76,14 @@ html.xh-phone .chip{ flex:0 0 auto; }
       root.setAttribute("data-tab", tab);
     }
     if (target) target.scrollIntoView();
-    // Toucher l'onglet déjà affiché remonte en haut de la section.
+    // Choisir l'onglet déjà affiché remonte en haut de la section.
     else window.scrollTo(0, tab === current ? 0 : (scrolls[tab] || 0));
   }
+
+  // Pour l'application Mac (⌘F) : affiche un onglet sans défiler s'il est déjà affiché.
+  window.xhShowTab = function(tab){
+    if (TABS.indexOf(tab) !== -1 && root.getAttribute("data-tab") !== tab) show(tab, null);
+  };
 
   // Les onglets, et tout lien interne qui vise une section ou un élément d'une section.
   document.addEventListener("click", function(e){
@@ -84,7 +96,6 @@ html.xh-phone .chip{ flex:0 0 auto; }
     show(section.id, el === section ? null : el);
   });
 
-  // La barre de recherche se colle juste sous l'en-tête, quelle que soit sa hauteur.
   function measure(){
     var header = document.querySelector("header.top");
     if (header) root.style.setProperty("--xh-header", header.offsetHeight + "px");
