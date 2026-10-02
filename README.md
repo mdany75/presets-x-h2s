@@ -2,7 +2,7 @@
 
 Référence de terrain pour un Fujifilm X-H2S (firmware 7.3) : banques personnalisées C1–C7, bibliothèque de presets par situation (recherche + filtre par catégorie, tri alphabétique automatique), configuration ISO Auto 1–3 et glossaire des réglages.
 
-La même référence se consulte sur trois appareils : une application **Mac**, une application **PC Windows** et une application **iPhone**. Les trois affichent les mêmes fiches, fonctionnent hors ligne et se mettent à jour seules à chaque changement poussé sur ce dépôt.
+La même référence se consulte sur trois appareils : une application **Mac**, une application **PC Windows** et une application **iPhone**. Les trois affichent les mêmes fiches, fonctionnent hors ligne et se mettent à jour seules à chaque changement poussé sur ce dépôt. Dans les trois, le menu du haut sert d'onglets : Bibliothèque, Banques C1–C7, ISO Auto et Référence s'affichent une section à la fois.
 
 ![L'application Mac « Presets X-H2S » : bibliothèque de presets, deux fiches sélectionnées pour l'impression](docs/application.png)
 
@@ -16,7 +16,7 @@ La même référence se consulte sur trois appareils : une application **Mac**, 
 | Hors ligne | Oui | Oui, après une première ouverture | Oui, après une première ouverture |
 | Mise à jour des fiches | Automatique au lancement | Automatique à l'ouverture | Automatique à l'ouverture |
 | Impression de fiches choisies | Oui, quatre par page | Oui, quatre par page | Non |
-| Affichage | Toutes les sections sur une page | Toutes les sections sur une page | Une section à la fois, par onglets |
+| Affichage | Une section à la fois, par onglets | Une section à la fois, par onglets | Une section à la fois, par onglets, en-tête compact |
 
 Adresse de l'application web : <https://mdany75.github.io/presets-x-h2s/>
 
@@ -26,8 +26,9 @@ Une application macOS native qui affiche la référence dans sa propre fenêtre,
 
 - **Installation** : `app/build.sh --install` construit l'application et la place dans `/Applications`. Les outils de ligne de commande d'Apple suffisent (`xcode-select --install`), Xcode n'est pas nécessaire.
 - **Mise à jour** : la page embarquée est celle du dépôt au moment de la compilation. À chaque lancement, l'application compare sa copie à `index.html` de la branche `main` et télécharge la version plus récente : inutile de recompiler après un changement de fiches. Hors ligne, elle affiche la dernière copie connue.
+- **Onglets** : le menu du haut affiche une section à la fois ; l'onglet actif est souligné, et chaque onglet retrouve sa position de défilement quand on y revient. Dans Bibliothèque, la recherche et les catégories restent collées sous l'en-tête.
 - **Impression** : la pastille en haut à droite de chaque fiche (et de chaque banque C1–C7) la sélectionne. ⌘P, ou le bouton « Imprimer… » de la barre du bas, imprime la sélection à quatre fiches par page ; une fiche seule sort en pleine largeur. ⇧⌘A sélectionne les fiches que le filtre laisse affichées, ⇧⌘D vide la sélection.
-- **Raccourcis** : ⌘F recherche un preset, ⌘R force la mise à jour depuis GitHub, ⌘+ / ⌘- / ⌘0 règlent le zoom.
+- **Raccourcis** : ⌘F ouvre l'onglet Bibliothèque et place le curseur dans la recherche, ⌘R force la mise à jour depuis GitHub, ⌘+ / ⌘- / ⌘0 règlent le zoom.
 
 ## Version PC Windows
 
@@ -53,7 +54,8 @@ Les libellés exacts des menus peuvent varier d'une version du navigateur à l'a
 
 ### Utilisation
 
-- **Impression** : comme sur Mac, la pastille en haut à droite de chaque fiche la sélectionne et le bouton « Imprimer… » de la barre du bas imprime la sélection, à quatre fiches par page. **Ctrl+P** imprime la sélection s'il y en a une, sinon la page entière. Le dialogue d'impression propose aussi l'enregistrement en PDF.
+- **Onglets** : comme sur Mac, le menu du haut affiche une section à la fois et chaque onglet retrouve sa position de défilement.
+- **Impression** : comme sur Mac, la pastille en haut à droite de chaque fiche la sélectionne et le bouton « Imprimer… » de la barre du bas imprime la sélection, à quatre fiches par page. **Ctrl+P** imprime la sélection s'il y en a une, sinon l'onglet affiché. Le dialogue d'impression propose aussi l'enregistrement en PDF.
 - **Recherche** : cliquer dans le champ de recherche de la bibliothèque, ou Ctrl+F pour la recherche du navigateur dans toute la page.
 - **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, la version du dépôt est rechargée ; sans réseau, la copie locale s'affiche.
 - **Désinstallation** : dans la fenêtre de l'application, menu **…** → **Paramètres de l'application** → **Désinstaller** ; ou Paramètres de Windows → Applications.
@@ -86,7 +88,7 @@ La page s'installe sur l'iPhone comme une application : une icône sur l'écran 
 
 ### Utilisation
 
-- **Onglets** : sur téléphone, le menu du haut affiche une section à la fois — Bibliothèque, Banques C1–C7, ISO Auto, Référence. Chaque onglet retrouve sa position de défilement quand on y revient ; toucher l'onglet déjà affiché remonte en haut. Dans Bibliothèque, la recherche et les catégories restent collées sous les onglets ; la rangée de catégories défile horizontalement.
+- **Onglets** : le menu du haut affiche une section à la fois — Bibliothèque, Banques C1–C7, ISO Auto, Référence. Chaque onglet retrouve sa position de défilement quand on y revient ; toucher l'onglet déjà affiché remonte en haut. Sur téléphone, l'en-tête est compact et les quatre onglets tiennent sur une ligne ; dans Bibliothèque, la recherche et les catégories restent collées sous les onglets, et la rangée de catégories défile horizontalement.
 - **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, l'application recharge la version du dépôt ; le numéro de version est affiché sous le titre. Sans réseau, ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
 - **Hors ligne** : la page, l'icône et les polices sont gardées sur l'iPhone. iOS peut effacer cette copie si l'application n'est pas ouverte pendant plusieurs semaines ; une ouverture avec du réseau la reconstitue.
 - **Désinstallation** : appui long sur l'icône, puis **Supprimer l'app**.
@@ -107,7 +109,7 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Page autonome, servie par GitHub Pages. Toutes les données sont dans le tableau `DATA` du `<script>`. Son `<head>` porte ce qui est propre aux applications : installation, hors-ligne, onglets sur téléphone, chargement de `selection.js` sur ordinateur. |
+| `index.html` | Page autonome, servie par GitHub Pages. Toutes les données sont dans le tableau `DATA` du `<script>`. Son `<head>` porte ce qui est propre aux applications : installation, hors-ligne, onglets, en-tête compact du téléphone, chargement de `selection.js` sur ordinateur. |
 | `artifact-source.html` | Même contenu que le `<body>` de `index.html`, sans le squelette `<html>/<head>/<body>` — version publiée comme artifact claude.ai. |
 | `presets-x-h2s.md` | Export Markdown généré depuis le HTML, pour lecture hors ligne ou impression. |
 | `tools/export_md.py` | Script de génération du Markdown (`pip install beautifulsoup4`). |
