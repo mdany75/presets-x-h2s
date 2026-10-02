@@ -71,5 +71,5 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 ## État au transfert
 
 - Version 31 publiée (artifact et dépôt identiques), 103 fiches.
-- En attente : description du dépôt GitHub à poser à la main (Settings → About) ; GitHub Pages à activer si voulu.
+- Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows et iPhone en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».
