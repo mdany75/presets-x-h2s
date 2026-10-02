@@ -41,10 +41,10 @@ La page s'installe sur l'iPhone comme une application : une icône sur l'écran 
 <p>
   <img src="docs/iphone-bibliotheque.png" alt="La bibliothèque de presets à la largeur d'un iPhone" width="270">
   &nbsp;&nbsp;
-  <img src="docs/iphone-recherche.png" alt="Recherche « pluie » : 2 presets sur 103" width="270">
+  <img src="docs/iphone-banques.png" alt="L'onglet Banques C1–C7 à la largeur d'un iPhone" width="270">
 </p>
 
-*Rendu de la page à la largeur d'un iPhone 17 Pro : la bibliothèque, puis une recherche.*
+*Rendu de la page à la largeur d'un iPhone 17 Pro : l'onglet Bibliothèque, puis l'onglet Banques C1–C7.*
 
 ### Installation, étape par étape
 
@@ -60,13 +60,14 @@ La page s'installe sur l'iPhone comme une application : une icône sur l'écran 
 
 ### Utilisation
 
+- **Onglets** : sur téléphone, le menu du haut affiche une section à la fois — Bibliothèque, Banques C1–C7, ISO Auto, Référence. Chaque onglet retrouve sa position de défilement quand on y revient ; toucher l'onglet déjà affiché remonte en haut. Dans Bibliothèque, la recherche et les catégories restent collées sous les onglets ; la rangée de catégories défile horizontalement.
 - **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, l'application recharge la version du dépôt (un push sur `main` suffit) ; le numéro de version est affiché sous le titre. Sans réseau, ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
 - **Hors ligne** : la page, l'icône et les polices sont gardées sur l'iPhone par `sw.js`. iOS peut effacer cette copie si l'application n'est pas ouverte pendant plusieurs semaines ; une ouverture avec du réseau la reconstitue.
 - **Désinstallation** : appui long sur l'icône, puis **Supprimer l'app**.
 
 ### Fichiers concernés
 
-`manifest.webmanifest`, `sw.js`, `icons/` (générées par `app/scripts/make_icon.swift --web icons`) et le bloc « Application web » du `<head>` de `index.html`. Ce bloc n'existe pas dans `artifact-source.html`, qui n'a pas de `<head>`.
+`manifest.webmanifest`, `sw.js`, `icons/` (générées par `app/scripts/make_icon.swift --web icons`) et les blocs « Application web » et « Sur téléphone » du `<head>` de `index.html`. Ces blocs n'existent pas dans `artifact-source.html`, qui n'a pas de `<head>`.
 
 ## Publication GitHub Pages
 
