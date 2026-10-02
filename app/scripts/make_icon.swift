@@ -1,9 +1,12 @@
 // make_icon.swift — dessine l'icône de « Presets X-H2S » : une molette de modes calée sur C1.
 //
 // Usage : make_icon <dossier .iconset de sortie>
+//         make_icon --web <dossier de sortie>
 //
-// Écrit les dix PNG attendus par `iconutil -c icns`. Le dessin est vectoriel et refait à
-// chaque taille sur la grille macOS : canevas de 1024, tuile arrondie de 824, marge de 100.
+// Sans option, écrit les dix PNG attendus par `iconutil -c icns`. Le dessin est vectoriel et
+// refait à chaque taille sur la grille macOS : canevas de 1024, tuile arrondie de 824, marge de 100.
+// Avec --web, écrit les icônes de l'application web (écran d'accueil de l'iPhone) : le fond
+// couvre tout le carré, sans marge ni coins arrondis, car iOS applique son propre masque.
 
 import AppKit
 import CoreGraphics
@@ -24,18 +27,30 @@ func gradient(_ colors: [CGColor]) -> CGGradient {
 }
 
 /// Dessine l'icône dans un repère de 1024 × 1024 (origine en bas à gauche).
-func draw(in ctx: CGContext) {
+func draw(in ctx: CGContext, fullBleed: Bool) {
     let tile = CGRect(x: 100, y: 100, width: 824, height: 824)
     let tilePath = CGPath(roundedRect: tile, cornerWidth: 185, cornerHeight: 185, transform: nil)
     let center = CGPoint(x: 512, y: 500)
 
     // Tuile : les couleurs sombres de la page.
     ctx.saveGState()
-    ctx.addPath(tilePath)
+    if fullBleed {
+        ctx.addRect(CGRect(x: 0, y: 0, width: 1024, height: 1024))
+    } else {
+        ctx.addPath(tilePath)
+    }
     ctx.clip()
     ctx.drawLinearGradient(gradient([rgb(0x2a2520), rgb(0x121110)]),
-                           start: CGPoint(x: 512, y: 924), end: CGPoint(x: 512, y: 100), options: [])
+                           start: CGPoint(x: 512, y: fullBleed ? 1024 : 924),
+                           end: CGPoint(x: 512, y: fullBleed ? 0 : 100), options: [])
     ctx.restoreGState()
+
+    // Sans la marge de la tuile, la molette est agrandie pour occuper la même part du carré.
+    if fullBleed {
+        ctx.translateBy(x: 512, y: 512)
+        ctx.scaleBy(x: 1.12, y: 1.12)
+        ctx.translateBy(x: -512, y: -512)
+    }
 
     // Molette : couronne crantée.
     ctx.saveGState()
@@ -91,13 +106,13 @@ func draw(in ctx: CGContext) {
     ctx.fillPath()
 }
 
-func writePNG(pixels: Int, to url: URL) {
+func writePNG(pixels: Int, to url: URL, fullBleed: Bool = false) {
     guard let ctx = CGContext(data: nil, width: pixels, height: pixels, bitsPerComponent: 8, bytesPerRow: 0,
                               space: sRGB, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
         fatalError("contexte graphique indisponible")
     }
     ctx.scaleBy(x: CGFloat(pixels) / 1024, y: CGFloat(pixels) / 1024)
-    draw(in: ctx)
+    draw(in: ctx, fullBleed: fullBleed)
     guard let image = ctx.makeImage(),
           let dest = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) else {
         fatalError("écriture impossible : \(url.path)")
@@ -106,14 +121,22 @@ func writePNG(pixels: Int, to url: URL) {
     guard CGImageDestinationFinalize(dest) else { fatalError("écriture impossible : \(url.path)") }
 }
 
-guard CommandLine.arguments.count == 2 else {
-    FileHandle.standardError.write("usage : make_icon <dossier .iconset>\n".data(using: .utf8)!)
+let arguments = Array(CommandLine.arguments.dropFirst())
+let web = arguments.first == "--web"
+guard arguments.count == (web ? 2 : 1) else {
+    FileHandle.standardError.write("usage : make_icon <dossier .iconset> | make_icon --web <dossier>\n".data(using: .utf8)!)
     exit(1)
 }
-let output = URL(fileURLWithPath: CommandLine.arguments[1], isDirectory: true)
+let output = URL(fileURLWithPath: arguments.last!, isDirectory: true)
 try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
 
-for size in [16, 32, 128, 256, 512] {
-    writePNG(pixels: size, to: output.appendingPathComponent("icon_\(size)x\(size).png"))
-    writePNG(pixels: size * 2, to: output.appendingPathComponent("icon_\(size)x\(size)@2x.png"))
+if web {
+    writePNG(pixels: 180, to: output.appendingPathComponent("apple-touch-icon.png"), fullBleed: true)
+    writePNG(pixels: 192, to: output.appendingPathComponent("icon-192.png"), fullBleed: true)
+    writePNG(pixels: 512, to: output.appendingPathComponent("icon-512.png"), fullBleed: true)
+} else {
+    for size in [16, 32, 128, 256, 512] {
+        writePNG(pixels: size, to: output.appendingPathComponent("icon_\(size)x\(size).png"))
+        writePNG(pixels: size * 2, to: output.appendingPathComponent("icon_\(size)x\(size)@2x.png"))
+    }
 }

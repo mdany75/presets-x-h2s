@@ -4,7 +4,7 @@ Référence de terrain pour un Fujifilm X-H2S (firmware 7.3) : banques personnal
 
 ![L'application Mac « Presets X-H2S » : bibliothèque de presets, deux fiches sélectionnées pour l'impression](docs/application.png)
 
-La référence existe sous trois formes : la page `index.html`, l'export Markdown, et une [application Mac](#application-mac) qui affiche la page et imprime les fiches choisies.
+La référence existe sous quatre formes : la page `index.html`, l'export Markdown, une [application Mac](#application-mac) qui affiche la page et imprime les fiches choisies, et une [application web pour iPhone](#publication-github-pages-et-application-iphone) à poser sur l'écran d'accueil.
 
 Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140 f/2.8 R LM OIS WR, XF 150-600 f/5.6-8 R LM OIS WR, Laowa 60 mm f/2.8 2× Ultra-Macro. Éclairage Godox (V1 Pro, V860II, MF12, AD200, AD600 Pro). Workflow RAW uniquement (Lightroom Classic + DxO PureRAW) : aucun réglage de rendu JPEG (simulations, netteté, grain, DR-P) n'est utilisé.
 
@@ -16,6 +16,7 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 | `artifact-source.html` | Même contenu sans le squelette `<html>/<body>` — version publiée comme artifact claude.ai. |
 | `presets-x-h2s.md` | Export Markdown généré depuis le HTML, pour lecture hors ligne ou impression. |
 | `tools/export_md.py` | Script de génération du Markdown (`pip install beautifulsoup4`). |
+| `manifest.webmanifest`, `sw.js`, `icons/` | Application web pour iPhone : icône d'écran d'accueil, plein écran, hors-ligne. |
 | `app/` | Application macOS native (sources Swift, `build.sh`). Voir [Application Mac](#application-mac). |
 
 ## Ajouter ou modifier un preset
@@ -33,9 +34,15 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 - **Pre-AF** : ON seulement pour les sujets qui surgissent (sport, faune en action), OFF ailleurs.
 - **AF-C Set** : 1 multi-usage · 2 ignorer les obstacles · 3 accélération/décélération · 4 apparition soudaine · 5 erratique · 6 personnalisé.
 
-## Publication GitHub Pages
+## Publication GitHub Pages et application iPhone
 
-Settings → Pages → Source : *Deploy from a branch*, branche `main`, dossier `/ (root)`. La page est servie depuis `index.html`.
+La page est publiée par GitHub Pages (branche `main`, dossier racine) : <https://mdany75.github.io/presets-x-h2s/>.
+
+Sur iPhone, elle s'installe comme une application : ouvrir cette adresse dans Safari, puis Partager → « Sur l'écran d'accueil ». L'icône ouvre la bibliothèque en plein écran, sans la barre de Safari.
+
+- Hors ligne : `sw.js` garde une copie de la page, des icônes et des polices. Il faut avoir ouvert l'application une fois avec du réseau depuis son icône.
+- Mise à jour : à chaque ouverture avec du réseau, la version du dépôt est rechargée (un push sur `main` suffit) ; sans réseau ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
+- Fichiers : `manifest.webmanifest`, `sw.js`, `icons/` (générées par `app/scripts/make_icon.swift --web icons`) et le bloc « Application web » du `<head>` de `index.html`. Ce bloc n'existe pas dans `artifact-source.html`, qui n'a pas de `<head>`.
 
 ## Application Mac
 
