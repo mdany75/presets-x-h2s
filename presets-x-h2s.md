@@ -1,10 +1,10 @@
 # Presets Fujifilm X-H2S
 
-*Version 30 · 22 septembre 2026*
+*Version 31 · 2 octobre 2026*
 
-Référence de terrain — 102 presets par situation, banques C1–C7, ISO Auto 1–3, glossaire technique.
+Référence de terrain — 103 presets par situation, banques C1–C7, ISO Auto 1–3, glossaire technique.
 
-## Bibliothèque de presets par situation (102)
+## Bibliothèque de presets par situation (103)
 
 ### Affût / mangeoire (sujet proche, immobile)
 
@@ -2343,6 +2343,31 @@ Référence de terrain — 102 presets par situation, banques C1–C7, ISO Auto 
 | Clarté | Clarté 0 |
 | IBIS | IBIS activée |
 | EVF | Aperçu Exp./BB |
+
+### Street photography sous la pluie
+
+*Street* — Reflets sur l'asphalte mouillé, parapluies, gouttes et éclaboussures ; ciel gris qui pousse le posemètre à sous-exposer, boîtier et optique exposés à l'eau
+
+`Mode A` · `f/4–f/5.6 · 1/500s` · `AF-C · Set 1` · `3×3 · Humain` · `ISO Auto 3` · `ES` · `CL 5 ips`
+
+| Réglage | Valeur |
+|---|---|
+| Objectif | XF 16-55 f/2.8 WR (24–35mm) ; XF 50-140 WR pour isoler une silhouette sous un parapluie avec les reflets compressés |
+| AF | Zone 3×3, détection Humain (Set 2 si les parapluies traversent sans cesse la zone) |
+| Détection | Détection Humain |
+| Pre-AF | OFF |
+| Flash | Sans flash ; V1 Pro à faible puissance placé en contre-jour pour détacher les gouttes (MS obligatoire alors) |
+| Expo | f/4–f/5.6 / min. 1/500s (figer gouttes et éclaboussures ; 1/250s suffit pour une bruine sans mouvement) |
+| Obturateur | ES silencieux ou EF · MS si flash |
+| Mode MAP | AF-C |
+| AF-C Set | Set 1 |
+| ISO | AUTO 3 (plancher 1/500s) |
+| Cadence | CL 5 ips |
+| Mesure | Multi +0.3 à +0.7 EV |
+| DR | DR200 (ciel gris lumineux, reflets des enseignes sur le sol mouillé) |
+| Clarté | Clarté 0 |
+| IBIS | IBIS activée |
+| EVF | Aperçu Exp./BB — optiques WR seulement, pare-soleil monté, essuyer la lentille frontale régulièrement, pas de changement d'objectif sous la pluie |
 
 ### Tempête de neige / poudrerie
 
