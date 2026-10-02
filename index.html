@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<title>Presets X-H2S</title>
+<style>
+:root{
+  --bg:#f7f5f1;
+  --surface:#ffffff;
+  --surface-2:#efece5;
+  --border:#dcd7cc;
+  --text:#1b1a17;
+  --text-dim:#6b665d;
+  --accent:#b5650a;
+  --accent-2:#0f7d74;
+  --accent-soft:#f1e2cc;
+  --accent2-soft:#dcefec;
+  --mono-bg:#eeebe3;
+  --radius:10px;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121110; --surface:#1a1917; --surface-2:#221f1c; --border:#332f29;
+    --text:#eeeae2; --text-dim:#a29b8f; --accent:#e8973c; --accent-2:#4fd1c0;
+    --accent-soft:#3a2c17; --accent2-soft:#12302d; --mono-bg:#201d19;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121110; --surface:#1a1917; --surface-2:#221f1c; --border:#332f29;
+  --text:#eeeae2; --text-dim:#a29b8f; --accent:#e8973c; --accent-2:#4fd1c0;
+  --accent-soft:#3a2c17; --accent2-soft:#12302d; --mono-bg:#201d19;
+}
+*{ box-sizing:border-box; }
+html,body{ background:var(--bg); }
+body{
+  margin:0; color:var(--text); font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:15px; line-height:1.5; padding-inline:16px;
+}
+h1,h2,h3{ font-family:"Space Grotesk","IBM Plex Sans",sans-serif; text-wrap:balance; margin:0 0 .3em 0; }
+code,.mono,dd,.badge,.val,table{ font-family:"IBM Plex Mono",ui-monospace,monospace; }
+a{ color:var(--accent-2); }
+.wrap{ max-width:1220px; margin:0 auto; }
+
+header.top{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:var(--bg);
+  border-bottom:1px solid var(--border); padding-block:14px; margin-inline:-16px; padding-inline:16px;
+}
+header.top .wrap{ display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 24px; }
+header.top h1{ font-size:1.25rem; margin:0; white-space:nowrap; }
+header.top .tagline{ color:var(--text-dim); font-size:.82rem; }
+header.top .titleblock{ display:flex; flex-direction:column; gap:2px; }
+header.top .ver{ color:var(--text-dim); font-size:.72rem; font-family:"IBM Plex Mono",ui-monospace,monospace; letter-spacing:.02em; }
+nav.toc{ display:flex; flex-wrap:wrap; gap:4px 14px; margin-left:auto; }
+nav.toc a{ text-decoration:none; color:var(--text-dim); font-size:.82rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; }
+nav.toc a:hover{ color:var(--accent-2); }
+
+section{ padding-block:34px; border-bottom:1px solid var(--border); }
+section:last-of-type{ border-bottom:none; }
+.section-head{ margin-bottom:18px; }
+.section-head h2{ font-size:1.5rem; }
+.section-head .sub{ color:var(--text-dim); font-size:.92rem; max-width:74ch; }
+.eyebrow{ color:var(--accent); font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+
+.legend{
+  display:flex; flex-wrap:wrap; gap:8px 18px; background:var(--surface-2); border:1px solid var(--border);
+  border-radius:var(--radius); padding:12px 16px; font-size:.8rem; color:var(--text-dim); margin-bottom:26px;
+}
+.legend b{ color:var(--text); }
+
+.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:16px; }
+
+.card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px 18px; display:flex; flex-direction:column; gap:10px;
+}
+.card.bank{ border-top:3px solid var(--accent); }
+.card .card-title{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.card .card-title .tag{ font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:1.05rem; color:var(--accent); }
+.card .card-title h3{ font-size:1.02rem; margin:0; }
+.card .context{ color:var(--text-dim); font-size:.82rem; margin-top:-4px; }
+
+.badges{ display:flex; flex-wrap:wrap; gap:6px; }
+.badge{ font-size:.72rem; font-weight:600; padding:2px 8px; border-radius:100px; background:var(--accent-soft); color:var(--accent); border:1px solid transparent; }
+.badge.b2{ background:var(--accent2-soft); color:var(--accent-2); }
+.badge.b3{ background:var(--text); color:var(--bg); }
+
+dl.spec{ display:grid; grid-template-columns:auto 1fr; gap:5px 12px; margin:4px 0 0 0; font-size:.86rem; }
+dl.spec dt{ color:var(--text-dim); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; padding-top:2px; white-space:nowrap; }
+dl.spec dd{ margin:0; font-size:.86rem; }
+.note{ font-size:.8rem; color:var(--text-dim); border-top:1px dashed var(--border); padding-top:8px; margin-top:2px; font-family:"IBM Plex Sans",sans-serif; }
+.note b{ color:var(--text); }
+
+.flag{ background:var(--accent-soft); border:1px solid var(--accent); border-radius:var(--radius); padding:14px 16px; font-size:.88rem; color:var(--text); }
+.flag .eyebrow{ margin-bottom:6px; }
+.flag + .flag{ margin-top:12px; }
+
+.tablewrap{ overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius); }
+table{ border-collapse:collapse; width:100%; font-size:.84rem; min-width:640px; }
+th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); white-space:nowrap; }
+thead th{ background:var(--surface-2); color:var(--text-dim); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; font-weight:600; }
+tbody tr:last-child td{ border-bottom:none; }
+td.wide{ white-space:normal; min-width:220px; }
+
+.refgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
+.ref-card h4{ font-family:"Space Grotesk",sans-serif; font-size:.95rem; margin:0 0 8px 0; color:var(--accent-2); }
+.ref-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; }
+.ref-card ul{ margin:0; padding-left:1.1em; font-size:.85rem; }
+.ref-card li{ margin-bottom:5px; }
+.ref-card li b{ color:var(--text); }
+
+/* library controls */
+.libctl{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:18px; position:sticky; top:calc(env(safe-area-inset-top,0px) + 52px); background:var(--bg); padding-block:8px; z-index:5; }
+.libctl input[type=search]{
+  flex:1 1 220px; min-width:180px; background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:9px 12px; font-size:.88rem; color:var(--text); font-family:"IBM Plex Sans",sans-serif;
+}
+.chips{ display:flex; flex-wrap:wrap; gap:6px; }
+.chip{
+  border:1px solid var(--border); background:var(--surface); color:var(--text-dim); font-size:.76rem; font-weight:600;
+  padding:6px 12px; border-radius:100px; cursor:pointer; text-transform:uppercase; letter-spacing:.02em;
+}
+.chip[aria-pressed="true"]{ background:var(--accent); color:#1b1005; border-color:var(--accent); }
+.count{ color:var(--text-dim); font-size:.78rem; margin-left:auto; }
+
+.pcard{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:15px 17px 17px; display:flex; flex-direction:column; gap:8px; }
+.pcard .cat-tag{ font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--accent-2); }
+.pcard h3{ font-size:.98rem; margin:2px 0 0 0; }
+.pcard .goal{ color:var(--text-dim); font-size:.8rem; font-style:italic; }
+.pcard dl.spec dt{ min-width:78px; }
+.pcard[hidden]{ display:none; }
+
+footer{ padding-block:24px 40px; color:var(--text-dim); font-size:.78rem; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<header class="top">
+  <div class="wrap">
+    <div class="titleblock"><h1>X-H2S — Presets</h1><div class="ver">Version 30 · 22 septembre 2026</div></div>
+    <span class="tagline">C1–C7 · <span class="npresets">…</span> presets par situation · ISO Auto · référence réglages</span>
+    <nav class="toc">
+      <a href="#bibliotheque">Bibliothèque</a>
+      <a href="#banques">Banques C1–C7</a>
+      <a href="#iso-auto">ISO Auto</a>
+      <a href="#reference">Référence</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="bibliotheque">
+  <div class="section-head">
+    <div class="eyebrow"><span class="npresets">…</span> presets · pas de banque dédiée</div>
+    <h2>Bibliothèque de presets par situation</h2>
+  </div>
+
+
+  <div class="libctl">
+    <input type="search" id="libsearch" placeholder="Rechercher un preset (ex. mariage, neige, feux d'artifice)…">
+    <div class="chips" id="libchips"></div>
+    <span class="count" id="libcount"></span>
+  </div>
+
+  <div class="grid" id="libgrid"></div>
+</section>
+
+<section id="banques">
+  <div class="section-head">
+    <div class="eyebrow">7 emplacements physiques</div>
+    <h2>Banques personnalisées C1–C7</h2>
+  </div>
+
+
+  <div class="grid">
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C1</span><h3>Portrait sans flash (lumière naturelle)</h3></div>
+      <div class="badges"><span class="badge b3">Mode A</span><span class="badge">f/2.8 · 1/250s</span><span class="badge b2">AF-C · Set 1</span><span class="badge b2">Point/3×3 · Œil</span><span class="badge">ISO Auto 2</span><span class="badge b2">EF</span><span class="badge b2">S / CL 5 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 50-140 f/2.8 (à 90-140mm)</dd>
+        <dt>AF</dt><dd>Point unique ou Zone 3×3, détection Visage/Œil ON</dd>
+        <dt>Pre-AF</dt><dd>OFF</dd>
+        <dt>Obturateur</dt><dd>EF (ou MS)</dd>
+        <dt>Mode MAP</dt><dd>AF-C</dd>
+        <dt>AF-C Set</dt><dd>Set 1</dd>
+        <dt>ISO</dt><dd>AUTO 2 (plancher 1/250s)</dd>
+        <dt>Cadence</dt><dd>S ou CL 5 ips</dd>
+        <dt>Mesure</dt><dd>Multi ou centrale</dd>
+        <dt>DR</dt><dd>DR200</dd>
+        <dt>Clarté</dt><dd>0</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd>Aperçu Exp./BB mode M → APERÇU EXP./BB</dd>
+      </dl>
+    </div>
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C2</span><h3>Portrait flash intérieur</h3></div>
+      <div class="badges"><span class="badge b3">Mode M</span><span class="badge">f/2.8–5.6 · 1/125–250s</span><span class="badge b2">AF-S</span><span class="badge b2">Point · Œil</span><span class="badge">ISO 160</span><span class="badge b2">MS</span><span class="badge b2">S / CL 3 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 50-140 ou 16-55</dd>
+        <dt>AF</dt><dd>Single Point, détection Œil ON</dd>
+        <dt>Pre-AF</dt><dd>OFF</dd>
+        <dt>Flash</dt><dd>V1 Pro ou V860II, TTL (FEC) ou Manuel (puissance + comp.)</dd>
+        <dt>Obturateur</dt><dd>MS obligatoire (sync max 1/250s)</dd>
+        <dt>Mode MAP</dt><dd>AF-S</dd>
+        <dt>Cadence</dt><dd>S ou CL 3 ips</dd>
+        <dt>Mesure</dt><dd>Multi ou spot</dd>
+        <dt>DR</dt><dd>DR100</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd><b>Aperçu Exp./BB mode M → APERÇU BB</b></dd>
+      </dl>
+      <div class="note">Config. écran → APERÇU EXP./BB MODE MANUEL → <b>APERÇU BB</b> : le viseur garde la balance des blancs mais cesse de simuler l'exposition ambiante (sinon il s'assombrit, le flash n'étant pas dans l'aperçu). NON couperait aussi l'aperçu BB — inutile ici.</div>
+    </div>
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C3</span><h3>Street photography (jour)</h3></div>
+      <div class="badges"><span class="badge b3">Mode A</span><span class="badge">f/4–8 · 1/500s</span><span class="badge b2">AF-C · Set 1</span><span class="badge b2">3×3/Point · Humain</span><span class="badge">ISO Auto 3</span><span class="badge b2">ES</span><span class="badge b2">CL 3–5 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 16-55 (à 16-35mm) ou XF 10-24</dd>
+        <dt>AF</dt><dd>Zone 3×3 ou point unique, détection Humain</dd>
+        <dt>Pre-AF</dt><dd>OFF</dd>
+        <dt>Obturateur</dt><dd>ES silencieux ou EF</dd>
+        <dt>Mode MAP</dt><dd>AF-C</dd>
+        <dt>AF-C Set</dt><dd>Set 1</dd>
+        <dt>ISO</dt><dd>AUTO 3 (plancher 1/500s)</dd>
+        <dt>Cadence</dt><dd>CL 3–5 ips</dd>
+        <dt>Mesure</dt><dd>Multi</dd>
+        <dt>DR</dt><dd>DR100 · DR200 si contre-jour</dd>
+        <dt>Clarté</dt><dd>0</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd>Aperçu Exp./BB mode M → APERÇU EXP./BB</dd>
+      </dl>
+    </div>
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C4</span><h3>Street photography (soir / nuit)</h3></div>
+      <div class="badges"><span class="badge b3">Mode A</span><span class="badge">f/2.8 · 1/160–250s</span><span class="badge b2">AF-C · Set 1 / AF-S</span><span class="badge b2">Point · Humain</span><span class="badge">ISO Auto 2</span><span class="badge b2">ES</span><span class="badge b2">S / CL 3 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 16-55 (à 16-23mm)</dd>
+        <dt>AF</dt><dd>Point unique standard, détection Humain</dd>
+        <dt>Pre-AF</dt><dd>OFF</dd>
+        <dt>Obturateur</dt><dd>ES silencieux ou EF</dd>
+        <dt>Mode MAP</dt><dd>AF-C ou AF-S</dd>
+        <dt>AF-C Set</dt><dd>Set 1</dd>
+        <dt>ISO</dt><dd>AUTO 2 (plancher 1/250s, monte jusqu'à 12800)</dd>
+        <dt>Cadence</dt><dd>S ou CL 3 ips</dd>
+        <dt>Mesure</dt><dd>Multi</dd>
+        <dt>DR</dt><dd>DR100 ou DR200</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd>Aperçu Exp./BB mode M → APERÇU EXP./BB</dd>
+      </dl>
+    </div>
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C5</span><h3>Sport extérieur (temps couvert / pluie)</h3></div>
+      <div class="badges"><span class="badge b3">Mode M</span><span class="badge">f/2.8–5.6 · 1/1000–1600s</span><span class="badge b2">AF-C · Set 2</span><span class="badge b2">3×3 · Humain</span><span class="badge">ISO Auto 2</span><span class="badge b2">ES / MS</span><span class="badge b2">CH 15–20 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 50-140 f/2.8 (tropicalisé)</dd>
+        <dt>AF</dt><dd>Zone 3×3</dd>
+        <dt>Détection</dt><dd>Suivi Humain ON</dd>
+        <dt>Pre-AF</dt><dd>ON</dd>
+        <dt>Obturateur</dt><dd>ES (ou MS si banding LED)</dd>
+        <dt>Mode MAP</dt><dd>AF-C</dd>
+        <dt>AF-C Set</dt><dd>Set 2</dd>
+        <dt>ISO</dt><dd>AUTO 2 en mode M (1/1000–1/1600s fixe)</dd>
+        <dt>Cadence</dt><dd>CH 15–20 ips</dd>
+        <dt>Mesure</dt><dd>Multi</dd>
+        <dt>DR</dt><dd>DR100</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd>Aperçu Exp./BB mode M → APERÇU EXP./BB</dd>
+        <dt>Football/soccer</dt><dd>voir fiches dédiées « jour » et « soir sous les lumières » dans la bibliothèque</dd>
+      </dl>
+    </div>
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C6</span><h3>Paysage (sans trépied / main levée)</h3></div>
+      <div class="badges"><span class="badge b3">Mode A</span><span class="badge">f/5.6–8 · 1/125s</span><span class="badge b2">AF-S</span><span class="badge b2">Point</span><span class="badge">ISO Auto 1</span><span class="badge b2">EF</span><span class="badge b2">S / CL 3 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 10-24 f/4 ou XF 16-55 f/2.8</dd>
+        <dt>AF</dt><dd>Point unique standard</dd>
+        <dt>Pre-AF</dt><dd>OFF</dd>
+        <dt>Obturateur</dt><dd>EF ou MS</dd>
+        <dt>Mode MAP</dt><dd>AF-S</dd>
+        <dt>Cadence</dt><dd>S ou CL 3 ips</dd>
+        <dt>Mesure</dt><dd>Multi</dd>
+        <dt>DR</dt><dd>DR100 ou DR200</dd>
+        <dt>Clarté</dt><dd>0</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd>Aperçu Exp./BB mode M → APERÇU EXP./BB</dd>
+      </dl>
+    </div>
+
+    <div class="card bank">
+      <div class="card-title"><span class="tag">C7</span><h3>Animal de compagnie (chien, chat)</h3></div>
+      <div class="badges"><span class="badge b3">Mode A</span><span class="badge">f/2.8–4 · 1/500s</span><span class="badge b2">AF-C · Set 3</span><span class="badge b2">3×3 · Animal</span><span class="badge">ISO Auto 3</span><span class="badge b2">ES</span><span class="badge b2">CL 5–8 ips</span></div>
+      <dl class="spec">
+        <dt>Objectif</dt><dd>XF 50-140 f/2.8 ou XF 16-55 (rapproché)</dd>
+        <dt>AF</dt><dd>Zone 3×3, détection Animal (ou Visage si absent)</dd>
+        <dt>Pre-AF</dt><dd>ON</dd>
+        <dt>Flash</dt><dd>Sans flash (évite d'effrayer l'animal) ou V1 Pro rebond doux, TTL (FEC)</dd>
+        <dt>Obturateur</dt><dd>ES silencieux (ne pas effrayer l'animal) · MS si flash (le flash ne se déclenche pas en ES)</dd>
+        <dt>Mode MAP</dt><dd>AF-C</dd>
+        <dt>AF-C Set</dt><dd>Set 3</dd>
+        <dt>ISO</dt><dd>AUTO 3 (plancher 1/500s), intérieur comme extérieur</dd>
+        <dt>Cadence</dt><dd>CL 5–8 ips</dd>
+        <dt>Mesure</dt><dd>Multi</dd>
+        <dt>DR</dt><dd>DR200</dd>
+        <dt>IBIS</dt><dd>Activée</dd>
+        <dt>EVF</dt><dd>Aperçu Exp./BB mode M → APERÇU EXP./BB</dd>
+      </dl>
+    </div>
+
+  </div>
+
+  <div class="flag" style="margin-top:20px;">
+    <div class="eyebrow">Méthode d'enregistrement</div>
+    Menu I.Q. → Modif/Enr. Réglage Perso → sélectionner C1 à C7 → Enregistrer réglages actuels. Mets <b>« Mise à jour auto du réglage personnalisé »</b> sur DÉSACTIVER pour qu'un ajustement fait sur le terrain n'écrase pas la programmation de base.
+  </div>
+</section>
+
+<section id="iso-auto">
+  <div class="section-head">
+    <div class="eyebrow">Menu Prise de vue → RÉGLAGE ISO AUTO</div>
+    <h2>ISO Auto 1 – 2 – 3</h2>
+    <div class="sub">Trois banques indépendantes, assignables au Fn ou au menu rapide pour bascule instantanée.</div>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Banque</th><th>Défaut</th><th>Max</th><th>Vitesse min.</th><th class="wide">Usage</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">AUTO 1</td><td class="mono">160</td><td class="mono">12800</td><td class="mono">1/125s</td><td class="wide">Sujets statiques, toute lumière : paysage main levée, architecture, intérieurs, cabane à sucre, zoo intérieur, flash rebond</td></tr>
+        <tr><td class="mono">AUTO 2</td><td class="mono">160</td><td class="mono">12800</td><td class="mono">1/250s</td><td class="wide">Polyvalente : portrait, rue de nuit, cérémonies, macro ; en mode M (vitesse fixe) pour le sport de jour</td></tr>
+        <tr><td class="mono">AUTO 3</td><td class="mono">160</td><td class="mono">12800</td><td class="mono">1/500s</td><td class="wide">Action modérée, toute lumière : rue, événements, enfants, animaux, salle, spectacle, faune au crépuscule. Au-delà de 1/500s → mode M</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flag" style="margin-top:16px;">
+    <div class="eyebrow">Plage réelle du menu</div>
+    La vitesse min. réglable dans ISO Auto va de <b>1/4s à 1/500s</b>, plus une option <b>AUTO</b> (vitesse indexée sur la focale, avec biais réglable — pratique sur les zooms 50-140 et 150-600) — impossible de descendre en dessous de 1/4s ou de monter au-dessus de 1/500s directement dans ce paramètre. Pour un plancher plus rapide (1/500s de jour, 1/1000–1/2000s en sport, C5), on passe en mode M avec vitesse fixée à la main : Auto ISO ne gère alors que la sensibilité (défaut → max), le plancher devient sans effet. Les trois banques partent d'ISO 160 et plafonnent à 12800 : le choix se fait uniquement sur le plancher de vitesse (1/125 · 1/250 · 1/500).
+  </div>
+</section>
+
+<section id="reference">
+  <div class="section-head">
+    <div class="eyebrow">Glossaire technique</div>
+    <h2>Référence complète des réglages</h2>
+  </div>
+  <div class="refgrid">
+
+    <div class="ref-card">
+      <h4>Mise au point — AF-S / AF-C / MF</h4>
+      <ul>
+        <li>3 paramètres réglables par AF-C Custom Set : Sensibilité de suivi, Sensibilité de suivi de vitesse, Zone de changement de zone.</li>
+        <li><b>Set 1</b> Multi-usage · <b>Set 2</b> Ignorer les obstacles · <b>Set 3</b> Accélération/décélération · <b>Set 4</b> Apparition soudaine · <b>Set 5</b> Sujet erratique · <b>Set 6</b> Personnalisé</li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Zones AF &amp; détection</h4>
+      <ul>
+        <li><b>Single Point</b> (S/M/L), <b>Zone</b> (3×3/5×5/7×7), <b>Wide/Tracking</b></li>
+        <li>Détection : Humain (visage/œil), Animal, Oiseau, Automobile, Moto &amp; Vélo, Avion, Train, Insecte, Drone (Insecte et Drone ajoutés en fw 3.00). Un seul type actif à la fois, et <b>Détection Visage/Œil</b> et <b>Détection de sujet</b> sont mutuellement exclusifs : activer l'un désactive l'autre — le basculement « Visage puis Animal » de certaines fiches est un changement manuel à assigner à un Fn.</li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Pre-AF vs Pre-Shot</h4>
+      <ul>
+        <li><b>Pre-AF</b> — maintient la mise au point active en continu sans appui sur le déclencheur. Réservé au sport, à l'aviation, à la faune ; à couper en paysage/portrait pour la batterie.</li>
+        <li><b>Pre-Shot (ES)</b> — mémorise les images dès la mi-course, avant l'appui franc. Indispensable pour un envol d'oiseau ou un départ de course imprévisible.</li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Cadence / Drive</h4>
+      <ul>
+        <li><b>S</b> vue par vue · <b>CL</b> 3–8 ips</li>
+        <li><b>CH mécanique</b> jusqu'à 15 ips</li>
+        <li><b>CH électronique</b> 20 ips pleine largeur, jusqu'à 40 ips avec crop 1,29×</li>
+        <li>Bracketing : exposition (AE BKT), mise au point (Focus BKT), ISO</li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Obturateur — MS / ES / EF / combinés</h4>
+      <ul>
+        <li><b>ES</b> — rafale sans blackout à 20/40 ips, rolling shutter quasi nul (capteur empilé BSI). Sport jour, faune, jets, cérémonies silencieuses.</li>
+        <li><b>MS</b> — obligatoire en synchro flash standard (max 1/250s) ; recommandé en intérieur avec RÉDUCTION DU SCINTILLEMENT (MS seulement, cadence plafonnée ~10 ips) pour neutraliser les bandes des éclairages LED.</li>
+        <li><b>Vitesse sans scintillement</b> (réglage fin de la vitesse, ex. 1/100,4 s) — élimine le banding LED <b>en ES aussi</b> ; permet l'ES silencieux en aréna/salle au lieu du MS forcé. À vérifier dans ton menu Prise de vue.</li>
+        <li><b>EF</b> — élimine la micro-vibration mécanique, utile en paysage/pose lente.</li>
+        <li><b>M+E</b> — mécanique aux vitesses normales, bascule automatiquement en électronique aux vitesses dépassant la limite du mécanique (au-delà de 1/8000s).</li>
+        <li><b>EF+M</b> — 1er rideau électronique (anti-vibration) aux vitesses moyennes/lentes, bascule en mécanique pur aux vitesses élevées.</li>
+        <li><b>EF+M+E</b> — combine les trois : 1er rideau électronique aux vitesses modérées, mécanique aux vitesses rapides, puis électronique pur aux vitesses extrêmes.</li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Stabilisation</h4>
+      <ul>
+        <li><b>IS Continu</b> — correction permanente (cadrage + exposition)</li>
+        <li><b>IS Prise de vue seulement</b> — corrige seulement à l'exposition ; recommandé en panning (il n'existe pas de « mode panning » dédié sur l'IBIS du X-H2S, malgré ce qu'on lit parfois — c'est ce réglage qu'il faut utiliser)</li>
+        <li><b>IS Désactivé</b> — trépied, astro, pose longue</li>
+        <li>IBIS 5 axes, jusqu'à 7 stops CIPA ; Sync IS (IBIS + OIS coopératifs) avec les optiques OIS : XF 10-24 mk2, XF 50-140, XF 150-600</li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Viseur — Aperçu Exp./BB &amp; Vue en direct naturelle</h4>
+      <ul>
+        <li><b>APERÇU EXP./BB MODE MANUEL</b> (Config. écran) — 3 valeurs : <b>APERÇU EXP./BB</b> = le viseur simule exposition et balance des blancs (défaut de toutes les fiches lumière ambiante) · <b>APERÇU BB</b> = simule la BB mais plus l'exposition (fiches flash dominant : studio, portrait flash, macro flash, boudoir studio) · <b>NON</b> = ni l'un ni l'autre (light painting, où l'ambiance de départ est noire).</li>
+        <li><b>VUE EN DIRECT NATURELLE</b> — OUI : le viseur affiche la scène sans le rendu image (contraste plat, plus proche de la latitude du RAW, ombres lisibles en fort contraste). NON : rendu JPEG appliqué, cohérent avec l'histogramme. Réglage global, hors banques. <b>NON par défaut</b> ; OUI à essayer en paysage/contre-jour si tu veux juger les ombres que le RAW conservera — mais l'histogramme reste calculé sur le JPEG, ne te fie pas à l'image plate pour l'exposition.</li>
+      </ul>
+    </div>
+
+<div class="ref-card">
+      <h4>Plage dynamique — DR100 / 200 / 400</h4>
+      <ul>
+        <li><b>DR100</b> — sensibilité native ISO 160</li>
+        <li><b>DR200</b> — préserve les hautes lumières, requiert ISO ≥ 320</li>
+        <li><b>DR400</b> — préservation maximale, requiert ISO ≥ 640 (ciels, neige, plage, coucher de soleil)</li>
+        <li><b>DR AUTO</b> — le boîtier choisit DR100 ou DR200 selon la scène (jamais DR400) ; utile en A/P quand tu ne veux pas y penser, mais tu perds la maîtrise de l'ISO plancher.</li>
+        <li><b>DR-P (Priorité plage dynamique)</b> — réglage distinct : AUTO / FORT / FAIBLE / OFF. Dès qu'il n'est pas sur OFF, il prend la main sur DR et sur la courbe de tons (Hautes lumières / Ombres) et verrouille leur menu. FAIBLE impose ISO ≥ 320, FORT ISO ≥ 640. C'est un traitement JPEG automatique : en RAW pur il n'apporte rien de plus que DR200/400 et te retire le contrôle. <b>DR-P OFF, réglage global — implicite pour toutes les fiches et les 7 banques, il n'est pas répété dans chaque fiche.</b></li>
+      </ul>
+    </div>
+
+    <div class="ref-card">
+      <h4>Clarté &amp; rafale</h4>
+      <ul>
+        <li>Laisse la <b>Clarté à 0</b> pour toute rafale/reportage : une valeur non nulle force un traitement lourd après chaque image et peut créer une pause de 1–2s entre déclenchements.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+</div>
+
+
+<script>
+(function(){
+  var DATA = [
+    {c:"faune", n:"Faune en forêt (sous-bois sombre)", g:"Capter les sujets en mouvement en sous-bois dense", af:"AF-C (Set 5) / Zone 3×3", d:"Suivi Animal", pa:"ON", fl:"Sans flash", e:"f/2.8 ou f/5.6 / min. 1/1000s", i:"AUTO 3 (mode M, 1/1000s fixe)", m:"Multi / DR100", s:"Clarté 0", sh:"ES / CH 15–20 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 150-600", b1:"f/2.8 · 1/1000s", b2:"AF-C · Set 5", b3:"ISO Auto 3", b4:"ES · CH 15–20 ips", b5:"Mode M", b6:"3×3 · Animal"},
+    {c:"faune", n:"Faune sauvage & oiseaux en vol", g:"Figer des trajectoires rapides et battements d'ailes", af:"AF-C (Set 5/6) / Zone ou Large", d:"Suivi Oiseau/Animal · Pre-Shot ON", pa:"ON", fl:"Sans flash", e:"f/5.6–f/8 / min. 1/2500–1/4000s", i:"AUTO 2 (mode M)", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"ES sans blackout / CH 20–40 ips + Pre-Shot", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 f/5.6-8", b1:"f/5.6–f/8 · 1/2500–1/4000s", b2:"AF-C · Set 5/6", b3:"ISO Auto 2", b4:"ES · CH 20–40 ips", b5:"Mode M", b6:"Zone/Large · Oiseau"},
+    {c:"paysage", n:"Architecture extérieure de jour", g:"Géométrie parfaite, piqué bord à bord sans distorsion", af:"AF-S ou MF / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / selon exposition", i:"ISO 160 fixe ou AUTO 1", m:"Multi / DR100 (DR200 avec ISO 320)", s:"Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée (OFF si trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/11", b2:"AF-S / MF", b3:"ISO Auto 1", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Architecture intérieure (flash / bracketing)", g:"Équilibrer pièces sombres et fenêtres lumineuses", af:"AF-S ou MF / point unique mini", d:"Détection OFF", pa:"OFF", fl:"Cobras en rebond, TTL (FEC) ou M (ou OFF si AE BKT)", e:"f/8–f/11 / calée sur flash ou pose", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou MS / AE BKT 5 à 7 vues", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4", b1:"f/8–f/11", b2:"AF-S / MF", b3:"ISO 160", b4:"EF · AE BKT 5 à 7 vues", b5:"Mode M", b6:"Point"},
+    {c:"paysage", n:"Architecture intérieure sans flash (lumières mixtes)", g:"Netteté en gérant ampoules et fenêtres", af:"AF-S / point unique standard", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/5.6–f/8 / min. 1/60s ou trépied", i:"AUTO 1", m:"Multi / DR200 ou DR400", s:"BB auto ambiance / Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/5.6–f/8 · 1/60s", b2:"AF-S", b3:"ISO Auto 1", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Astrophotographie (voie lactée / étoiles)", g:"Capter un max de lumière sans filé d'étoiles", af:"MF pur (loupe ×10 + focus peaking)", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/4 (pleine ouv. 10-24) / 15–25s (règle NPF)", i:"1600–3200 manuel", m:"Multi / DR100", s:"NR pose longue : voir note", sh:"ES ou EF / S + retardateur 2s", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB · Réglage Boost → Priorité faible lumière", l:"XF 10-24 f/4 à 10mm", b1:"f/4 · 15–25s", b2:"MF", b3:"ISO 1600–3200", b4:"ES", b5:"Mode M", b6:"MF", afd:"Loupe ×10 + focus peaking, calé sur une étoile brillante"},
+    {c:"technique", n:"Aurores boréales (trépied)", g:"Figer les draperies lumineuses sans flou excessif", af:"MF pur (calé sur étoile lointaine)", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/4 ou f/2.8 / 4–8s (active) ou 15s (calme)", i:"1600–6400 manuel", m:"Multi / DR100", s:"Clarté 0", sh:"ES ou EF / S + retardateur 2s", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 à 10mm ou XF 16-55 f/2.8", b1:"f/4 · 4–8s", b2:"MF", b3:"ISO 1600–6400", b4:"ES", b5:"Mode M", b6:"MF", afd:"Calé sur une étoile lointaine, loupe + peaking"},
+    {c:"portrait", n:"Boudoir (lumière naturelle / voilages)", g:"Ambiance douce, modelé délicat, tons chair naturels", af:"AF-S ou AF-C (Set 1) / point unique moyen", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash ou réflecteur", e:"f/2.8 / min. 1/160s", i:"AUTO 2", m:"Multi / DR200", s:"Clarté 0 ou -1", sh:"EF ou ES / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 (à 55mm) ou XF 50-140", b1:"f/2.8 · 1/160s", b2:"AF-S / AF-C · Set 1", b3:"ISO Auto 2", b4:"EF", b5:"Mode A", b6:"Point · Œil"},
+    {c:"portrait", n:"Boudoir studio (clair-obscur / tamisé)", g:"Sculpter les courbes dans l'ombre", af:"AF-S / point unique standard", d:"Détection Visage/Œil", pa:"OFF", fl:"Torches douces, puissance manuelle + comp.", e:"f/4–f/8 / 1/160–1/250s", i:"ISO 160 fixe", m:"Manuelle / DR100", s:"Clarté 0", sh:"MS / S", ib:"IBIS activée / Aperçu Exp./BB mode M → APERÇU BB (flash dominant)", l:"XF 16-55 f/2.8 ou XF 50-140", b1:"f/4–f/8 · 1/160–1/250s", b2:"AF-S", b3:"ISO 160", b4:"MS", b5:"Mode M", b6:"Point · Œil"},
+    {c:"spectacle", n:"Conférence d'affaires / gala en salle", g:"Figer l'orateur sous éclairage de pupitre, sans bruit", af:"AF-C (Set 1), détection Visage / Zone 3×3", d:"—", pa:"OFF", fl:"Sans flash (discret)", e:"f/2.8 / min. 1/250s", i:"AUTO 2", m:"Spot ou centrale / DR100", s:"Clarté 0", sh:"ES 100% silencieux / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8", b1:"f/2.8 · 1/250s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"ES · CL 3 ips", b5:"Mode A", b6:"3×3 · Visage"},
+    {c:"paysage", n:"Coucher de soleil (golden hour)", g:"Préserver les hautes lumières dorées du ciel", af:"AF-S ou MF / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/5.6–f/11 (optimum f/8) / 1/125s ou pose lente", i:"ISO 320 fixe ou AUTO 1", m:"Multi -0.7 EV / DR200 (impose ISO ≥ 320)", s:"Clarté 0", sh:"EF ou MS / AE BKT 3 vues", ib:"IBIS activée (OFF si trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/5.6–f/11 · 1/125s", b2:"AF-S / MF", b3:"ISO 320 / Auto 1", b4:"EF · AE BKT 3 vues", b5:"Mode A", b6:"Point"},
+    {c:"spectacle", n:"Danse de scène / théâtre (sans flash)", g:"Figer les mouvements rapides d'artistes en scène", af:"AF-C (Set 3) / Zone 3×3", d:"Détection Visage/Corps", pa:"ON", fl:"Sans flash", e:"f/2.8 / min. 1/500s", i:"AUTO 3", m:"Spot ou centrale / DR100", s:"Clarté 0", sh:"MS anti-flicker LED / CH 10 ips (plafond avec réduction de scintillement)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode A", b6:"3×3 · Visage"},
+    {c:"technique", n:"Feux d'artifice (trépied)", g:"Enregistrer les gerbes complètes sans surexposition", af:"MF pur (peaking infini)", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / 2–8s ou Bulb", i:"ISO 160 fixe", m:"Manuelle / DR100", s:"NR pose longue OFF", sh:"EF ou MS (Bulb fixé à 1 s en ES) / S + télécommande", ib:"IBIS désactivée / Aperçu Exp./BB mode M → APERÇU BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/11 · 2–8s", b2:"MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"MF", afd:"Peaking, mise au point à l'infini avant le début"},
+    {c:"paysage", n:"Forêt / sous-bois (ombres denses)", g:"Gérer le fort écart ombre/lumière des feuillages", af:"AF-S / point unique standard", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/5.6–f/8 / min. 1/125s", i:"AUTO 1", m:"Multi / DR200 ou DR400", s:"Clarté 0", sh:"EF ou MS / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/5.6–f/8 · 1/125s", b2:"AF-S", b3:"ISO Auto 1", b4:"EF · CL 3 ips", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Macro / flore extérieure (lumière naturelle)", g:"Plan de netteté millimétrique sur insectes/fleurs", af:"MF (peaking) ou AF-S mini", d:"—", pa:"OFF", fl:"Sans flash ou réflecteur", e:"f/8–f/16 / min. 1/250s (vent)", i:"AUTO 2", m:"Spot ou multi / DR100", s:"Clarté 0", sh:"EF ou ES / Focus BKT", ib:"activée main levée / OFF trépied · Aperçu Exp./BB", l:"Laowa 60mm ou XF 50-140", b1:"f/8–f/16 · 1/250s", b2:"MF / AF-S", b3:"ISO Auto 2", b4:"EF · Focus BKT", b5:"Mode A", b6:"MF", afd:"Peaking (ou point unique mini)"},
+    {c:"technique", n:"Macro studio (flash annulaire / déporté)", g:"Maîtrise totale de la PdC sans bruit", af:"MF pur (peaking + loupe)", d:"—", pa:"OFF", fl:"Flash macro, Manuel (puissance + comp.)", e:"f/11–f/16 / 1/160–1/250s", i:"ISO 160 fixe", m:"Manuelle / DR100", s:"Clarté 0", sh:"MS / S ou Focus BKT", ib:"activée main levée / OFF trépied · Aperçu Exp./BB mode M → APERÇU BB (flash)", l:"Laowa 60mm (kit Godox MF12)", b1:"f/11–f/16 · 1/160–1/250s", b2:"MF", b3:"ISO 160", b4:"MS · Focus BKT", b5:"Mode M", b6:"MF", afd:"Peaking + loupe"},
+    {c:"mariage", n:"Cérémonie en église / sombre", g:"Capter les mariés sans bruit sonore ni flou de bougé", af:"AF-C (Set 1), détection Yeux / point unique", d:"—", pa:"OFF", fl:"Sans flash (respect du lieu)", e:"f/2.8 / min. 1/200s", i:"AUTO 2", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"ES 100% silencieux / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/200s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"ES · CL 3 ips", b5:"Mode A", b6:"Point · Œil"},
+    {c:"mariage", n:"Cérémonie extérieure", g:"Teintes de peau radieuses et fond doux", af:"AF-C (Set 1), détection Yeux / Zone 3×3", d:"—", pa:"OFF", fl:"Sans flash ou fill-in discret (TTL)", e:"f/2.8 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"EF ou MS / CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"EF · CL 5 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"mariage", n:"Soirée — flash direct + synchro lente", g:"Figer les danseurs avec traînées de lumières créatives", af:"AF-S / Zone 3×3", d:"Détection Visage", pa:"OFF", fl:"Flash cobra direct, TTL (FEC) ou Manuel (comp.)", e:"f/4–f/5.6 / 1/4–1/15s (bougé volontaire)", i:"400–800 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"MS synchro 2nd rideau / S", ib:"IBIS désactivée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/4–f/5.6 · 1/4–1/15s", b2:"AF-S", b3:"ISO 400–800", b4:"MS", b5:"Mode M", b6:"3×3 · Visage"},
+    {c:"mariage", n:"Soirée — flash rebond (bounce)", g:"Éclairage homogène des invités sans écraser la lumière", af:"AF-C (Set 1) ou AF-S / Zone 3×3", d:"Détection Visage", pa:"OFF", fl:"Cobra vers plafond/mur, TTL (FEC ajustable)", e:"f/2.8–f/4 / 1/60–1/125s", i:"AUTO 1", m:"Multi / DR100", s:"Clarté 0", sh:"MS / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8", b1:"f/2.8–f/4 · 1/60–1/125s", b2:"AF-C · Set 1 / AF-S", b3:"ISO Auto 1", b4:"MS · CL 3 ips", b5:"Mode M", b6:"3×3 · Visage"},
+    {c:"paysage", n:"Paysage (avec trépied)", g:"PdC totale et piqué géométrique maximal", af:"AF-S ou MF / point unique mini", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/5.6–f/11 (optimum f/8) / pose libre", i:"ISO 160 fixe", m:"Multi / DR100 (DR200 si fort contraste, avec ISO 320)", s:"Clarté 0", sh:"EF ou ES / S + retardateur 2s", ib:"IBIS désactivée / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/5.6–f/11", b2:"AF-S / MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"Point"},
+    {c:"paysage", n:"Paysage (sans trépied / main levée)", g:"Netteté de l'ensemble sans flou de bougé", af:"AF-S / point unique standard", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/5.6–f/8 / min. 1/125s", i:"AUTO 1", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"EF ou MS / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/5.6–f/8 · 1/125s", b2:"AF-S", b3:"ISO Auto 1", b4:"EF · CL 3 ips", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Paysage de jour (plein jour / trépied)", g:"Netteté de l'avant-plan à l'infini", af:"AF-S ou MF / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8 / selon scène", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou ES / S + retardateur 2s", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8", b2:"AF-S / MF", b3:"ISO 160", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Paysage urbain nocturne (trépied)", g:"Étoiler les lampadaires (sunstars), lisser l'eau", af:"AF-S ou MF / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/16 / 5–30s (pose longue)", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou ES / S + retardateur 2s", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/16 · 5–30s", b2:"AF-S / MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"Point"},
+    {c:"paysage", n:"Plage / bord de mer (plein soleil)", g:"Gérer les hautes lumières extrêmes (eau/sable)", af:"AF-S ou AF-C (Set 1) / point unique standard", d:"Détection Humain ou OFF", pa:"OFF", fl:"Sans flash ou fill-in si contre-jour", e:"f/4–f/8 (ou f/2.8 avec ND) / 1/1000–1/8000s+", i:"ISO 160 fixe (DR100) ou 320/640 fixe (DR200/DR400)", m:"Multi / DR100, ou DR200/DR400 avec ISO 320/640", s:"Clarté 0", sh:"ES (jusqu'à 1/32000s) ou EF / S", ib:"IBIS activée / Aperçu Exp./BB (polarisant conseillé)", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/4–f/8 · 1/1000–1/8000s", b2:"AF-S / AF-C · Set 1", b3:"ISO 160/320/640", b4:"ES", b5:"Mode A", b6:"Point · Humain"},
+    {c:"portrait", n:"Portrait corpo / LinkedIn (intérieur)", g:"Portrait pro soigné en lumière de bureau/fenêtre", af:"AF-C (Set 1) / point unique moyen", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash", e:"f/2.8 / min. 1/160s", i:"AUTO 2", m:"Multi ou centrale / DR200", s:"Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 (à 70-90mm)", b1:"f/2.8 · 1/160s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"EF", b5:"Mode A", b6:"Point · Œil"},
+    {c:"portrait", n:"Portrait d'enfant / bébé en mouvement", g:"Figer les mouvements spontanés et gestes vifs", af:"AF-C (Set 3) / Zone 3×3", d:"Détection Visage/Œil", pa:"ON", fl:"Sans flash ou lumière continue", e:"f/2.8 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou MS / CL ou CH 8–15 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"ES · CH 8–15 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"portrait", n:"Portrait de groupe / famille extérieur", g:"Tout le monde net du premier au dernier rang", af:"AF-S / Zone 5×5 ou Large", d:"Détection Visages", pa:"OFF", fl:"Sans flash ou appoint large", e:"f/5.6–f/8 / min. 1/250s", i:"AUTO 2", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"EF ou MS / CL 3–5 ips (yeux ouverts)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 (à 24-35mm)", b1:"f/5.6–f/8 · 1/250s", b2:"AF-S", b3:"ISO Auto 2", b4:"EF · CL 3–5 ips", b5:"Mode A", b6:"5×5/Large · Visage"},
+    {c:"portrait", n:"Portrait extérieur (contre-jour / golden hour)", g:"Préserver le halo doré, déboucher le visage", af:"AF-C (Set 1) / point unique moyen", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash ou réflecteur doré", e:"f/2.8 / min. 1/250s", i:"AUTO 2", m:"Spot ou centrale / DR200 ou DR400", s:"Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 (à 90-140mm)", b1:"f/2.8 · 1/250s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"EF", b5:"Mode A", b6:"Point · Œil"},
+    {c:"portrait", n:"Portrait extérieur (temps nuageux / diffus)", g:"Teintes douces, modelé régulier sans ombres dures", af:"AF-C (Set 1) / point unique moyen", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash", e:"f/2.8 / min. 1/200s", i:"AUTO 2", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/200s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"EF", b5:"Mode A", b6:"Point · Œil"},
+    {c:"portrait", n:"Portrait extérieur (plein soleil + flash fill-in)", g:"Déboucher les ombres, détacher le fond", af:"AF-C (Set 1) / point ou Zone 3×3", d:"Détection Visage/Œil", pa:"OFF", fl:"Cobra ou torche, TTL (FEC) ou HSS (comp. manuelle)", e:"f/2.8 / 1/125–1/250s (>1/1000s si HSS)", i:"ISO 160 fixe ou AUTO 1", m:"Multi / DR100", s:"Clarté 0", sh:"MS obligatoire / S ou CL", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/125–1/250s", b2:"AF-C · Set 1", b3:"ISO 160 / Auto 1", b4:"MS", b5:"Mode M", b6:"Point/3×3 · Œil"},
+    {c:"portrait", n:"Portrait sans flash (lumière naturelle)", g:"Isoler le sujet, arrière-plan doux et progressif", af:"AF-C (Set 1) / point unique ou Zone 3×3", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash", e:"f/2.8 / min. 1/250s", i:"AUTO 2", m:"Multi ou centrale / DR200", s:"Clarté 0", sh:"EF ou MS / S ou CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 (à 90-140mm)", b1:"f/2.8 · 1/250s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"EF · CL 5 ips", b5:"Mode A", b6:"Point/3×3 · Œil"},
+    {c:"portrait", n:"Portrait studio (fond uni & flashs)", g:"Bloquer 100% de la lumière ambiante", af:"AF-S (ou AF-C, Set 1) / point unique", d:"Détection Visage/Œil", pa:"OFF", fl:"Flashs studio, Manuel (puissance + comp.)", e:"f/5.6–f/11 (optimum f/8) / 1/160–1/250s", i:"ISO 160 fixe", m:"Manuelle / DR100", s:"Clarté 0", sh:"MS / S ou CL", ib:"IBIS activée / Aperçu Exp./BB mode M → APERÇU BB (flash dominant)", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/5.6–f/11 · 1/160–1/250s", b2:"AF-S / AF-C · Set 1", b3:"ISO 160", b4:"MS", b5:"Mode M", b6:"Point · Œil"},
+    {c:"technique", n:"Pose longue de jour (eau / nuages + filtre ND)", g:"Lisser les vagues ou étirer les nuages", af:"MF (peaking réglé avant de visser le filtre)", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / 5–30s selon densité ND", i:"ISO 160 fixe", m:"Multi / DR100", s:"NR pose longue ON", sh:"EF ou ES / S + retardateur 2s", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/11 · 5–30s", b2:"MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"MF", afd:"Peaking, réglé avant de visser le filtre"},
+    {c:"paysage", n:"Randonnée / sentier forestier", g:"Polyvalence sous-bois sombre et trouées de soleil", af:"AF-S / point unique standard", d:"Détection Humain ou OFF", pa:"OFF", fl:"Sans flash", e:"f/4–f/8 / min. 1/160s", i:"AUTO 2", m:"Multi / DR200", s:"Clarté 0", sh:"EF ou MS / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/4–f/8 · 1/160s", b2:"AF-S", b3:"ISO Auto 2", b4:"EF · CL 3 ips", b5:"Mode A", b6:"Point · Humain"},
+    {c:"spectacle", n:"Concert en salle", g:"Gérer les forts contrastes et spots colorés", af:"AF-C (Set 3) / Zone 3×3", d:"Détection Visage/Œil", pa:"ON", fl:"Sans flash", e:"f/2.8 / min. 1/250–1/500s", i:"AUTO 3", m:"Spot ou centrale / DR100", s:"Clarté 0", sh:"MS anti-flicker LED / CL ou CH 10 ips (plafond avec réduction de scintillement)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/250–1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"spectacle", n:"Spectacle aérien (hélices / hélicos)", g:"Créer le disque de rotation des pales (filé fluide)", af:"AF-C (Set 2) / Zone 3×3", d:"Suivi Avion", pa:"ON", fl:"Sans flash", e:"f/8–f/16 (ou ND) / 1/160–1/320s (panning)", i:"ISO 160 fixe", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"MS ou EF / CL ou CH 10–15 ips", ib:"IS prise de vue seulement (panning) / Aperçu Exp./BB", l:"XF 150-600 ou XF 50-140", b1:"f/8–f/16 · 1/160–1/320s", b2:"AF-C · Set 2", b3:"ISO 160", b4:"MS · CH 10–15 ips", b5:"Mode S", b6:"3×3 · Avion"},
+    {c:"spectacle", n:"Spectacle aérien (jets / réaction)", g:"Figer des trajectoires supersoniques sans flou", af:"AF-C (Set 4) / Zone ou Large", d:"Suivi Avion", pa:"ON", fl:"Sans flash", e:"f/5.6–f/8 / 1/2000–1/4000s", i:"AUTO 2 (mode M)", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"ES sans blackout / CH 20 ou 40 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 f/5.6-8", b1:"f/5.6–f/8 · 1/2000–1/4000s", b2:"AF-C · Set 4", b3:"ISO Auto 2", b4:"ES", b5:"Mode M", b6:"Zone/Large · Avion"},
+    {c:"spectacle", n:"Spectacle extérieur (jour / festival)", g:"Figer les artistes sur scène en plein jour", af:"AF-C (Set 2) / Zone 3×3 ou point", d:"Détection Humain", pa:"OFF", fl:"Sans flash", e:"f/2.8–f/5.6 / min. 1/500–1/1000s", i:"AUTO 2 (mode M, 1/500–1/1000s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou MS / CL ou CH 10–15 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 150-600", b1:"f/2.8–f/5.6 · 1/500–1/1000s", b2:"AF-C · Set 2", b3:"ISO Auto 2", b4:"ES · CH 10–15 ips", b5:"Mode M", b6:"Point/3×3 · Humain"},
+    {c:"spectacle", n:"Spectacle extérieur (soir / nuit)", g:"Figer les artistes sous éclairage scénique nocturne", af:"AF-C (Set 3) / Zone 3×3", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash", e:"f/2.8 / min. 1/250–1/500s", i:"AUTO 3", m:"Spot ou centrale / DR100", s:"Clarté 0", sh:"MS anti-scintillement / CH 10 ips (plafond avec réduction de scintillement)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/250–1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"sport", n:"Arts martiaux & combat en salle", g:"Figer les frappes explosives sous lumière artificielle", af:"AF-C (Set 3) / Zone 3×3", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/2.8 (pleine ouv.) / min. 1/1000–1/1600s", i:"AUTO 3 (mode M)", m:"Multi ou centrale / DR100", s:"Clarté 0", sh:"MS anti-flicker LED / CH 10 ips (la réduction de scintillement plafonne la cadence)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/1000–1/1600s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Automobile & mécanique (filé / panning)", g:"Arrière-plan filé avec le bolide net", af:"AF-C (Set 2) / Zone 3×3", d:"Suivi Automobile", pa:"ON", fl:"Sans flash", e:"f/8–f/16 (ou ND) / 1/30–1/125s", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"MS ou ES / CH 10–15 ips", ib:"IS prise de vue seulement (panning) / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 150-600", b1:"f/8–f/16 · 1/30–1/125s", b2:"AF-C · Set 2", b3:"ISO 160", b4:"MS · CH 10–15 ips", b5:"Mode S", b6:"3×3 · Auto"},
+    {c:"sport", n:"Sport d'hiver / ski (neige réfléchissante)", g:"Éviter la sous-exposition sur la neige, figer les virages", af:"AF-C (Set 2/4) / Zone 5×5", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/4–f/8 / min. 1/2000–1/4000s", i:"AUTO 2 (mode M)", m:"Multi +1.0 à +1.7 EV / DR200 ou DR400", s:"Clarté 0", sh:"ES sans blackout / CH 20 ou 40 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 150-600", b1:"f/4–f/8 · 1/2000–1/4000s", b2:"AF-C · Set 2/4", b3:"ISO Auto 2", b4:"ES", b5:"Mode M", b6:"5×5 · Humain"},
+    {c:"sport", n:"Extérieur (plein soleil / action figée)", g:"Figer l'action sportive rapide en plein jour", af:"AF-C (Set 2/4) / Zone ou Large", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/2.8–f/5.6 / min. 1/1600–1/4000s", i:"AUTO 2 (mode M)", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"ES sans blackout / CH 20 ou 40 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 150-600", b1:"f/2.8–f/5.6 · 1/1600–1/4000s", b2:"AF-C · Set 2/4", b3:"ISO Auto 2", b4:"ES", b5:"Mode M", b6:"Zone/Large · Humain"},
+    {c:"sport", n:"Extérieur (temps couvert / pluie)", g:"Figer l'action par ciel gris en conservant du contraste", af:"AF-C (Set 2) / Zone 3×3", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/2.8 ou f/5.6 / min. 1/1000–1/1600s", i:"AUTO 2 (mode M)", m:"Multi / DR100", s:"Clarté 0", sh:"ES ou MS / CH 15–20 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 (tropicalisé)", b1:"f/2.8 · 1/1000–1/1600s", b2:"AF-C · Set 2", b3:"ISO Auto 2", b4:"ES · CH 15–20 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Extérieur en filé (panning athlète/vélo)", g:"Dynamisme de la course, décor étiré", af:"AF-C (Set 2) / Zone 3×3", d:"Suivi Humain/Véhicule", pa:"ON", fl:"Sans flash", e:"f/8–f/16 / 1/30–1/125s", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"MS ou EF / CH 10–15 ips", ib:"IS prise de vue seulement (panning) / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/8–f/16 · 1/30–1/125s", b2:"AF-C · Set 2", b3:"ISO 160", b4:"MS · CH 10–15 ips", b5:"Mode S", b6:"3×3 · Humain"},
+    {c:"sport", n:"Intérieur (gymnase / aréna sans flash)", g:"Figer le jeu en salle sombre, éclairages LED complexes", af:"AF-C (Set 2/3) / Zone 3×3", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/2.8 (pleine ouv.) / min. 1/1000–1/1600s", i:"AUTO 3 (mode M)", m:"Multi ou centrale / DR100", s:"Clarté 0", sh:"MS anti-flicker LED / CH 10 ips (la réduction de scintillement plafonne la cadence)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8", b1:"f/2.8 · 1/1000–1/1600s", b2:"AF-C · Set 2/3", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Intérieur avec flash déporté (HSS)", g:"Éclairer les athlètes à très haute vitesse", af:"AF-C (Set 2) / Zone 3×3", d:"Suivi Humain", pa:"ON", fl:"Flashs déportés, Manuel HSS (puissance + comp.)", e:"f/2.8–f/4 / 1/1000–1/2000s (HSS)", i:"400–1600 fixe", m:"Manuelle / DR100", s:"Clarté 0", sh:"MS pour HSS / CL 3–5 ips (recyclage AD200/AD600 en HSS)", ib:"IBIS activée / Aperçu Exp./BB mode M → APERÇU BB (flash dominant)", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8–f/4 · 1/1000–1/2000s", b2:"AF-C · Set 2", b3:"ISO 400–1600", b4:"MS · CL 3–5 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Sports nautiques / aquatique (reflets eau)", g:"Figer les gerbes d'eau sans cramer les reflets", af:"AF-C (Set 2/4) / Zone 5×5", d:"Suivi Humain/Véhicule", pa:"ON", fl:"Sans flash", e:"f/4–f/8 / min. 1/2000–1/4000s", i:"AUTO 2 (mode M)", m:"Multi / DR200 ou DR400", s:"Clarté 0", sh:"ES sans blackout / CH 20 ou 40 ips", ib:"IBIS activée / Aperçu Exp./BB (polarisant conseillé)", l:"XF 150-600 ou XF 50-140", b1:"f/4–f/8 · 1/2000–1/4000s", b2:"AF-C · Set 2/4", b3:"ISO Auto 2", b4:"ES", b5:"Mode M", b6:"5×5 · Humain"},
+    {c:"street", n:"Street photography (jour)", g:"Réactivité instantanée, zone de netteté étendue", af:"AF-C (Set 1) / Zone 3×3 ou point unique", d:"Détection Humain", pa:"OFF", fl:"Sans flash", e:"f/4–f/8 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR100 · DR200 si contre-jour", s:"Clarté 0", sh:"ES silencieux ou EF / CL 3–5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 (à 16-35mm) ou XF 10-24", b1:"f/4–f/8 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 3–5 ips", b5:"Mode A", b6:"Point/3×3 · Humain"},
+    {c:"street", n:"Street photography (soir / nuit)", g:"Capter l'ambiance nocturne urbaine sans flou", af:"AF-C (Set 1) ou AF-S / point unique standard", d:"Détection Humain", pa:"OFF", fl:"Sans flash", e:"f/2.8 (pleine ouv.) / min. 1/160–1/250s", i:"AUTO 2", m:"Multi / DR100 ou DR200", s:"Clarté 0", sh:"ES silencieux ou EF / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 (à 16-23mm)", b1:"f/2.8 · 1/160–1/250s", b2:"AF-C · Set 1 / AF-S", b3:"ISO Auto 2", b4:"ES · CL 3 ips", b5:"Mode A", b6:"Point · Humain"},
+    {c:"paysage", n:"Panorama (stitching multi-images)", g:"Assembler plusieurs images pour une très haute résolution ou un grand angle de vue", af:"AF-S ou MF / point unique, mise au point fixée avant la série", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / vitesse identique sur toute la série (mode M)", i:"ISO fixe (160 si possible)", m:"Multi / DR100, exposition verrouillée (AEL) sur toute la série", s:"Clarté 0", sh:"MS ou EF / S, chevauchement 30% entre images", ib:"IBIS désactivée si trépied / Aperçu Exp./BB", l:"XF 16-55 ou XF 50-140 (éviter le 10-24, distorsion de raccord)", b1:"f/8–f/11", b2:"AF-S / MF", b3:"ISO 160", b4:"MS", b5:"Mode M", b6:"Point"},
+    {c:"paysage", n:"Chute d'eau", g:"Filet soyeux ou figé selon l'effet recherché, gérer les embruns", af:"AF-S ou MF / point unique précis sur la roche/l'eau", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/16 / 1/4s à 2s (filet soyeux, filtre ND requis en plein jour) ou 1/500s+ (figé)", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou MS / S + retardateur 2s (trépied)", ib:"désactivée (trépied) ou activée (main levée) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/16 · 1/4s", b2:"AF-S / MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"Point"},
+    {c:"paysage", n:"Canot / kayak (sortie nature)", g:"Photographier depuis ou vers une embarcation, instabilité constante", af:"AF-C (Set 1) / Zone 3×3 (compense le tangage)", d:"Détection Humain ON si pagayeur au premier plan", pa:"OFF", fl:"Sans flash", e:"f/4–f/5.6 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou EF / CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB — attention aux projections d'eau sur l'optique", l:"XF 16-55 f/2.8 (éviter les changements d'objectif sur l'eau)", b1:"f/4–f/5.6 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 5 ips", b5:"Mode A", b6:"3×3 · Humain"},
+    {c:"faune", n:"Affût / mangeoire (sujet proche, immobile)", g:"Attendre un sujet à courte distance sans le faire fuir", af:"AF-C (Set 1) / Single Point, détection Animal/Oiseau", d:"Suivi Animal ou Oiseau", pa:"OFF", fl:"Sans flash (ou flash déporté discret si nocturne)", e:"f/4–f/5.6 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES silencieux (ne pas faire fuir le sujet) · MS si flash / CL 3–5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 ou XF 50-140", b1:"f/4–f/5.6 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 3–5 ips", b5:"Mode A", b6:"Point · Oiseau"},
+    {c:"faune", n:"Zoo extérieur (enclos plein air)", g:"Contourner grillages et fossés, lumière variable selon l'enclos", af:"AF-C (Set 5) / Single Point si grillage dans le cadre, sinon Wide/Tracking", d:"Détection Animal ON", pa:"ON", fl:"Sans flash (souvent interdit)", e:"f/4–f/5.6 (flouter le grillage) / min. 1/1000s", i:"AUTO 2 (mode M) · AUTO 3 si enclos ombragé", m:"Multi / DR200", s:"Clarté 0", sh:"ES / CH 15–20 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 f/5.6-8", b1:"f/4–f/5.6 · 1/1000s", b2:"AF-C · Set 5", b3:"ISO Auto 2/3", b4:"ES · CH 15–20 ips", b5:"Mode M", b6:"Point/Large · Animal"},
+    {c:"faune", n:"Zoo intérieur (vivarium / terrarium)", g:"Photographier à travers une vitre en basse lumière sans flash", af:"AF-S ou AF-C (Set 1) / Single Point (évite d'accrocher la vitre)", d:"Détection Animal ON si dispo", pa:"OFF", fl:"Sans flash (interdit et se reflète dans la vitre)", e:"f/2.8–f/4 (pleine ouverture) / min. 1/125s", i:"AUTO 1", m:"Multi / DR100", s:"Clarté 0", sh:"ES silencieux (banding LED possible : MS ou vitesse sans scintillement) / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB — objectif collé à la vitre pour couper les reflets", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8–f/4 · 1/125s", b2:"AF-S / AF-C · Set 1", b3:"ISO Auto 1", b4:"ES · CL 3 ips", b5:"Mode A", b6:"Point · Animal"},
+    {c:"technique", n:"HDR / bracketing d'exposition (paysage à fort contraste)", g:"Fusionner plusieurs expositions pour couvrir toute la plage dynamique", af:"AF-S ou MF / point unique, mise au point fixée avant la série", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / AE BKT ±2 IL, 3 à 5 vues", i:"ISO 160 fixe", m:"Multi / DR100 (le bracketing remplace le DR étendu)", s:"Clarté 0", sh:"EF ou MS / S, trépied fortement recommandé", ib:"IBIS désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/11", b2:"AF-S / MF", b3:"ISO 160", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Lune (gros plan)", g:"Détailler le relief lunaire sans surexposer le disque", af:"MF (peaking, mise au point sur l'infini) ou AF-S ponctuel", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / 1/125–1/250s (règle Looney 11 : f/11, vitesse ≈ 1/ISO)", i:"160–400 fixe (80/100/125 = plage étendue, à éviter)", m:"Spot (sur le disque) / DR100", s:"Clarté 0", sh:"MS ou EF / S + retardateur 2s (trépied obligatoire au-delà de 400mm)", ib:"IBIS désactivée (trépied, longue focale) / Aperçu Exp./BB", l:"XF 150-600 f/5.6-8 (envisager un téléconvertisseur)", b1:"f/8–f/11 · 1/125–1/250s", b2:"MF / AF-S", b3:"ISO 160–400", b4:"MS", b5:"Mode M", b6:"MF", afd:"Peaking, mise au point sur l'infini (ou point unique)"},
+    {c:"evenement", n:"Cabane à sucre", g:"Ambiance chaleureuse en bois, gens à table, vapeur du sirop, mouvement constant", af:"AF-C (Set 1) / Wide/Tracking, détection Humain", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash ou V1 Pro rebond plafond bas, TTL (FEC)", e:"f/2.8 / min. 1/125s", i:"AUTO 1", m:"Multi / DR100", s:"Clarté 0", sh:"MS (LED probable) ou ES / CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8", b1:"f/2.8 · 1/125s", b2:"AF-C · Set 1", b3:"ISO Auto 1", b4:"MS · CL 3 ips", b5:"Mode A", b6:"Large · Œil"},
+    {c:"evenement", n:"Fête de quartier / carnaval d'hiver", g:"Foule en mouvement, éclairage mixte jour/nuit selon l'heure, froid", af:"AF-C (Set 1) / Zone 3×3, détection Humain", d:"Détection Visage", pa:"OFF", fl:"Sans flash (jour) ou V860II rebond (soir), TTL (FEC)", e:"f/4–f/5.6 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou EF / CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB — batterie au froid, en garder une de rechange au chaud", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/4–f/5.6 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 5 ips", b5:"Mode A", b6:"3×3 · Visage"},
+    {c:"evenement", n:"Épluchette de blé d'Inde / BBQ d'été", g:"Scène de groupe décontractée en plein jour, contre-jour fréquent en fin de journée", af:"AF-C (Set 1) / Zone 3×3, détection Visage", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash ou fill-in TTL (FEC) si contre-jour", e:"f/2.8–f/4 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou EF / CL 3–5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 50-140", b1:"f/2.8–f/4 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 3–5 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"evenement", n:"Party corporatif / 5 à 7", g:"Salle intérieure, mélange de portraits posés et de candides", af:"AF-C (Set 1) / Zone 3×3, détection Visage/Œil", d:"Détection Visage/Œil", pa:"OFF", fl:"V860II rebond, TTL (FEC ajustable)", e:"f/2.8–f/4 / 1/60–1/125s", i:"AUTO 1", m:"Multi / DR100", s:"Clarté 0", sh:"MS / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8", b1:"f/2.8–f/4 · 1/60–1/125s", b2:"AF-C · Set 1", b3:"ISO Auto 1", b4:"MS · CL 3 ips", b5:"Mode M", b6:"3×3 · Œil"},
+    {c:"evenement", n:"Anniversaire d'enfant", g:"Mouvements imprévisibles, jeux, gâteau/bougies en basse lumière", af:"AF-C (Set 3) / Zone 3×3, détection Visage/Œil", d:"Détection Visage/Œil", pa:"ON", fl:"Sans flash ou V1 Pro rebond, TTL (FEC)", e:"f/2.8 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES sans flash · MS si flash / CL ou CH 8 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 50-140", b1:"f/2.8 · 1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"ES · CH 8 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"evenement", n:"Graduation / collation des grades", g:"Portrait rapide sur scène + groupe, gestion de la distance et du contre-jour de scène", af:"AF-C (Set 1) / Single Point, détection Visage/Œil", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash (interdit sur scène) ou fill-in en extérieur", e:"f/2.8–f/4 / min. 1/500s", i:"AUTO 3", m:"Spot ou centrale / DR200", s:"Clarté 0", sh:"ES silencieux / CL 3–5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8", b1:"f/2.8–f/4 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 3–5 ips", b5:"Mode A", b6:"Point · Œil"},
+    {c:"evenement", n:"Baptême / première communion", g:"Cérémonie religieuse silencieuse, portraits de groupe ensuite", af:"AF-C (Set 1), détection Œil / Single Point", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash pendant la cérémonie ; V860II rebond ensuite, TTL (FEC)", e:"f/2.8 / min. 1/200s", i:"AUTO 2", m:"Multi / DR200", s:"Clarté 0", sh:"ES 100% silencieux (cérémonie) puis MS (portraits flash) / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8 · 1/200s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"ES · CL 3 ips", b5:"Mode A", b6:"Point · Œil"},
+    {c:"mariage", n:"Préparatifs (détails robe/bagues)", g:"Documenter les détails (robe, bagues, souliers, invitations) avant la cérémonie", af:"AF-S / Single Point mini, ou manuel (Laowa) pour les bagues", d:"Détection OFF", pa:"OFF", fl:"Sans flash (lumière de chambre) ou réflecteur", e:"f/2.8–f/4 (Laowa f/8–f/11 pour les bagues) / min. 1/125s", i:"AUTO 1", m:"Spot ou multi / DR200", s:"Clarté 0", sh:"EF ou ES / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou Laowa 60mm (bagues)", b1:"f/2.8–f/4 · 1/125s", b2:"AF-S", b3:"ISO Auto 1", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"mariage", n:"First look", g:"Capter la réaction spontanée des mariés à leur première vue l'un de l'autre", af:"AF-C (Set 1), détection Visage/Œil / Zone 3×3", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash", e:"f/2.8 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"EF ou ES / CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 (rester en retrait, longue focale)", b1:"f/2.8 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"EF · CL 5 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"mariage", n:"Sortie de cérémonie (confettis)", g:"Figer les confettis/riz lancés et les réactions vives à la sortie", af:"AF-C (Set 3) / Zone 3×3, détection Visage", d:"Détection Visage", pa:"ON", fl:"Sans flash ou fill-in TTL (FEC) si couvert", e:"f/2.8–f/4 / min. 1/1000s", i:"AUTO 2 (mode M, 1/1000s fixe)", m:"Multi / DR200", s:"Clarté 0", sh:"ES sans flash · MS si fill-in (le flash ne se déclenche pas en ES) / CH 10–15 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 (grand angle pour la scène complète)", b1:"f/2.8–f/4 · 1/1000s", b2:"AF-C · Set 3", b3:"ISO Auto 2", b4:"ES · CH 10–15 ips", b5:"Mode M", b6:"3×3 · Visage"},
+    {c:"faune", n:"Orignal / cerf à l'aube-crépuscule", g:"Très basse lumière, distance de sécurité obligatoire, sujet potentiellement immobile", af:"AF-C (Set 1) / Single Point ou Zone, détection Animal", d:"Suivi Animal", pa:"ON", fl:"Sans flash", e:"f/5.6–f/8 (limite du 150-600) / min. 1/250–1/500s", i:"AUTO 3 (plancher 1/500s) · AUTO 2 si sujet immobile (1/250s)", m:"Multi / DR100", s:"Clarté 0", sh:"ES silencieux / CL 3–5 ips", ib:"IBIS activée / Aperçu Exp./BB · Réglage Boost → Priorité faible lumière", l:"XF 150-600 f/5.6-8", b1:"f/5.6–f/8 · 1/250–1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3/2", b4:"ES · CL 3–5 ips", b5:"Mode A", b6:"Point/Zone · Animal"},
+    {c:"faune", n:"Ours noir", g:"Sujet potentiellement en mouvement rapide, distance de sécurité importante", af:"AF-C (Set 5) / Zone ou Wide/Tracking, détection Animal", d:"Suivi Animal", pa:"ON", fl:"Sans flash", e:"f/5.6–f/8 / min. 1/1000s", i:"AUTO 2 (mode M, 1/1000s fixe)", m:"Multi / DR200", s:"Clarté 0", sh:"ES sans blackout / CH 20 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 f/5.6-8", b1:"f/5.6–f/8 · 1/1000s", b2:"AF-C · Set 5", b3:"ISO Auto 2", b4:"ES · CH 20 ips", b5:"Mode M", b6:"Zone/Large · Animal"},
+    {c:"faune", n:"Rapaces en vol stationnaire", g:"Figer le battement d'ailes rapide d'un oiseau qui fait du surplace (faucon, buse)", af:"AF-C (Set 5/6) / Wide/Tracking, détection Oiseau, Pre-Shot ON", d:"Suivi Oiseau · Pre-Shot ON", pa:"ON", fl:"Sans flash", e:"f/5.6–f/8 / min. 1/3200–1/4000s", i:"AUTO 2 (mode M)", m:"Multi / DR100", s:"Clarté 0", sh:"ES sans blackout / CH 20–40 ips + Pre-Shot", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 f/5.6-8", b1:"f/5.6–f/8 · 1/3200–1/4000s", b2:"AF-C · Set 5/6", b3:"ISO Auto 2", b4:"ES · CH 20–40 ips", b5:"Mode M", b6:"Large · Oiseau"},
+    {c:"faune", n:"Faune nocturne (lampe frontale)", g:"Repérer et photographier sans effrayer le sujet ni détruire sa vision nocturne", af:"AF-S ou MF (l'AF peut échouer en faible lumière) / Single Point", d:"Détection OFF (lumière insuffisante)", pa:"OFF", fl:"Flash déporté discret si nécessaire, Manuel (faible puissance)", e:"f/4–f/5.6 (pleine ouverture) / min. 1/125s", i:"AUTO 1 ou manuel élevé", m:"Multi / DR100", s:"Clarté 0", sh:"ES silencieux sans flash · MS si flash / S", ib:"IBIS activée / Aperçu Exp./BB · Réglage Boost → Priorité faible lumière", l:"XF 150-600 f/5.6-8 ou XF 50-140", b1:"f/4–f/5.6 · 1/125s", b2:"AF-S / MF", b3:"ISO Auto 1", b4:"ES", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Couleurs d'automne", g:"Saturer les rouges/oranges sans écraser les hautes lumières du feuillage", af:"AF-S / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / selon lumière", i:"ISO 320 fixe ou AUTO 1", m:"Multi / DR200 (impose ISO ≥ 320), filtre polarisant recommandé", s:"Clarté 0", sh:"EF ou MS / S", ib:"activée (main levée) ou OFF (trépied) / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 50-140 (compression des plans)", b1:"f/8–f/11", b2:"AF-S", b3:"ISO 320 / Auto 1", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Tempête de neige / poudrerie", g:"Garder de la texture dans la neige qui tombe sans sur- ni sous-exposer", af:"AF-S / Zone 3×3 (le suivi continu peut accrocher les flocons)", d:"Détection OFF", pa:"OFF", fl:"Sans flash (éclaire les flocons proches et gâche l'image)", e:"f/4–f/5.6 / 1/250–1/500s selon l'effet voulu sur les flocons", i:"AUTO 2 (mode M pour figer les flocons)", m:"Multi +0.7 EV / DR200", s:"Clarté 0", sh:"MS (plus fiable au froid extrême) / CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB — condensation à surveiller en rentrant au chaud", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/4–f/5.6 · 1/250–1/500s", b2:"AF-S", b3:"ISO Auto 2", b4:"MS · CL 3 ips", b5:"Mode M", b6:"3×3"},
+    {c:"paysage", n:"Glace et frasil sur rivière", g:"Textures de glace en gros plan et mouvement de l'eau libre à proximité", af:"AF-S / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / 1/125s (glace) ou pose plus longue avec ND (eau)", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou MS / S + retardateur 2s si trépied", ib:"désactivée (trépied) ou activée (main levée) / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/8–f/11 · 1/125s", b2:"AF-S", b3:"ISO 160", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Brouillard matinal", g:"Préserver la douceur et le dégradé du brouillard sans le rendre gris/plat", af:"AF-S / point unique", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/4–f/8 / selon lumière, souvent basse (lever du jour)", i:"AUTO 1", m:"Multi +0.3 à +0.7 EV / DR200", s:"Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55", b1:"f/4–f/8", b2:"AF-S", b3:"ISO Auto 1", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"paysage", n:"Lever de soleil", g:"Lumière qui monte vite après l'aube — anticiper les réglages avant l'heure", af:"AF-S ou MF / point unique précis", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 (optimum) / 1/125s puis ajuster à la hausse rapidement", i:"ISO 320 fixe ou AUTO 1", m:"Multi -0.3 à -0.7 EV / DR200 (impose ISO ≥ 320)", s:"Clarté 0", sh:"EF ou MS / AE BKT 3 vues (la lumière change vite)", ib:"activée (main levée) ou OFF (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/11 · 1/125s", b2:"AF-S / MF", b3:"ISO 320 / Auto 1", b4:"EF · AE BKT 3 vues", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Light painting nocturne", g:"Dessiner avec une source lumineuse pendant une pose longue", af:"MF (peaking, mise au point avant la pose)", d:"Détection OFF", pa:"OFF", fl:"Sans flash (la source de light painting fait office d'éclairage)", e:"f/8–f/11 / 10–30s (Bulb au besoin)", i:"ISO 160 fixe", m:"Manuelle / DR100", s:"Clarté 0", sh:"EF ou MS (Bulb fixé à 1 s en ES) / S + télécommande ou retardateur", ib:"désactivée (trépied) / Aperçu Exp./BB mode M → NON (pose noire au départ)", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/11 · 10–30s", b2:"MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"MF", afd:"Peaking, mise au point faite avant la pose"},
+    {c:"sport", n:"Hockey en aréna", g:"Palet très rapide, vitres/bandes réfléchissantes, éclairage LED d'aréna", af:"AF-C (Set 2/4) / Zone 3×3", d:"Suivi Humain", pa:"ON", fl:"Sans flash (interdit derrière la baie vitrée)", e:"f/2.8 (pleine ouv.) / min. 1/1000–1/1600s", i:"AUTO 3 (mode M)", m:"Multi / DR100", s:"Clarté 0", sh:"MS anti-flicker LED / CH 10 ips (la réduction de scintillement plafonne la cadence)", ib:"IBIS activée / Aperçu Exp./BB — coller l'objectif à la vitre pour couper les reflets", l:"XF 50-140 f/2.8", b1:"f/2.8 · 1/1000–1/1600s", b2:"AF-C · Set 2/4", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Vélo de montagne en sous-bois", g:"Sujet rapide entrant/sortant du cadre, alternance ombre/lumière du sous-bois", af:"AF-C (Set 4) / Zone 3×3", d:"Suivi Humain ou Moto & Vélo", pa:"ON", fl:"Sans flash", e:"f/2.8–f/4 / min. 1/1000s", i:"AUTO 2 (mode M)", m:"Multi / DR200", s:"Clarté 0", sh:"ES sans blackout / CH 15–20 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8–f/4 · 1/1000s", b2:"AF-C · Set 4", b3:"ISO Auto 2", b4:"ES · CH 15–20 ips", b5:"Mode M", b6:"3×3 · Moto/Vélo"},
+    {c:"sport", n:"Course à pied / marathon en rue", g:"Nombreux coureurs, cadence de tri après la rafale", af:"AF-C (Set 2) / Zone 3×3, détection Humain", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/4–f/5.6 / min. 1/1000s", i:"AUTO 2 (mode M)", m:"Multi / DR200", s:"Clarté 0", sh:"ES / CH 15 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8", b1:"f/4–f/5.6 · 1/1000s", b2:"AF-C · Set 2", b3:"ISO Auto 2", b4:"ES · CH 15 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Motoneige (hiver, poudrerie)", g:"Figer l'action dans la neige projetée, protéger le matériel du froid/de l'humidité", af:"AF-C (Set 2/4) / Zone 5×5", d:"Suivi Moto & Vélo (à tester vs Automobile)", pa:"ON", fl:"Sans flash", e:"f/4–f/5.6 / min. 1/2000s", i:"AUTO 2 (mode M)", m:"Multi +0.7 à +1.0 EV (neige) / DR200", s:"Clarté 0", sh:"ES sans blackout / CH 20 ips", ib:"IBIS activée / Aperçu Exp./BB — housse étanche recommandée, condensation au retour au chaud", l:"XF 150-600 ou XF 50-140", b1:"f/4–f/5.6 · 1/2000s", b2:"AF-C · Set 2/4", b3:"ISO Auto 2", b4:"ES · CH 20 ips", b5:"Mode M", b6:"5×5 · Moto/Vélo"},
+    {c:"sport", n:"Golf", g:"Discrétion obligatoire au moment du swing, distance importante au sujet", af:"AF-C (Set 1) / Single Point", d:"Détection Humain", pa:"OFF", fl:"Sans flash (interdit)", e:"f/4–f/5.6 / min. 1/1000s (impact du swing)", i:"AUTO 2 (mode M, 1/1000s fixe)", m:"Multi / DR200", s:"Clarté 0", sh:"ES 100% silencieux (obligatoire) / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 ou XF 50-140", b1:"f/4–f/5.6 · 1/1000s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"ES · CL 3 ips", b5:"Mode M", b6:"Point · Humain"},
+    {c:"technique", n:"Focus stacking paysage", g:"Netteté totale du premier plan à l'infini en assemblant plusieurs mises au point", af:"MF ou AF-S / point unique, série de mises au point progressives", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8 (éviter la diffraction au-delà) / vitesse selon exposition", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou MS / S, trépied obligatoire, 5 à 10 images à mises au point échelonnées", ib:"désactivée (trépied) / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/8", b2:"MF / AF-S", b3:"ISO 160", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Multiple exposition", g:"Superposer jusqu'à 9 images en une seule prise pour un effet créatif", af:"AF-S / point unique, mise au point par image", d:"Détection OFF", pa:"OFF", fl:"Selon l'effet recherché", e:"variable selon les expositions (modes de fusion : Additif, Moyenne, Clair, Sombre)", i:"160–800 selon la scène", m:"Multi / DR100", s:"Clarté 0", sh:"MS ou EF / S, mode Multi-exposition (menu Prise de vue, 2 à 9 images)", ib:"activée si main levée / Aperçu Exp./BB", l:"selon le sujet", b1:"variable selon l", b2:"AF-S", b3:"ISO 160–800", b4:"MS", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Silhouette contre-jour", g:"Garder le sujet totalement noir en exposant pour le ciel/la lumière derrière", af:"AF-S / point unique sur le contour du sujet", d:"Détection OFF (inutile, visage noir)", pa:"OFF", fl:"Sans flash (annulerait l'effet)", e:"f/8–f/11 / vitesse selon l'exposition du fond, mesure sur la zone lumineuse", i:"ISO 160 fixe", m:"Spot sur le fond lumineux / DR100", s:"Clarté 0", sh:"EF ou MS / S", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 50-140 (compression du soleil)", b1:"f/8–f/11", b2:"AF-S", b3:"ISO 160", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Reflets / symétrie sur eau calme", g:"Miroir parfait au lever/coucher, sans vent", af:"AF-S ou MF / point unique sur l'horizon ou le reflet", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/11 / selon lumière", i:"ISO 320 fixe", m:"Multi / DR200 (impose ISO ≥ 320)", s:"Clarté 0", sh:"EF ou MS / S + retardateur 2s, polarisant à utiliser avec parcimonie (peut effacer le reflet)", ib:"désactivée (trépied) / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/8–f/11", b2:"AF-S / MF", b3:"ISO 320", b4:"EF", b5:"Mode A", b6:"Point"},
+    {c:"technique", n:"Time-lapse", g:"Capturer l'évolution d'une scène sur une longue période en accéléré", af:"MF (fixée avant la série)", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8 / vitesse fixe compatible avec l'intervalle choisi", i:"fixe (éviter Auto ISO — variations visibles entre images)", m:"Manuelle, exposition verrouillée sur toute la série / DR100", s:"Clarté 0", sh:"EF ou ES (moins d'usure sur une longue série) / Intervallomètre (menu Prise de vue)", ib:"désactivée (trépied obligatoire) / Aperçu Exp./BB pour cadrer, puis écran éteint", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8", b2:"MF", b3:"fixe (éviter A", b4:"EF · Intervallomètre", b5:"Mode M", b6:"MF", afd:"Fixée avant la série"},
+    {c:"portrait", n:"Portrait de couple", g:"Deux sujets à mettre au point simultanément, interaction naturelle", af:"AF-C (Set 1), détection Visage/Œil (les deux) / Zone 3×3", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash ou réflecteur", e:"f/4–f/5.6 (profondeur pour les deux visages) / min. 1/250s", i:"AUTO 2", m:"Multi / DR200", s:"Clarté 0", sh:"EF ou MS / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 (à 70-100mm)", b1:"f/4–f/5.6 · 1/250s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"EF · CL 3 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"portrait", n:"Portrait avec animal de compagnie", g:"Composer avec un sujet imprévisible en plus du modèle humain", af:"AF-C (Set 3) / Zone 3×3, détection Visage puis Animal selon le cadrage", d:"Détection Visage/Œil ou Animal", pa:"ON", fl:"Sans flash (évite d'effrayer l'animal) ou réflecteur", e:"f/2.8–f/4 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou EF / CL 5–8 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8–f/4 · 1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"ES · CL 5–8 ips", b5:"Mode A", b6:"3×3 · Œil"},
+    {c:"portrait", n:"Portrait noir et blanc dramatique", g:"Éclairage dur et contrasté, un seul flash nu ou snoot", af:"AF-S / Single Point, détection Œil", d:"Détection Œil", pa:"OFF", fl:"Un cobra nu ou snoot, Manuel (puissance + comp.)", e:"f/5.6–f/8 / 1/160–1/250s", i:"ISO 160 fixe", m:"Spot / DR100", s:"Clarté 0 (le N&B se fait en post, pas via la simulation embarquée)", sh:"MS / S", ib:"IBIS activée / Aperçu Exp./BB mode M → APERÇU BB (flash dominant)", l:"XF 50-140 f/2.8 (à 90-140mm) ou XF 16-55", b1:"f/5.6–f/8 · 1/160–1/250s", b2:"AF-S", b3:"ISO 160", b4:"MS", b5:"Mode M", b6:"Point · Œil"},
+    {c:"sport", n:"Football / soccer extérieur (jour)", g:"Courses rapides, duels et changements de direction sur grand terrain en plein jour", af:"AF-C (Set 2) / Zone 3×3, détection Humain ON", d:"Suivi Humain", pa:"ON", fl:"Sans flash", e:"f/2.8–f/5.6 / min. 1/1600–1/2000s", i:"AUTO 2 (mode M)", m:"Multi / DR200", s:"Clarté 0", sh:"ES sans blackout / CH 20 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 (ligne de côté) ou XF 50-140 (près de l'action)", b1:"f/2.8–f/5.6 · 1/1600–1/2000s", b2:"AF-C · Set 2", b3:"ISO Auto 2", b4:"ES · CH 20 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"sport", n:"Football / soccer extérieur (soir, sous les lumières)", g:"Même rythme de jeu, mais lumière de stade faible et souvent pulsée (LED)", af:"AF-C (Set 2) / Zone 3×3, détection Humain ON", d:"Suivi Humain", pa:"ON", fl:"Sans flash (distance trop grande de toute façon)", e:"f/2.8 (pleine ouverture) / min. 1/1000–1/1250s", i:"AUTO 3 (mode M)", m:"Multi / DR100", s:"Clarté 0", sh:"MS anti-flicker LED / CH 10 ips (la réduction de scintillement plafonne la cadence)", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 150-600 ou XF 50-140 f/2.8 (préférable si la distance le permet)", b1:"f/2.8 · 1/1000–1/1250s", b2:"AF-C · Set 2", b3:"ISO Auto 3", b4:"MS · CH 10 ips", b5:"Mode M", b6:"3×3 · Humain"},
+    {c:"faune", n:"Animal de compagnie (chien, chat)", g:"Sujet imprévisible à courte distance, souvent en intérieur ou en cour", af:"AF-C (Set 3) / Zone 3×3, détection Animal (ou Visage si absent)", d:"Suivi Animal", pa:"ON", fl:"Sans flash (évite d'effrayer l'animal) ou V1 Pro rebond doux, TTL (FEC)", e:"f/2.8–f/4 / min. 1/500s", i:"AUTO 3 (plancher 1/500s), intérieur comme extérieur", m:"Multi / DR200", s:"Clarté 0", sh:"ES silencieux (ne pas effrayer) · MS si flash / CL 5–8 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 50-140 f/2.8 ou XF 16-55 (rapproché)", b1:"f/2.8–f/4 · 1/500s", b2:"AF-C · Set 3", b3:"ISO Auto 3", b4:"ES · CL 5–8 ips", b5:"Mode A", b6:"3×3 · Animal"},
+    {c:"portrait", n:"Portrait flash intérieur", g:"Studio ou pièce fermée, lumière ambiante à neutraliser au profit du flash", af:"AF-S, Single Point, détection Œil", d:"Détection Œil", pa:"OFF", fl:"V1 Pro ou V860II, TTL (FEC) ou Manuel (puissance + comp.)", e:"f/2.8–f/5.6 / 1/125–1/250s (synchro)", i:"ISO 160 fixe", m:"Multi ou spot / DR100", s:"Clarté 0", sh:"MS obligatoire (sync max 1/250s) / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB mode M → APERÇU BB (flash dominant)", l:"XF 50-140 f/2.8 ou XF 16-55", b1:"f/2.8–f/5.6 · 1/125–1/250s", b2:"AF-S", b3:"ISO 160", b4:"MS · CL 3 ips", b5:"Mode M", b6:"Point · Œil"},
+    {c:"street", n:"Amuseur de rue", g:"Sujet qui bouge de façon rythmée/exagérée, souvent en groupe autour de badauds", af:"AF-C (Set 1) / Zone 3×3, détection Humain", d:"Suivi Humain", pa:"OFF", fl:"Sans flash", e:"f/4–f/5.6 / min. 1/500s", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou EF / CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 50-140", b1:"f/4–f/5.6 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 5 ips", b5:"Mode A", b6:"3×3 · Humain"},
+    {c:"street", n:"Exposant (marché, kiosque)", g:"Portrait candide d'un commerçant/artisan à son étal, produits en premier plan", af:"AF-C (Set 1) / point unique ou Zone 3×3, détection Visage", d:"Détection Visage", pa:"OFF", fl:"Sans flash ou fill-in TTL (FEC) si étal ombragé", e:"f/2.8–f/4 / min. 1/250s", i:"AUTO 2", m:"Multi / DR200", s:"Clarté 0", sh:"ES ou EF / S ou CL 3 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 50-140", b1:"f/2.8–f/4 · 1/250s", b2:"AF-C · Set 1", b3:"ISO Auto 2", b4:"ES · CL 3 ips", b5:"Mode A", b6:"Point/3×3 · Visage"},
+    {c:"technique", n:"Traînées lumineuses de circulation (longue exposition)", g:"Capturer les filés rouges/blancs des phares et feux arrière sur une route ou un pont", af:"MF (peaking, mise au point sur l'infini ou un point fixe de la route)", d:"Détection OFF", pa:"OFF", fl:"Sans flash", e:"f/8–f/16 / 5–20s selon le débit de circulation", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"EF ou ES / S + retardateur 2s (trépied obligatoire)", ib:"désactivée (trépied) / Aperçu Exp./BB", l:"XF 10-24 f/4 ou XF 16-55 f/2.8", b1:"f/8–f/16 · 5–20s", b2:"MF", b3:"ISO 160", b4:"EF", b5:"Mode M", b6:"MF", afd:"Peaking, sur l'infini ou un point fixe de la route"},
+    {c:"technique", n:"Trace lumineuse d'un vélo ou d'une auto isolée (longue exposition)", g:"Un seul sujet en mouvement qui dessine un filé lumineux continu, plutôt qu'un flux de circulation dense", af:"MF (mise au point fixée sur la trajectoire attendue avant le passage)", d:"Détection OFF", pa:"OFF", fl:"Sans flash, ou synchro 2e rideau pour figer le sujet net à la fin du filé", e:"f/8–f/16 / 2–8s (ajuster selon la vitesse du sujet et la longueur de trace voulue)", i:"ISO 160 fixe", m:"Multi / DR100", s:"Clarté 0", sh:"MS (si synchro 2e rideau) ou EF/ES (sans flash) / S + retardateur 2s (trépied obligatoire)", ib:"désactivée (trépied) / Aperçu Exp./BB", l:"XF 16-55 f/2.8 ou XF 10-24", b1:"f/8–f/16 · 2–8s", b2:"MF", b3:"ISO 160", b4:"MS", b5:"Mode M", b6:"MF", afd:"Fixée sur la trajectoire attendue avant le passage"},
+    {c:"paysage", n:"Auto en salle d'exposition (showroom intérieur)", g:"Véhicule statique sous éclairage LED de showroom, souvent mixte avec lumière du jour par les vitrines — gérer reflets carrosserie/vitres et cohérence des tons", af:"AF-S / point unique, viser une zone à mi-longueur du véhicule pour la PDC", d:"Détection OFF", pa:"OFF", fl:"Sans flash direct (reflets sur carrosserie) — si appoint nécessaire, V860II rebond plafond, TTL avec correction négative", e:"f/5.6–f/8 (f/8 en grand angle serré pour PDC avant-arrière) / min. 1/125s (plancher AUTO 1) ou trépied", i:"AUTO 1 (plancher 1/125s) ou ISO 160–400 fixe sur trépied", m:"Multi / DR200 (protège les hautes lumières des reflets chrome/vernis)", s:"BB perso depuis une zone neutre du plancher/mur (lumière mixte LED + jour) / Clarté 0", sh:"MS + anti-flicker si LED pulsée / S", ib:"IBIS activée à main levée / désactivée sur trépied / Aperçu Exp./BB", l:"XF 16-55 f/2.8 (plans larges) ; XF 10-24 seulement si l'espace force le très grand angle (surveiller la distorsion sur les lignes de carrosserie en bord de cadre)", b1:"f/5.6–f/8 · 1/125s", b2:"AF-S", b3:"ISO Auto 1", b4:"MS", b5:"Mode A", b6:"Point"},
+    {c:"evenement", n:"Autocueillette de pommes (verger)", g:"Personnes dans le décor du verger : cueillette, rangées d'arbres, lumière tachetée sous les pommiers, enfants en mouvement, contre-jour fréquent en fin de journée", af:"AF-C (Set 1) / Zone 3×3, détection Visage/Œil (Single Point pour un portrait serré entre les branches)", d:"Détection Visage/Œil", pa:"OFF", fl:"Sans flash ; fill-in TTL (FEC -1) si le visage est dans l'ombre des arbres avec le ciel derrière", e:"f/4–f/5.6 (sujet net, verger lisible) ou f/2.8 pour isoler / min. 1/500s (cueillette, enfants)", i:"AUTO 3 (plancher 1/500s)", m:"Multi / DR200 (soleil tacheté sous les arbres, ciel entre les branches, pommes rouges saturées)", s:"Clarté 0", sh:"ES silencieux ou EF / CL 5 ips", ib:"IBIS activée / Aperçu Exp./BB", l:"XF 16-55 f/2.8 à 24-35mm (la personne dans son décor) ; XF 50-140 pour isoler quelqu'un dans une rangée avec le fond compressé", b1:"f/4–f/5.6 · 1/500s", b2:"AF-C · Set 1", b3:"ISO Auto 3", b4:"ES · CL 5 ips", b5:"Mode A", b6:"Point/3×3 · Œil"}
+  ];
+
+  var CATS = [
+    {k:"tous", label:"Tous"},
+    {k:"portrait", label:"Portrait"},
+    {k:"mariage", label:"Mariage"},
+    {k:"evenement", label:"Événement"},
+    {k:"sport", label:"Sport"},
+    {k:"faune", label:"Faune"},
+    {k:"paysage", label:"Paysage / Archi"},
+    {k:"spectacle", label:"Spectacle"},
+    {k:"street", label:"Street"},
+    {k:"technique", label:"Technique"}
+  ];
+
+  var grid = document.getElementById("libgrid");
+  var chipsWrap = document.getElementById("libchips");
+  var search = document.getElementById("libsearch");
+  var count = document.getElementById("libcount");
+  var activeCat = "tous";
+
+  function card(p){
+    var el = document.createElement("div");
+    el.className = "pcard";
+    el.dataset.cat = p.c;
+    el.dataset.text = (p.n + " " + p.g + " " + p.l).toLowerCase();
+    // Mesure / DR : coupe au premier " / " ; IBIS / EVF : coupe juste avant "Aperçu"
+    var mi = p.m.indexOf(" / ");
+    var mdr = mi < 0 ? [p.m, ""] : [p.m.slice(0, mi), p.m.slice(mi + 3)];
+    var ibm = p.ib.match(/^(.*?)\s[\/·]\s(?=Aperçu)(.*)$/);
+    var ibe = ibm ? [ibm[1], ibm[2]] : [p.ib, ""];
+    // Obturateur · Cadence : coupe au " · " ; sans cadence → S (vue par vue)
+    // Ligne AF affichée sans le mode ni le Set (portés par leurs propres lignes et badges)
+    var afd = p.af
+      .replace(/^(?:(?:AF-C|AF-S|MF)(?:\s*\((?:Set [\d\/]+|ou AF-C, Set \d|[^)]*)\))?(?:\s+(?:pur|mini|ponctuel))?(?:\s*\([^)]*\))?(?:\s*(?:,|ou|\/)\s*)?)+/, "")
+      .replace(/^[,\/\s]+/, "")
+      .replace(/\s*\(l'AF peut échouer en faible lumière\)\s*\/\s*/, "");
+    if (!afd) afd = p.afd || "—";
+    afd = afd.charAt(0).toUpperCase() + afd.slice(1);
+    // Mode de mise au point et Set AF-C, dérivés du champ af
+    var seen = {}, modesArr = [];
+    (p.af.match(/AF-C|AF-S|MF/g) || []).forEach(function(x){ if(!seen[x]){ seen[x]=1; modesArr.push(x); } });
+    var modes = modesArr.join(" ou ") || "—";
+    var setMatch = p.af.match(/Set (\d(?:\/\d)?)/);
+    var setm = (modesArr.indexOf("AF-C") !== -1 && setMatch) ? setMatch[1] : "";
+    // Obturateur / Cadence (champ sh) : coupe au premier " / "
+    var si = p.sh.indexOf(" / ");
+    var shc = si < 0 ? [p.sh, "S"] : [p.sh.slice(0, si), p.sh.slice(si + 3)];
+    var oi = p.b4.indexOf(" · ");
+    var ob = oi < 0 ? [p.b4, "S"] : [p.b4.slice(0, oi), p.b4.slice(oi + 3)];
+    el.innerHTML =
+      '<div class="cat-tag">' + p.c + '</div>' +
+      '<h3>' + p.n + '</h3>' +
+      '<div class="badges">' +
+        '<span class="badge b3">' + p.b5 + '</span>' +
+        '<span class="badge">' + p.b1 + '</span>' +
+        '<span class="badge b2">' + p.b2 + '</span>' +
+        '<span class="badge b2">' + p.b6 + '</span>' +
+        '<span class="badge">' + p.b3 + '</span>' +
+        '<span class="badge b2">' + ob[0] + '</span>' +
+        '<span class="badge b2">' + ob[1] + '</span>' +
+      '</div>' +
+      '<div class="goal">' + p.g + '</div>' +
+      '<dl class="spec">' +
+        '<dt>Objectif</dt><dd>' + p.l + '</dd>' +
+        '<dt>AF</dt><dd>' + afd + '</dd>' +
+        '<dt>Détection</dt><dd>' + p.d + '</dd>' +
+        '<dt>Pre-AF</dt><dd>' + p.pa + '</dd>' +
+        '<dt>Flash</dt><dd>' + p.fl + '</dd>' +
+        '<dt>Expo</dt><dd>' + p.e + '</dd>' +
+        '<dt>Obturateur</dt><dd>' + shc[0] + '</dd>' +
+        '<dt>Mode MAP</dt><dd>' + modes + '</dd>' +
+        (setm ? '<dt>AF-C Set</dt><dd>Set ' + setm + '</dd>' : '') +
+        '<dt>ISO</dt><dd>' + p.i + '</dd>' +
+        '<dt>Cadence</dt><dd>' + shc[1] + '</dd>' +
+        '<dt>Mesure</dt><dd>' + mdr[0] + '</dd>' +
+        '<dt>DR</dt><dd>' + mdr[1] + '</dd>' +
+        '<dt>Clarté</dt><dd>' + p.s + '</dd>' +
+        '<dt>IBIS</dt><dd>' + ibe[0] + '</dd>' +
+        '<dt>EVF</dt><dd>' + ibe[1] + '</dd>' +
+      '</dl>';
+    return el;
+  }
+
+  DATA.sort(function(a,b){ return a.n.localeCompare(b.n, "fr", {sensitivity:"base"}); });
+  DATA.forEach(function(p){ grid.appendChild(card(p)); });
+
+  CATS.forEach(function(c){
+    var b = document.createElement("button");
+    b.className = "chip";
+    b.textContent = c.label;
+    b.setAttribute("aria-pressed", c.k === "tous" ? "true" : "false");
+    b.addEventListener("click", function(){
+      activeCat = c.k;
+      Array.prototype.forEach.call(chipsWrap.children, function(x){ x.setAttribute("aria-pressed", "false"); });
+      b.setAttribute("aria-pressed", "true");
+      applyFilter();
+    });
+    chipsWrap.appendChild(b);
+  });
+
+  function applyFilter(){
+    var q = search.value.trim().toLowerCase();
+    var shown = 0;
+    Array.prototype.forEach.call(grid.children, function(el){
+      var okCat = activeCat === "tous" || el.dataset.cat === activeCat;
+      var okText = !q || el.dataset.text.indexOf(q) !== -1;
+      var visible = okCat && okText;
+      el.hidden = !visible;
+      if (visible) shown++;
+    });
+    count.textContent = shown + " / " + DATA.length + " presets";
+  }
+
+  search.addEventListener("input", applyFilter);
+  applyFilter();
+  // Compteurs d'en-tête toujours alignés sur DATA.length
+  Array.prototype.forEach.call(document.querySelectorAll(".npresets"), function(el){ el.textContent = DATA.length; });
+})();
+</script>
+
+</body>
+</html>
