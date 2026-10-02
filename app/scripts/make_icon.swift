@@ -5,8 +5,8 @@
 //
 // Sans option, écrit les dix PNG attendus par `iconutil -c icns`. Le dessin est vectoriel et
 // refait à chaque taille sur la grille macOS : canevas de 1024, tuile arrondie de 824, marge de 100.
-// Avec --web, écrit les icônes de l'application web (écran d'accueil de l'iPhone) : le fond
-// couvre tout le carré, sans marge ni coins arrondis, car iOS applique son propre masque.
+// Avec --web, écrit les icônes de l'application web (iPhone, Android, PC) : le fond couvre tout
+// le carré, sans marge ni coins arrondis, car le système applique son propre masque.
 
 import AppKit
 import CoreGraphics
@@ -27,7 +27,7 @@ func gradient(_ colors: [CGColor]) -> CGGradient {
 }
 
 /// Dessine l'icône dans un repère de 1024 × 1024 (origine en bas à gauche).
-func draw(in ctx: CGContext, fullBleed: Bool) {
+func draw(in ctx: CGContext, fullBleed: Bool, scale: CGFloat) {
     let tile = CGRect(x: 100, y: 100, width: 824, height: 824)
     let tilePath = CGPath(roundedRect: tile, cornerWidth: 185, cornerHeight: 185, transform: nil)
     let center = CGPoint(x: 512, y: 500)
@@ -46,9 +46,11 @@ func draw(in ctx: CGContext, fullBleed: Bool) {
     ctx.restoreGState()
 
     // Sans la marge de la tuile, la molette est agrandie pour occuper la même part du carré.
+    // Les icônes « maskable » d'Android la gardent plus petite : le lanceur rogne jusqu'à un cercle
+    // de 80 % du côté, et le repère du haut doit rester dedans.
     if fullBleed {
         ctx.translateBy(x: 512, y: 512)
-        ctx.scaleBy(x: 1.12, y: 1.12)
+        ctx.scaleBy(x: scale, y: scale)
         ctx.translateBy(x: -512, y: -512)
     }
 
@@ -106,13 +108,13 @@ func draw(in ctx: CGContext, fullBleed: Bool) {
     ctx.fillPath()
 }
 
-func writePNG(pixels: Int, to url: URL, fullBleed: Bool = false) {
+func writePNG(pixels: Int, to url: URL, fullBleed: Bool = false, scale: CGFloat = 1.12) {
     guard let ctx = CGContext(data: nil, width: pixels, height: pixels, bitsPerComponent: 8, bytesPerRow: 0,
                               space: sRGB, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
         fatalError("contexte graphique indisponible")
     }
     ctx.scaleBy(x: CGFloat(pixels) / 1024, y: CGFloat(pixels) / 1024)
-    draw(in: ctx, fullBleed: fullBleed)
+    draw(in: ctx, fullBleed: fullBleed, scale: scale)
     guard let image = ctx.makeImage(),
           let dest = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) else {
         fatalError("écriture impossible : \(url.path)")
@@ -134,6 +136,8 @@ if web {
     writePNG(pixels: 180, to: output.appendingPathComponent("apple-touch-icon.png"), fullBleed: true)
     writePNG(pixels: 192, to: output.appendingPathComponent("icon-192.png"), fullBleed: true)
     writePNG(pixels: 512, to: output.appendingPathComponent("icon-512.png"), fullBleed: true)
+    writePNG(pixels: 192, to: output.appendingPathComponent("icon-maskable-192.png"), fullBleed: true, scale: 0.95)
+    writePNG(pixels: 512, to: output.appendingPathComponent("icon-maskable-512.png"), fullBleed: true, scale: 0.95)
 } else {
     for size in [16, 32, 128, 256, 512] {
         writePNG(pixels: size, to: output.appendingPathComponent("icon_\(size)x\(size).png"))

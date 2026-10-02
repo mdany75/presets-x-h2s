@@ -2,21 +2,21 @@
 
 Référence de terrain pour un Fujifilm X-H2S (firmware 7.3) : banques personnalisées C1–C7, bibliothèque de presets par situation (recherche + filtre par catégorie, tri alphabétique automatique), configuration ISO Auto 1–3 et glossaire des réglages.
 
-La même référence se consulte sur trois appareils : une application **Mac**, une application **PC Windows** et une application **iPhone**. Les trois affichent les mêmes fiches, fonctionnent hors ligne et se mettent à jour seules à chaque changement poussé sur ce dépôt. Dans les trois, le menu du haut sert d'onglets : Bibliothèque, Banques C1–C7, ISO Auto et Référence s'affichent une section à la fois.
+La même référence se consulte sur quatre appareils : une application **Mac**, une application **PC Windows**, une application **iPhone** et une application **Android** (Samsung et autres). Toutes affichent les mêmes fiches, fonctionnent hors ligne et se mettent à jour seules à chaque changement poussé sur ce dépôt. Dans toutes, le menu du haut sert d'onglets : Bibliothèque, Banques C1–C7, ISO Auto et Référence s'affichent une section à la fois.
 
 ![L'application Mac « Presets X-H2S » : bibliothèque de presets, deux fiches sélectionnées pour l'impression](docs/application.png)
 
-## Les trois versions
+## Les quatre versions
 
-| | Mac | PC Windows | iPhone |
-|---|---|---|---|
-| Nature | Application native (Swift) | Application web installée par Edge ou Chrome | Application web posée sur l'écran d'accueil |
-| Installation | `app/build.sh --install` | Depuis le navigateur, en trois clics | Depuis Safari : Partager → Sur l'écran d'accueil |
-| Où la trouver ensuite | Dossier Applications, Dock | Menu Démarrer, barre des tâches, Bureau | Écran d'accueil |
-| Hors ligne | Oui | Oui, après une première ouverture | Oui, après une première ouverture |
-| Mise à jour des fiches | Automatique au lancement | Automatique à l'ouverture | Automatique à l'ouverture |
-| Impression de fiches choisies | Oui, quatre par page | Oui, quatre par page | Non |
-| Affichage | Une section à la fois, par onglets | Une section à la fois, par onglets | Une section à la fois, par onglets, en-tête compact |
+| | Mac | PC Windows | iPhone | Android (Samsung) |
+|---|---|---|---|---|
+| Nature | Application native (Swift) | Application web installée par Edge ou Chrome | Application web posée sur l'écran d'accueil | Application web installée par Chrome ou Samsung Internet |
+| Installation | `app/build.sh --install` | Depuis le navigateur, en trois clics | Safari : Partager → Sur l'écran d'accueil | Chrome : ⋮ → Ajouter à l'écran d'accueil |
+| Où la trouver ensuite | Dossier Applications, Dock | Menu Démarrer, barre des tâches, Bureau | Écran d'accueil | Écran d'accueil, liste des applications |
+| Hors ligne | Oui | Oui, après une première ouverture | Oui, après une première ouverture | Oui, après une première ouverture |
+| Mise à jour des fiches | Automatique au lancement | Automatique à l'ouverture | Automatique à l'ouverture | Automatique à l'ouverture |
+| Impression de fiches choisies | Oui, quatre par page | Oui, quatre par page | Non | Non |
+| Affichage | Une section à la fois, par onglets | Une section à la fois, par onglets | Onglets, en-tête compact | Onglets, en-tête compact |
 
 Adresse de l'application web : <https://mdany75.github.io/presets-x-h2s/>
 
@@ -40,7 +40,9 @@ Sur Windows, la référence s'installe depuis le navigateur comme une applicatio
 
 ### Installation, étape par étape
 
-Avec **Microsoft Edge** (installé sur tous les PC Windows) :
+#### Avec Microsoft Edge
+
+Edge est installé sur tous les PC Windows.
 
 1. Ouvrir Edge et aller à l'adresse <https://mdany75.github.io/presets-x-h2s/>.
 2. Cliquer sur le menu **…** en haut à droite, puis **Applications**, puis **Installer ce site en tant qu'application**.
@@ -48,7 +50,13 @@ Avec **Microsoft Edge** (installé sur tous les PC Windows) :
 4. Dans la fenêtre qui s'ouvre, cocher les raccourcis voulus — **Épingler à la barre des tâches**, **Épingler au menu Démarrer**, **Créer un raccourci sur le Bureau** — puis **Autoriser**.
 5. Laisser l'application ouverte quelques secondes avec du réseau : cette première ouverture enregistre la copie hors ligne.
 
-Avec **Google Chrome** : ouvrir la même adresse, cliquer sur l'icône d'installation à droite de la barre d'adresse (un écran avec une flèche), ou sur le menu **⋮** → **Caster, enregistrer et partager** → **Installer la page en tant qu'application…**, puis **Installer**.
+#### Avec Google Chrome
+
+1. Ouvrir Chrome et aller à l'adresse <https://mdany75.github.io/presets-x-h2s/>.
+2. Cliquer sur l'icône d'installation à droite de la barre d'adresse (un écran avec une flèche vers le bas). Si elle n'apparaît pas, cliquer sur le menu **⋮** en haut à droite, puis **Caster, enregistrer et partager**, puis **Installer la page en tant qu'application…**.
+3. Dans la fenêtre « Installer l'application ? », cliquer sur **Installer**. L'application s'ouvre dans sa propre fenêtre ; Chrome l'ajoute au menu Démarrer et crée un raccourci sur le Bureau.
+4. Pour la garder dans la barre des tâches : clic droit sur son icône dans la barre des tâches, puis **Épingler à la barre des tâches**.
+5. Laisser l'application ouverte quelques secondes avec du réseau : cette première ouverture enregistre la copie hors ligne.
 
 Les libellés exacts des menus peuvent varier d'une version du navigateur à l'autre.
 
@@ -58,7 +66,7 @@ Les libellés exacts des menus peuvent varier d'une version du navigateur à l'a
 - **Impression** : comme sur Mac, la pastille en haut à droite de chaque fiche la sélectionne et le bouton « Imprimer… » de la barre du bas imprime la sélection, à quatre fiches par page. **Ctrl+P** imprime la sélection s'il y en a une, sinon l'onglet affiché. Le dialogue d'impression propose aussi l'enregistrement en PDF.
 - **Recherche** : cliquer dans le champ de recherche de la bibliothèque, ou Ctrl+F pour la recherche du navigateur dans toute la page.
 - **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, la version du dépôt est rechargée ; sans réseau, la copie locale s'affiche.
-- **Désinstallation** : dans la fenêtre de l'application, menu **…** → **Paramètres de l'application** → **Désinstaller** ; ou Paramètres de Windows → Applications.
+- **Désinstallation** : dans la fenêtre de l'application, menu **…** → **Paramètres de l'application** → **Désinstaller** (Edge) ou menu **⋮** → **Désinstaller Presets X-H2S…** (Chrome) ; ou Paramètres de Windows → Applications.
 
 La même installation fonctionne sur Mac et Linux avec Edge ou Chrome, pour qui ne veut pas compiler la version Mac.
 
@@ -93,6 +101,43 @@ La page s'installe sur l'iPhone comme une application : une icône sur l'écran 
 - **Hors ligne** : la page, l'icône et les polices sont gardées sur l'iPhone. iOS peut effacer cette copie si l'application n'est pas ouverte pendant plusieurs semaines ; une ouverture avec du réseau la reconstitue.
 - **Désinstallation** : appui long sur l'icône, puis **Supprimer l'app**.
 
+## Version Android (Samsung)
+
+Sur un téléphone Android, la page s'installe comme une application depuis Chrome ou Samsung Internet : une icône sur l'écran d'accueil et dans la liste des applications, qui ouvre la référence en plein écran et fonctionne hors ligne. L'affichage est le même que sur l'iPhone : onglets et en-tête compact.
+
+<p>
+  <img src="docs/android-bibliotheque.png" alt="La bibliothèque de presets à la largeur d'un téléphone Samsung Galaxy" width="250">
+  &nbsp;&nbsp;
+  <img src="docs/android-iso-auto.png" alt="L'onglet ISO Auto à la largeur d'un téléphone Samsung Galaxy" width="250">
+</p>
+
+*Rendu de la page à la largeur d'un Samsung Galaxy S (360 points) : l'onglet Bibliothèque, puis l'onglet ISO Auto.*
+
+### Installation, étape par étape
+
+#### Avec Google Chrome
+
+1. Sur le téléphone, ouvrir **Chrome** et aller à l'adresse <https://mdany75.github.io/presets-x-h2s/>.
+2. Toucher le menu **⋮** en haut à droite.
+3. Toucher **Ajouter à l'écran d'accueil** (selon la version : **Installer l'application**).
+4. Choisir **Installer**, puis confirmer avec **Installer**.
+5. L'icône (une molette calée sur C1) apparaît sur l'écran d'accueil et dans la liste des applications. L'ouvrir une première fois **avec du réseau** et attendre que les fiches s'affichent : cette première ouverture enregistre la copie hors ligne.
+6. Pour vérifier : activer le mode Avion, fermer l'application, la rouvrir.
+
+#### Avec Samsung Internet
+
+1. Ouvrir **Samsung Internet** et aller à l'adresse <https://mdany75.github.io/presets-x-h2s/>.
+2. Toucher l'icône d'installation dans la barre d'adresse (une flèche vers le bas), si elle est affichée. Sinon, toucher le menu **≡** en bas à droite, puis **Ajouter à** (ou **Ajouter la page à**), puis **Écran d'accueil**.
+3. Confirmer avec **Installer** ou **Ajouter**.
+4. Ouvrir l'icône une première fois avec du réseau, comme à l'étape 5 ci-dessus.
+
+Les libellés exacts des menus peuvent varier selon la version d'Android, de One UI et du navigateur.
+
+### Utilisation
+
+- **Onglets, mise à jour, hors ligne** : comme sur l'iPhone, voir [Version iPhone](#version-iphone).
+- **Désinstallation** : appui long sur l'icône, puis **Désinstaller**.
+
 ## Contenu de la référence
 
 Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140 f/2.8 R LM OIS WR, XF 150-600 f/5.6-8 R LM OIS WR, Laowa 60 mm f/2.8 2× Ultra-Macro. Éclairage Godox (V1 Pro, V860II, MF12, AD200, AD600 Pro). Workflow RAW uniquement (Lightroom Classic + DxO PureRAW) : aucun réglage de rendu JPEG (simulations, netteté, grain, DR-P) n'est utilisé.
@@ -114,7 +159,7 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 | `presets-x-h2s.md` | Export Markdown généré depuis le HTML, pour lecture hors ligne ou impression. |
 | `tools/export_md.py` | Script de génération du Markdown (`pip install beautifulsoup4`). |
 | `selection.js` | Sélection et impression de fiches, partagé par la version PC (chargé par la page) et la version Mac (injecté par l'application). |
-| `manifest.webmanifest`, `sw.js`, `icons/` | Application web (PC et iPhone) : nom, icônes, fonctionnement hors ligne. Les icônes sont générées par `app/scripts/make_icon.swift --web icons`. |
+| `manifest.webmanifest`, `sw.js`, `icons/` | Application web (PC, iPhone et Android) : nom, icônes, fonctionnement hors ligne. Les icônes sont générées par `app/scripts/make_icon.swift --web icons`. |
 | `app/` | Sources de l'application Mac (Swift) et son script de construction `build.sh`. |
 | `docs/` | Captures d'écran de cette page. |
 
@@ -124,7 +169,7 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 2. Le tri alphabétique, les compteurs, la découpe Mesure/DR, IBIS/EVF, Obturateur/Cadence, les lignes Mode MAP / AF-C Set et le nettoyage de la ligne AF sont faits au rendu : rien d'autre à toucher.
 3. Régénérer le Markdown : `python3 tools/export_md.py`.
 4. Incrémenter la version sous le titre (`<div class="ver">`).
-5. Pousser sur `main` : GitHub Pages republie la page en une minute environ, et les trois applications la récupèrent à leur prochaine ouverture.
+5. Pousser sur `main` : GitHub Pages republie la page en une minute environ, et les quatre applications la récupèrent à leur prochaine ouverture.
 
 ### Publication GitHub Pages
 

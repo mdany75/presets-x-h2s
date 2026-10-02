@@ -19,7 +19,7 @@ Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier
 | `tools/export_md.py` | Génère le Markdown : `python3 tools/export_md.py` (dépendance `beautifulsoup4`). |
 | `app/` | Application macOS native « Presets X-H2S » (Swift, `app/build.sh --install`). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement, imprime les fiches sélectionnées (injecte `selection.js` : le corps de la page n'est pas modifié). |
 | `selection.js` | Sélection et impression de fiches, partagé : chargé par le `<head>` de `index.html` sur ordinateur (version PC Windows), injecté par l'application Mac. |
-| `manifest.webmanifest`, `sw.js`, `icons/` | Application web servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>) : version PC Windows (installée depuis Edge ou Chrome) et version iPhone (écran d'accueil). Tout ce qui est propre aux applications est dans le `<head>` de `index.html` : installation, hors-ligne, onglets (une section à la fois sur Mac, PC et iPhone ; l'artifact, sans `<head>`, garde toutes les sections sur une page), en-tête compact du téléphone, chargement de `selection.js`. Ce `<head>` est le seul contenu de `index.html` absent de `artifact-source.html` : la comparaison des deux fichiers porte sur le contenu de `<body>`. Si `sw.js` ou la liste des fichiers gardés hors ligne change, incrémenter `CACHE` dans `sw.js`. |
+| `manifest.webmanifest`, `sw.js`, `icons/` | Application web servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>) : version PC Windows (installée depuis Edge ou Chrome), version iPhone (écran d'accueil) et version Android (Chrome ou Samsung Internet ; icônes « maskable » dédiées). Tout ce qui est propre aux applications est dans le `<head>` de `index.html` : installation, hors-ligne, onglets (une section à la fois sur Mac, PC et iPhone ; l'artifact, sans `<head>`, garde toutes les sections sur une page), en-tête compact du téléphone, chargement de `selection.js`. Ce `<head>` est le seul contenu de `index.html` absent de `artifact-source.html` : la comparaison des deux fichiers porte sur le contenu de `<body>`. Si `sw.js` ou la liste des fichiers gardés hors ligne change, incrémenter `CACHE` dans `sw.js`. |
 | `docs/` | Captures d'écran du README (Mac, PC, iPhone). |
 
 ## Schéma d'une fiche (objet dans DATA)
@@ -71,5 +71,5 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 ## État au transfert
 
 - Version 31 publiée (artifact et dépôt identiques), 103 fiches.
-- Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows et iPhone en place.
+- Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows, iPhone et Android en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».
