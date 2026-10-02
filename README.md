@@ -4,7 +4,7 @@ Référence de terrain pour un Fujifilm X-H2S (firmware 7.3) : banques personnal
 
 ![L'application Mac « Presets X-H2S » : bibliothèque de presets, deux fiches sélectionnées pour l'impression](docs/application.png)
 
-La référence existe sous quatre formes : la page `index.html`, l'export Markdown, une [application Mac](#application-mac) qui affiche la page et imprime les fiches choisies, et une [application web pour iPhone](#publication-github-pages-et-application-iphone) à poser sur l'écran d'accueil.
+La référence existe sous quatre formes : la page `index.html`, l'export Markdown, une [application Mac](#application-mac) qui affiche la page et imprime les fiches choisies, et une [application pour iPhone](#application-iphone) à poser sur l'écran d'accueil.
 
 Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140 f/2.8 R LM OIS WR, XF 150-600 f/5.6-8 R LM OIS WR, Laowa 60 mm f/2.8 2× Ultra-Macro. Éclairage Godox (V1 Pro, V860II, MF12, AD200, AD600 Pro). Workflow RAW uniquement (Lightroom Classic + DxO PureRAW) : aucun réglage de rendu JPEG (simulations, netteté, grain, DR-P) n'est utilisé.
 
@@ -34,15 +34,43 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 - **Pre-AF** : ON seulement pour les sujets qui surgissent (sport, faune en action), OFF ailleurs.
 - **AF-C Set** : 1 multi-usage · 2 ignorer les obstacles · 3 accélération/décélération · 4 apparition soudaine · 5 erratique · 6 personnalisé.
 
-## Publication GitHub Pages et application iPhone
+## Application iPhone
 
-La page est publiée par GitHub Pages (branche `main`, dossier racine) : <https://mdany75.github.io/presets-x-h2s/>.
+La page s'installe sur l'iPhone comme une application : une icône sur l'écran d'accueil qui ouvre la bibliothèque en plein écran, sans la barre de Safari, et qui fonctionne hors ligne.
 
-Sur iPhone, elle s'installe comme une application : ouvrir cette adresse dans Safari, puis Partager → « Sur l'écran d'accueil ». L'icône ouvre la bibliothèque en plein écran, sans la barre de Safari.
+<p>
+  <img src="docs/iphone-bibliotheque.png" alt="La bibliothèque de presets à la largeur d'un iPhone" width="270">
+  &nbsp;&nbsp;
+  <img src="docs/iphone-recherche.png" alt="Recherche « pluie » : 2 presets sur 103" width="270">
+</p>
 
-- Hors ligne : `sw.js` garde une copie de la page, des icônes et des polices. Il faut avoir ouvert l'application une fois avec du réseau depuis son icône.
-- Mise à jour : à chaque ouverture avec du réseau, la version du dépôt est rechargée (un push sur `main` suffit) ; sans réseau ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
-- Fichiers : `manifest.webmanifest`, `sw.js`, `icons/` (générées par `app/scripts/make_icon.swift --web icons`) et le bloc « Application web » du `<head>` de `index.html`. Ce bloc n'existe pas dans `artifact-source.html`, qui n'a pas de `<head>`.
+*Rendu de la page à la largeur d'un iPhone 17 Pro : la bibliothèque, puis une recherche.*
+
+### Installation, étape par étape
+
+<img src="icons/icon-192.png" alt="Icône de l'application : molette calée sur C1" width="72" align="right">
+
+1. Sur l'iPhone, ouvrir **Safari** et aller à l'adresse <https://mdany75.github.io/presets-x-h2s/>.
+2. Toucher le bouton **Partager** (le carré avec une flèche vers le haut). S'il n'apparaît pas dans la barre de Safari, toucher d'abord le bouton **•••**, puis **Partager**.
+3. Faire défiler la liste des actions vers le bas et toucher **Sur l'écran d'accueil**. Si l'action n'est pas dans la liste, toucher **Modifier les actions…** tout en bas pour l'ajouter.
+4. Vérifier le nom proposé, « Presets X-H2S ». Si l'option **Ouvrir comme app web** est affichée, la laisser activée.
+5. Toucher **Ajouter**, en haut à droite. L'icône (une molette calée sur C1) apparaît sur l'écran d'accueil.
+6. Toucher l'icône une première fois **avec du réseau** (Wi-Fi ou cellulaire) et attendre que les fiches s'affichent : c'est cette première ouverture qui enregistre la copie hors ligne.
+7. Pour vérifier : activer le mode Avion, fermer l'application, la rouvrir. Les fiches doivent s'afficher normalement.
+
+### Utilisation
+
+- **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, l'application recharge la version du dépôt (un push sur `main` suffit) ; le numéro de version est affiché sous le titre. Sans réseau, ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
+- **Hors ligne** : la page, l'icône et les polices sont gardées sur l'iPhone par `sw.js`. iOS peut effacer cette copie si l'application n'est pas ouverte pendant plusieurs semaines ; une ouverture avec du réseau la reconstitue.
+- **Désinstallation** : appui long sur l'icône, puis **Supprimer l'app**.
+
+### Fichiers concernés
+
+`manifest.webmanifest`, `sw.js`, `icons/` (générées par `app/scripts/make_icon.swift --web icons`) et le bloc « Application web » du `<head>` de `index.html`. Ce bloc n'existe pas dans `artifact-source.html`, qui n'a pas de `<head>`.
+
+## Publication GitHub Pages
+
+La page est publiée par GitHub Pages depuis la branche `main`, dossier racine : <https://mdany75.github.io/presets-x-h2s/>. Chaque push sur `main` la met à jour en une minute environ.
 
 ## Application Mac
 
