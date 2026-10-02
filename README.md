@@ -11,7 +11,7 @@ La même référence se consulte sur quatre appareils : une application **Mac**,
 | | Mac | PC Windows | iPhone | Android (Samsung) |
 |---|---|---|---|---|
 | Nature | Application native (Swift) | Application web installée par Edge ou Chrome | Application web posée sur l'écran d'accueil | Application web installée par Chrome ou Samsung Internet |
-| Installation | `app/build.sh --install` | Depuis le navigateur, en trois clics | Safari : Partager → Sur l'écran d'accueil | Chrome : ⋮ → Ajouter à l'écran d'accueil |
+| Installation | Image disque `.dmg` à glisser dans Applications | Depuis le navigateur, en trois clics | Safari : Partager → Sur l'écran d'accueil | Chrome : ⋮ → Ajouter à l'écran d'accueil |
 | Où la trouver ensuite | Dossier Applications, Dock | Menu Démarrer, barre des tâches, Bureau | Écran d'accueil | Écran d'accueil, liste des applications |
 | Hors ligne | Oui | Oui, après une première ouverture | Oui, après une première ouverture | Oui, après une première ouverture |
 | Mise à jour des fiches | Automatique au lancement | Automatique à l'ouverture | Automatique à l'ouverture | Automatique à l'ouverture |
@@ -24,11 +24,34 @@ Adresse de l'application web : <https://mdany75.github.io/presets-x-h2s/>
 
 Une application macOS native qui affiche la référence dans sa propre fenêtre, avec son icône (une molette calée sur C1) dans le Dock. La capture en haut de cette page la montre avec deux fiches cochées pour l'impression.
 
-- **Installation** : `app/build.sh --install` construit l'application et la place dans `/Applications`. Les outils de ligne de commande d'Apple suffisent (`xcode-select --install`), Xcode n'est pas nécessaire.
-- **Mise à jour** : la page embarquée est celle du dépôt au moment de la compilation. À chaque lancement, l'application compare sa copie à `index.html` de la branche `main` et télécharge la version plus récente : inutile de recompiler après un changement de fiches. Hors ligne, elle affiche la dernière copie connue.
+**[Télécharger Presets-X-H2S.dmg](https://github.com/mdany75/presets-x-h2s/raw/main/app/build/Presets-X-H2S.dmg)** — macOS 14 ou plus récent, Mac Apple Silicon ou Intel.
+
+### Installation, étape par étape
+
+1. Télécharger **Presets-X-H2S.dmg** avec le lien ci-dessus.
+2. Ouvrir le fichier téléchargé : une fenêtre montre l'application et un raccourci vers le dossier Applications.
+3. Glisser **Presets X-H2S** sur **Applications**, puis éjecter le disque « Presets X-H2S ».
+4. Ouvrir **Presets X-H2S** depuis le dossier Applications. Au premier lancement, macOS affiche qu'il n'a pas pu vérifier l'application : cliquer sur **Terminé**.
+5. Ouvrir **Réglages Système** → **Confidentialité et sécurité**, descendre jusqu'à la section **Sécurité** : à côté du message « Presets X-H2S a été bloqué », cliquer sur **Ouvrir quand même**, puis confirmer avec le mot de passe ou Touch ID.
+6. L'application s'ouvre. Les lancements suivants se font normalement, sans cette étape.
+
+Les étapes 4 et 5 ne sont demandées qu'une fois. macOS les impose parce que l'application est signée localement et non notariée par Apple (la notarisation demande un compte Apple Developer payant). Équivalent dans le Terminal, à la place des étapes 4 et 5 :
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/Presets X-H2S.app"
+```
+
+### Utilisation
+
 - **Onglets** : le menu du haut affiche une section à la fois ; l'onglet actif est souligné, et chaque onglet retrouve sa position de défilement quand on y revient. Dans Bibliothèque, la recherche et les catégories restent collées sous l'en-tête.
 - **Impression** : la pastille en haut à droite de chaque fiche (et de chaque banque C1–C7) la sélectionne. ⌘P, ou le bouton « Imprimer… » de la barre du bas, imprime la sélection à quatre fiches par page ; une fiche seule sort en pleine largeur. ⇧⌘A sélectionne les fiches que le filtre laisse affichées, ⇧⌘D vide la sélection.
+- **Mise à jour** : rien à faire. À chaque lancement, l'application compare sa copie à `index.html` de la branche `main` et télécharge la version plus récente. Hors ligne, elle affiche la dernière copie connue. Il n'y a donc pas besoin de retélécharger le `.dmg` quand les fiches changent.
 - **Raccourcis** : ⌘F ouvre l'onglet Bibliothèque et place le curseur dans la recherche, ⌘R force la mise à jour depuis GitHub, ⌘+ / ⌘- / ⌘0 règlent le zoom.
+- **Désinstallation** : glisser l'application du dossier Applications vers la corbeille.
+
+### Construire depuis les sources
+
+`app/build.sh` compile l'application et produit `app/build/Presets-X-H2S.dmg` ; `app/build.sh --install` l'installe en plus dans `/Applications`. Les outils de ligne de commande d'Apple suffisent (`xcode-select --install`), Xcode n'est pas nécessaire. Une application construite sur place n'est pas bloquée au premier lancement.
 
 ## Version PC Windows
 
@@ -160,7 +183,7 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 | `tools/export_md.py` | Script de génération du Markdown (`pip install beautifulsoup4`). |
 | `selection.js` | Sélection et impression de fiches, partagé par la version PC (chargé par la page) et la version Mac (injecté par l'application). |
 | `manifest.webmanifest`, `sw.js`, `icons/` | Application web (PC, iPhone et Android) : nom, icônes, fonctionnement hors ligne. Les icônes sont générées par `app/scripts/make_icon.swift --web icons`. |
-| `app/` | Sources de l'application Mac (Swift) et son script de construction `build.sh`. |
+| `app/` | Sources de l'application Mac (Swift), son script de construction `build.sh`, et l'image disque à télécharger `app/build/Presets-X-H2S.dmg`. |
 | `docs/` | Captures d'écran de cette page. |
 
 ### Ajouter ou modifier un preset

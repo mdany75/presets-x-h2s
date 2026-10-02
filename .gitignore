@@ -2,5 +2,5 @@ __pycache__/
 *.pyc
 .DS_Store
 
-# Application Mac assemblée (reconstruite par app/build.sh)
-app/build/
+# Application Mac assemblée (reconstruite par app/build.sh) ; seule l'image disque .dmg est versionnée
+app/build/*.app

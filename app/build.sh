@@ -1,8 +1,9 @@
 #!/bin/bash
-# Construit « Presets X-H2S.app » : une fenêtre native qui affiche index.html du dépôt.
+# Construit « Presets X-H2S.app » (une fenêtre native qui affiche index.html du dépôt)
+# et l'image disque à distribuer.
 # Requiert seulement les outils de ligne de commande d'Apple : xcode-select --install
 #
-#   app/build.sh             construit app/build/Presets X-H2S.app
+#   app/build.sh             construit app/build/Presets X-H2S.app et app/build/Presets-X-H2S.dmg
 #   app/build.sh --install   construit, puis installe l'app dans /Applications et l'ouvre
 #
 # La page embarquée est l'index.html du dépôt au moment de la compilation. Ensuite,
@@ -15,6 +16,7 @@ APP_NAME="Presets X-H2S"
 EXECUTABLE="PresetsXH2S"
 BUNDLE_ID="com.danymenard.presets-x-h2s"
 MIN_MACOS="14.0"
+DMG_NAME="Presets-X-H2S.dmg"
 PAGE="../index.html"
 
 INSTALL=false
@@ -56,14 +58,27 @@ printf '"CFBundleName" = "%s";\n"CFBundleDisplayName" = "%s";\n' "$APP_NAME" "$A
   > "$APP/Contents/Resources/fr.lproj/InfoPlist.strings"
 
 echo "› Signature"
+# Signature locale (ad hoc). Avec un compte Apple Developer, remplacer « - » par
+# l'identité « Developer ID Application: … », puis notariser l'image disque.
 xattr -cr "$APP"
 codesign --force --sign - --identifier "$BUNDLE_ID" "$APP"
 codesign --verify --strict "$APP"
 
+echo "› Image disque"
+# L'application et un raccourci vers Applications : on glisse l'une sur l'autre pour installer.
+STAGING="$WORK/dmg"
+mkdir -p "$STAGING"
+ditto "$APP" "$STAGING/$APP_NAME.app"
+ln -s /Applications "$STAGING/Applications"
+hdiutil create -volname "$APP_NAME" -srcfolder "$STAGING" -ov -format UDZO -quiet "$WORK/$DMG_NAME"
+hdiutil verify -quiet "$WORK/$DMG_NAME"
+
 rm -rf build
 mkdir -p build
 ditto "$APP" "build/$APP_NAME.app"
+cp "$WORK/$DMG_NAME" "build/$DMG_NAME"
 echo "✓ app/build/$APP_NAME.app"
+echo "✓ app/build/$DMG_NAME"
 
 if $INSTALL; then
   echo "› Installation"
