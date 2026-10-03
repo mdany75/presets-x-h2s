@@ -1,6 +1,6 @@
 # CLAUDE.md — Presets Fujifilm X-H2S
 
-Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier donne à Claude Code le contexte complet pour continuer le travail commencé dans Cowork sans relire l'historique.
+Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier donne à Claude Code le contexte complet du projet. Le travail a commencé dans Cowork ; depuis le 3 octobre 2026, Dany n'utilise plus que Claude Code et l'historique Cowork n'existe plus : ce fichier et le dépôt sont la seule mémoire du projet.
 
 ## Contexte utilisateur (ne pas redemander)
 
@@ -66,10 +66,10 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 3. `python3 tools/export_md.py` pour régénérer le Markdown.
 4. Version sous le titre, `<div class="ver">Version 1.1 · date</div>` : ne plus incrémenter le numéro automatiquement (décision de Dany, 3 octobre 2026). Quand une fiche est ajoutée ou retirée, changer seulement la date. Le numéro (1.1) ne change que si Dany le demande.
 5. Commit avec un message décrivant le changement fonctionnel, push sur `main`.
-6. La republication de l'artifact claude.ai (« Presets X-H2S ») ne peut pas se faire depuis Claude Code : soit Dany republie depuis Cowork, soit GitHub Pages devient la page de référence.
+6. GitHub Pages est la page de référence (<https://mdany75.github.io/presets-x-h2s/>). L'artifact claude.ai « Presets X-H2S » n'est plus republié depuis l'abandon de Cowork (3 octobre 2026) ; `artifact-source.html` reste synchronisé par précaution, jusqu'à ce que Dany demande de le retirer.
 
 ## État au transfert
 
-- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (104 fiches). L'artifact claude.ai affiche encore « Version 31 » (103 fiches) tant qu'il n'est pas republié depuis Cowork.
+- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (104 fiches). L'artifact claude.ai, s'il existe encore, est resté en « Version 31 » (103 fiches) et n'est plus tenu à jour.
 - Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows, iPhone et Android en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».
