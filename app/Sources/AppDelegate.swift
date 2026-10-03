@@ -98,24 +98,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         }.resume()
     }
 
+    /// Le dépôt GitHub fait foi : toute page valide différente de celle affichée la remplace.
     private func apply(remote: String, userInitiated: Bool) {
         let current = PresetPage.read(displayedURL) ?? ""
-        let currentVersion = PresetPage.version(of: current) ?? 0
-        let remoteVersion = PresetPage.version(of: remote) ?? 0
+        let label = PresetPage.versionLabel(of: remote) ?? "?"
 
         if remote == current {
-            if debug { trace("mise à jour : déjà à jour (version \(currentVersion))") }
-            if userInitiated { inform("Presets à jour", "Version \(currentVersion), identique au dépôt GitHub.") }
-            return
-        }
-        // Dépôt plus ancien que la copie locale : l'application a été compilée depuis une
-        // version pas encore poussée. On garde la copie locale.
-        guard remoteVersion >= currentVersion else {
-            if debug { trace("mise à jour : dépôt en version \(remoteVersion), locale \(currentVersion) conservée") }
-            if userInitiated {
-                inform("Copie locale plus récente",
-                       "L'application affiche la version \(currentVersion) ; le dépôt GitHub en est à la version \(remoteVersion).")
-            }
+            if debug { trace("mise à jour : déjà à jour (\(label))") }
+            if userInitiated { inform("Presets à jour", "\(label), identique au dépôt GitHub.") }
             return
         }
         do {
@@ -124,9 +114,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
             if userInitiated { inform("Mise à jour impossible", error.localizedDescription) }
             return
         }
-        if debug { trace("mise à jour : version \(currentVersion) → \(remoteVersion)") }
+        if debug { trace("mise à jour : \(PresetPage.versionLabel(of: current) ?? "?") → \(label)") }
         loadLocalPage()
-        if userInitiated { inform("Presets mis à jour", "Version \(remoteVersion) téléchargée depuis GitHub.") }
+        if userInitiated { inform("Presets mis à jour", "\(label), téléchargée depuis GitHub.") }
     }
 
     private func inform(_ title: String, _ text: String) {

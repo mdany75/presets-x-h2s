@@ -17,7 +17,7 @@ Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier
 | `artifact-source.html` | Identique à `index.html` sans `<!doctype>/<html>/<head>/<body>` — version publiée comme artifact claude.ai (« Presets X-H2S »). À garder synchrone. |
 | `presets-x-h2s.md` | Export Markdown généré, jamais édité à la main. |
 | `tools/export_md.py` | Génère le Markdown : `python3 tools/export_md.py` (dépendance `beautifulsoup4`). |
-| `app/` | Application macOS native « Presets X-H2S » (Swift, `app/build.sh --install`). L'image disque `app/build/Presets-X-H2S.dmg` est versionnée et liée depuis le README : la reconstruire et la commiter quand `app/` ou `selection.js` change (pas quand les fiches changent, l'application se met à jour seule). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement, imprime les fiches sélectionnées (injecte `selection.js` : le corps de la page n'est pas modifié). |
+| `app/` | Application macOS native « Presets X-H2S » (Swift, `app/build.sh --install`). L'image disque `app/build/Presets-X-H2S.dmg` est versionnée et liée depuis le README : la reconstruire et la commiter quand `app/` ou `selection.js` change (pas quand les fiches changent, l'application se met à jour seule). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement (toute page valide différente de la copie affichée la remplace ; le numéro de version n'entre pas dans la comparaison), imprime les fiches sélectionnées (injecte `selection.js` : le corps de la page n'est pas modifié). |
 | `selection.js` | Sélection et impression de fiches, partagé : chargé par le `<head>` de `index.html` sur ordinateur (version PC Windows), injecté par l'application Mac. |
 | `manifest.webmanifest`, `sw.js`, `icons/` | Application web servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>) : version PC Windows (installée depuis Edge ou Chrome), version iPhone (écran d'accueil) et version Android (Chrome ou Samsung Internet ; icônes « maskable » dédiées). Tout ce qui est propre aux applications est dans le `<head>` de `index.html` : installation, hors-ligne, onglets (une section à la fois sur Mac, PC et iPhone ; l'artifact, sans `<head>`, garde toutes les sections sur une page), en-tête compact du téléphone, chargement de `selection.js`. Ce `<head>` est le seul contenu de `index.html` absent de `artifact-source.html` : la comparaison des deux fichiers porte sur le contenu de `<body>`. Si `sw.js` ou la liste des fichiers gardés hors ligne change, incrémenter `CACHE` dans `sw.js`. |
 | `docs/` | Captures d'écran du README (Mac, PC, iPhone). |
@@ -64,12 +64,12 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 1. Modifier `DATA` (ou les banques HTML) dans `index.html`, puis reporter à l'identique dans `artifact-source.html` (ou régénérer ce dernier en retirant le squelette de `index.html`).
 2. `node --check` sur le contenu du `<script>` avant de commiter.
 3. `python3 tools/export_md.py` pour régénérer le Markdown.
-4. Incrémenter la version sous le titre : `<div class="ver">Version N · date</div>`.
+4. Version sous le titre, `<div class="ver">Version 1.1 · date</div>` : ne plus incrémenter le numéro automatiquement (décision de Dany, 3 octobre 2026). Quand une fiche est ajoutée ou retirée, changer seulement la date. Le numéro (1.1) ne change que si Dany le demande.
 5. Commit avec un message décrivant le changement fonctionnel, push sur `main`.
 6. La republication de l'artifact claude.ai (« Presets X-H2S ») ne peut pas se faire depuis Claude Code : soit Dany republie depuis Cowork, soit GitHub Pages devient la page de référence.
 
 ## État au transfert
 
-- Version 32 dans le dépôt et sur GitHub Pages (104 fiches, 3 octobre 2026) ; l'artifact claude.ai est resté en version 31 (103 fiches) tant qu'il n'est pas republié depuis Cowork.
+- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (104 fiches). L'artifact claude.ai affiche encore « Version 31 » (103 fiches) tant qu'il n'est pas republié depuis Cowork.
 - Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows, iPhone et Android en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».

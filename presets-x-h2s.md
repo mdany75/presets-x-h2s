@@ -1,6 +1,6 @@
 # Presets Fujifilm X-H2S
 
-*Version 32 · 3 octobre 2026*
+*Version 1.1 · 3 octobre 2026*
 
 Référence de terrain — 104 presets par situation, banques C1–C7, ISO Auto 1–3, glossaire technique.
 

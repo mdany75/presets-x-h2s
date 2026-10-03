@@ -120,7 +120,7 @@ La page s'installe sur l'iPhone comme une application : une icône sur l'écran 
 ### Utilisation
 
 - **Onglets** : le menu du haut affiche une section à la fois — Bibliothèque, Banques C1–C7, ISO Auto, Référence. Chaque onglet retrouve sa position de défilement quand on y revient ; toucher l'onglet déjà affiché remonte en haut. Sur téléphone, l'en-tête est compact et les quatre onglets tiennent sur une ligne ; dans Bibliothèque, la recherche et les catégories restent collées sous les onglets, et la rangée de catégories défile horizontalement.
-- **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, l'application recharge la version du dépôt ; le numéro de version est affiché sous le titre. Sans réseau, ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
+- **Mise à jour** : rien à faire. À chaque ouverture avec du réseau, l'application recharge la page du dépôt ; la version et la date de la dernière fiche ajoutée ou retirée sont affichées sous le titre. Sans réseau, ou si la réponse tarde plus de 4 s, la copie locale s'affiche.
 - **Hors ligne** : la page, l'icône et les polices sont gardées sur l'iPhone. iOS peut effacer cette copie si l'application n'est pas ouverte pendant plusieurs semaines ; une ouverture avec du réseau la reconstitue.
 - **Désinstallation** : appui long sur l'icône, puis **Supprimer l'app**.
 
@@ -191,7 +191,7 @@ Parc optique visé : XF 10-24 f/4 R OIS WR II, XF 16-55 f/2.8 R LM WR, XF 50-140
 1. Dans `index.html` (et `artifact-source.html`), ajouter un objet dans `DATA` en respectant les champs existants : `c` (catégorie), `n` (nom), `g` (objectif), `af`, `d`, `pa`, `fl`, `e`, `i`, `m`, `s`, `sh`, `ib`, `l`, `b1`–`b6`, et `afd` optionnel pour les fiches en MF pur.
 2. Le tri alphabétique, les compteurs, la découpe Mesure/DR, IBIS/EVF, Obturateur/Cadence, les lignes Mode MAP / AF-C Set et le nettoyage de la ligne AF sont faits au rendu : rien d'autre à toucher.
 3. Régénérer le Markdown : `python3 tools/export_md.py`.
-4. Incrémenter la version sous le titre (`<div class="ver">`).
+4. Mettre à jour la date sous le titre (`<div class="ver">Version 1.1 · date</div>`) quand une fiche est ajoutée ou retirée. Le numéro de version ne change pas à chaque fiche.
 5. Pousser sur `main` : GitHub Pages republie la page en une minute environ, et les quatre applications la récupèrent à leur prochaine ouverture.
 
 ### Publication GitHub Pages
