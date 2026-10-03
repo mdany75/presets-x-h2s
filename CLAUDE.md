@@ -70,6 +70,6 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 
 ## État au transfert
 
-- Version 31 publiée (artifact et dépôt identiques), 103 fiches.
+- Version 32 dans le dépôt et sur GitHub Pages (104 fiches, 3 octobre 2026) ; l'artifact claude.ai est resté en version 31 (103 fiches) tant qu'il n'est pas republié depuis Cowork.
 - Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows, iPhone et Android en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».

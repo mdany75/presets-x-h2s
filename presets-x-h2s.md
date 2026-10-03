@@ -1,10 +1,10 @@
 # Presets Fujifilm X-H2S
 
-*Version 31 · 2 octobre 2026*
+*Version 32 · 3 octobre 2026*
 
-Référence de terrain — 103 presets par situation, banques C1–C7, ISO Auto 1–3, glossaire technique.
+Référence de terrain — 104 presets par situation, banques C1–C7, ISO Auto 1–3, glossaire technique.
 
-## Bibliothèque de presets par situation (103)
+## Bibliothèque de presets par situation (104)
 
 ### Affût / mangeoire (sujet proche, immobile)
 
@@ -918,6 +918,30 @@ Référence de terrain — 103 presets par situation, banques C1–C7, ISO Auto 
 | Clarté | Clarté 0 |
 | IBIS | IBIS activée |
 | EVF | Aperçu Exp./BB — batterie au froid, en garder une de rechange au chaud |
+
+### Feux d'artifice (main levée)
+
+*Technique* — Traînées de gerbes sans trépied : poses de 1/4 à 1 s tenues par l'IBIS, bien appuyé
+
+`Mode M` · `f/5.6–f/8 · 1/4–1s` · `MF` · `MF` · `ISO 160` · `ES` · `CL 3 ips`
+
+| Réglage | Valeur |
+|---|---|
+| Objectif | XF 16-55 f/2.8 à 16–23mm ou XF 10-24 f/4 OIS (plus la focale est courte, plus le bougé pardonne) |
+| AF | Peaking, mise au point à l'infini avant le début |
+| Détection | Détection OFF |
+| Pre-AF | OFF |
+| Flash | Sans flash |
+| Expo | f/5.6–f/8 / 1/4–1s (grand-angle, coudes serrés ou appuyé contre un support ; au-delà de 1s le bougé domine) |
+| Obturateur | ES silencieux ou EF |
+| Mode MAP | MF |
+| ISO | ISO 160 fixe (320–400 seulement pour éclaircir le décor : la luminosité des traînées dépend de l'ouverture et de l'ISO, pas de la vitesse) |
+| Cadence | CL 3 ips (rafale courte de 3–5 vues, garder la plus nette) |
+| Mesure | Manuelle |
+| DR | DR100 |
+| Clarté | Clarté 0 · NR pose longue OFF |
+| IBIS | IBIS activée |
+| EVF | Aperçu Exp./BB mode M → APERÇU BB |
 
 ### Feux d'artifice (trépied)
 
