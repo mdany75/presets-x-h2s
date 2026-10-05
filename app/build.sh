@@ -3,7 +3,7 @@
 # et l'image disque à distribuer.
 # Requiert seulement les outils de ligne de commande d'Apple : xcode-select --install
 #
-#   app/build.sh             construit app/build/Presets X-H2S.app et app/build/Presets-X-H2S.dmg
+#   app/build.sh             construit app/build/Presets-X-H2S.dmg (l'application est dedans)
 #   app/build.sh --install   construit, puis installe l'app dans /Applications et l'ouvre
 #
 # La page embarquée est l'index.html du dépôt au moment de la compilation. Ensuite,
@@ -73,11 +73,10 @@ ln -s /Applications "$STAGING/Applications"
 hdiutil create -volname "$APP_NAME" -srcfolder "$STAGING" -ov -format UDZO -quiet "$WORK/$DMG_NAME"
 hdiutil verify -quiet "$WORK/$DMG_NAME"
 
-rm -rf build
+# Seule l'image disque est conservée (et versionnée) ; l'application assemblée reste dans le
+# dossier temporaire.
 mkdir -p build
-ditto "$APP" "build/$APP_NAME.app"
 cp "$WORK/$DMG_NAME" "build/$DMG_NAME"
-echo "✓ app/build/$APP_NAME.app"
 echo "✓ app/build/$DMG_NAME"
 
 if $INSTALL; then
