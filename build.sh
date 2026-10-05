@@ -3,8 +3,8 @@
 # et l'image disque à distribuer.
 # Requiert seulement les outils de ligne de commande d'Apple : xcode-select --install
 #
-#   app/build.sh             construit app/build/Presets-X-H2S.dmg (l'application est dedans)
-#   app/build.sh --install   construit, puis installe l'app dans /Applications et l'ouvre
+#   ./build.sh             construit build/Presets-X-H2S.dmg (l'application est dedans)
+#   ./build.sh --install   construit, puis installe l'app dans /Applications et l'ouvre
 #
 # La page embarquée est l'index.html du dépôt au moment de la compilation. Ensuite,
 # l'application se met à jour seule depuis GitHub (branche main) à chaque lancement :
@@ -17,17 +17,17 @@ EXECUTABLE="PresetsXH2S"
 BUNDLE_ID="com.danymenard.presets-x-h2s"
 MIN_MACOS="14.0"
 DMG_NAME="Presets-X-H2S.dmg"
-PAGE="../index.html"
+PAGE="index.html"
 
 INSTALL=false
 if [[ "${1:-}" == "--install" ]]; then
   INSTALL=true
 elif [[ $# -gt 0 ]]; then
-  echo "usage : app/build.sh [--install]" >&2
+  echo "usage : ./build.sh [--install]" >&2
   exit 1
 fi
 
-[[ -f "$PAGE" ]] || { echo "index.html introuvable à la racine du dépôt" >&2; exit 1; }
+[[ -f "$PAGE" ]] || { echo "index.html introuvable" >&2; exit 1; }
 
 # L'app est assemblée hors du dossier du projet : iCloud Drive ajoute aux dossiers
 # des attributs que codesign refuse (« detritus not allowed »).
@@ -52,7 +52,7 @@ iconutil -c icns "$WORK/AppIcon.iconset" -o "$APP/Contents/Resources/AppIcon.icn
 echo "› Ressources"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp "$PAGE" "$APP/Contents/Resources/index.html"
-cp ../selection.js "$APP/Contents/Resources/selection.js"
+cp selection.js "$APP/Contents/Resources/selection.js"
 # fr.lproj : sa présence suffit pour que les panneaux système s'affichent en français.
 printf '"CFBundleName" = "%s";\n"CFBundleDisplayName" = "%s";\n' "$APP_NAME" "$APP_NAME" \
   > "$APP/Contents/Resources/fr.lproj/InfoPlist.strings"
@@ -77,7 +77,7 @@ hdiutil verify -quiet "$WORK/$DMG_NAME"
 # dossier temporaire.
 mkdir -p build
 cp "$WORK/$DMG_NAME" "build/$DMG_NAME"
-echo "✓ app/build/$DMG_NAME"
+echo "✓ build/$DMG_NAME"
 
 if $INSTALL; then
   echo "› Installation"

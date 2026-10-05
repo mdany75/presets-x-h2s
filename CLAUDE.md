@@ -1,6 +1,8 @@
 # CLAUDE.md — Presets Fujifilm X-H2S
 
-Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier donne à Claude Code le contexte complet du projet. Le travail a commencé dans Cowork ; depuis le 3 octobre 2026, Dany n'utilise plus que Claude Code et l'historique Cowork n'existe plus : ce fichier et le dépôt sont la seule mémoire du projet.
+Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce projet suit le standard commun des projets de Dany (`/standard-projet` le vérifie) : projet dans `~/Developer/presets-x-h2s`, fichiers produits dans `build/` (ignoré par git) et publiés en Release GitHub.
+
+Ce fichier donne à Claude Code le contexte complet du projet. Le travail a commencé dans Cowork ; depuis le 3 octobre 2026, Dany n'utilise plus que Claude Code et l'historique Cowork n'existe plus : ce fichier et le dépôt sont la seule mémoire du projet.
 
 ## Contexte utilisateur (ne pas redemander)
 
@@ -13,14 +15,14 @@ Référence de terrain pour le Fujifilm X-H2S de Dany (firmware 7.3). Ce fichier
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Page autonome (GitHub Pages). Source de vérité. Les données sont dans `var DATA = [...]` du `<script>`. |
-| `artifact-source.html` | Identique à `index.html` sans `<!doctype>/<html>/<head>/<body>` — version publiée comme artifact claude.ai (« Presets X-H2S »). À garder synchrone. |
-| `presets-x-h2s.md` | Export Markdown généré, jamais édité à la main. |
-| `tools/export_md.py` | Génère le Markdown : `python3 tools/export_md.py` (dépendance `beautifulsoup4`). |
-| `app/` | Application macOS native « Presets X-H2S » (Swift, `app/build.sh --install`). L'image disque `app/build/Presets-X-H2S.dmg` est versionnée et liée depuis le README : la reconstruire et la commiter quand `app/` ou `selection.js` change (pas quand les fiches changent, l'application se met à jour seule). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement (toute page valide différente de la copie affichée la remplace ; le numéro de version n'entre pas dans la comparaison), imprime les fiches sélectionnées (injecte `selection.js` : le corps de la page n'est pas modifié). |
+| `index.html` | La page (GitHub Pages, et embarquée dans l'application Mac). Source de vérité unique. Les données sont dans `var DATA = [...]` du `<script>`. Son `<head>` porte ce qui est propre aux applications : installation, hors-ligne, onglets (une section à la fois sur toutes les versions), en-tête compact du téléphone, chargement de `selection.js` sur ordinateur. |
 | `selection.js` | Sélection et impression de fiches, partagé : chargé par le `<head>` de `index.html` sur ordinateur (version PC Windows), injecté par l'application Mac. |
-| `manifest.webmanifest`, `sw.js`, `icons/` | Application web servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>) : version PC Windows (installée depuis Edge ou Chrome), version iPhone (écran d'accueil) et version Android (Chrome ou Samsung Internet ; icônes « maskable » dédiées). Tout ce qui est propre aux applications est dans le `<head>` de `index.html` : installation, hors-ligne, onglets (une section à la fois sur Mac, PC et iPhone ; l'artifact, sans `<head>`, garde toutes les sections sur une page), en-tête compact du téléphone, chargement de `selection.js`. Ce `<head>` est le seul contenu de `index.html` absent de `artifact-source.html` : la comparaison des deux fichiers porte sur le contenu de `<body>`. Si `sw.js` ou la liste des fichiers gardés hors ligne change, incrémenter `CACHE` dans `sw.js`. |
-| `docs/` | Captures d'écran du README (Mac, PC, iPhone). |
+| `manifest.webmanifest`, `sw.js`, `icons/` | Application web servie par GitHub Pages (<https://mdany75.github.io/presets-x-h2s/>) : version PC Windows (Edge ou Chrome), iPhone (écran d'accueil) et Android (Chrome ou Samsung Internet ; icônes « maskable » dédiées). Si `sw.js` ou la liste des fichiers gardés hors ligne change, incrémenter `CACHE` dans `sw.js`. |
+| `Sources/`, `Resources/`, `build.sh` | Application macOS native « Presets X-H2S » (Swift, compilée par `swiftc`, sans Xcode). Affiche `index.html`, se met à jour depuis la branche `main` à chaque lancement (toute page valide différente de la copie affichée la remplace ; le numéro de version n'entre pas dans la comparaison), imprime les fiches sélectionnées. `./build.sh` produit `build/Presets-X-H2S.dmg`, joint à la Release ; le `.dmg` n'est pas commité. |
+| `scripts/export_md.py` | Export Markdown : `.venv/bin/python scripts/export_md.py` → `build/presets-x-h2s.md` (joint à la Release, jamais commité). Dépendance `beautifulsoup4` dans le venv local `.venv` (le recréer au besoin : `python3 -m venv .venv && .venv/bin/pip install beautifulsoup4`). |
+| `scripts/make_icon.swift` | Icônes : de l'application Mac (appelé par `build.sh`) et de l'application web (`--web icons`). |
+| `docs/` | Captures d'écran du README (`capture.png` = fenêtre Mac, `pc.png`, `iphone-*.png`, `android-*.png`). |
+| `CHANGELOG.md` | Une section par version, la plus récente en premier ; ses sections servent de notes aux Releases. |
 
 ## Schéma d'une fiche (objet dans DATA)
 
@@ -59,17 +61,46 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 - EVF : « Aperçu Exp./BB mode M → APERÇU EXP./BB » en lumière ambiante ; « → APERÇU BB » quand le flash domine ; « → NON » uniquement light painting.
 - Réglages globaux hors banques (documentés en conversation, pas dans la page) : Vue en direct naturelle NON ; Témoin AF NON ; Verr. EA spot et zone MAP OUI ; Vérification AF OUI ; Priorité décl./AF : AF-S = mise au point, AF-C = déclencheur ; RAW compressé sans perte ; Fn4 détection visage/œil, Fn6 ISO Auto, Fn5 détection sujet, Fn7 AF-C Set.
 
-## Flux de mise à jour (à exécuter à chaque changement)
+## Commandes
 
-1. Modifier `DATA` (ou les banques HTML) dans `index.html`, puis reporter à l'identique dans `artifact-source.html` (ou régénérer ce dernier en retirant le squelette de `index.html`).
-2. `node --check` sur le contenu du `<script>` avant de commiter.
-3. `python3 tools/export_md.py` pour régénérer le Markdown.
-4. Version sous le titre, `<div class="ver">Version 1.1 · date</div>` : ne plus incrémenter le numéro automatiquement (décision de Dany, 3 octobre 2026). Quand une fiche est ajoutée ou retirée, changer seulement la date. Le numéro (1.1) ne change que si Dany le demande.
-5. Commit avec un message décrivant le changement fonctionnel, push sur `main`.
-6. GitHub Pages est la page de référence (<https://mdany75.github.io/presets-x-h2s/>). L'artifact claude.ai « Presets X-H2S » n'est plus republié depuis l'abandon de Cowork (3 octobre 2026) ; `artifact-source.html` reste synchronisé par précaution, jusqu'à ce que Dany demande de le retirer.
+| Action | Commande |
+| --- | --- |
+| Construire | `./build.sh` (produit `build/Presets-X-H2S.dmg` ; `./build.sh --install` installe aussi dans `/Applications`) |
+| Export Markdown | `.venv/bin/python scripts/export_md.py` (produit `build/presets-x-h2s.md`) |
+| Vérifier la syntaxe du `<script>` | Node n'est pas installé : extraire chaque `<script>` de `index.html` dans un fichier temporaire et le parser avec JavaScriptCore — `/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc -e 'try{new Function(readFile("script.js"));print("OK")}catch(e){print("ERREUR "+e)}'` |
+| Tester | pas de tests automatisés |
+
+Les fichiers produits vont dans `build/`, ignoré par git. Rien de compilé ni de généré n'est commité.
+
+## Flux de mise à jour d'une fiche (à chaque changement)
+
+1. Modifier `DATA` (ou les banques HTML) dans `index.html`.
+2. Vérifier la syntaxe des `<script>` (commande ci-dessus).
+3. Version sous le titre, `<div class="ver">Version 1.1 · date</div>` : ne plus incrémenter le numéro automatiquement (décision de Dany, 3 octobre 2026). Quand une fiche est ajoutée ou retirée, changer seulement la date. Le numéro ne change que si Dany le demande ; il est alors aussi mis dans `Resources/Info.plist`, `CHANGELOG.md`, le tag et la Release.
+4. Commit en français décrivant le changement fonctionnel, `git push origin main`. GitHub Pages republie en une minute ; les quatre applications se mettent à jour seules.
+5. L'artifact claude.ai et Cowork ont été abandonnés le 3 octobre 2026 : GitHub Pages est la page de référence, il n'y a plus de copie à synchroniser.
+
+## Publier une version
+
+Seulement quand ce qu'on installe change (application Mac, application web) ou quand Dany demande un nouveau numéro. Dans cet ordre :
+
+1. Mettre le numéro à jour dans `Resources/Info.plist` (`CFBundleShortVersionString`, et `CFBundleVersion` +1) et dans `<div class="ver">` de `index.html` ; ajouter la section `## X.Y — date` dans `CHANGELOG.md`.
+2. `git add -A && git commit -m "Version X.Y" && git push origin main`
+3. `./build.sh` (produit `build/Presets-X-H2S.dmg`) et `.venv/bin/python scripts/export_md.py` (produit `build/presets-x-h2s.md`)
+4. `git tag -a vX.Y -m "Version X.Y" && git push origin vX.Y`
+5. `gh release create vX.Y build/Presets-X-H2S.dmg build/presets-x-h2s.md --title "Presets X-H2S X.Y" --notes "$(~/.claude/skills/standard-projet/scripts/notes-version.sh X.Y)"`
+
+Le README pointe vers `releases/latest/download/Presets-X-H2S.dmg`.
+
+## Règles
+
+- Répondre et écrire (commits, README, textes de l'interface) en français.
+- Ne jamais inventer un mécanisme du boîtier non confirmé par le manuel ou le menu réel ; dire le niveau de confiance.
+- Avant de pousser une fonctionnalité : README et CHANGELOG à jour, capture d'écran (`docs/capture.png`) refaite si l'interface a changé, et une nouvelle version si ce qu'on installe a changé.
+- Pousser sur `main` directement.
 
 ## État au transfert
 
-- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (104 fiches). L'artifact claude.ai, s'il existe encore, est resté en « Version 31 » (103 fiches) et n'est plus tenu à jour.
+- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (104 fiches) ; Release v1.1 du 5 octobre 2026 avec le `.dmg` et l'export Markdown. L'artifact claude.ai n'existe plus.
 - Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows, iPhone et Android en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».

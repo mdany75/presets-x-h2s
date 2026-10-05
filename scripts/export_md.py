@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Génère presets-x-h2s.md à partir de artifact-source.html (ou index.html).
+"""Génère l'export Markdown de la bibliothèque à partir de index.html.
 
 Usage :
-    python3 tools/export_md.py [source.html] [sortie.md]
+    .venv/bin/python scripts/export_md.py [source.html] [sortie.md]
 
-Par défaut : artifact-source.html -> presets-x-h2s.md
+Par défaut : index.html -> build/presets-x-h2s.md (build/ est ignoré par git ; le fichier
+est joint à la Release GitHub, jamais commité).
 Dépendance : beautifulsoup4  (pip install beautifulsoup4)
 """
 import html
+import os
 import re
 import sys
 import unicodedata
@@ -17,8 +19,8 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("beautifulsoup4 manquant : pip install beautifulsoup4")
 
-SRC = sys.argv[1] if len(sys.argv) > 1 else "artifact-source.html"
-OUT = sys.argv[2] if len(sys.argv) > 2 else "presets-x-h2s.md"
+SRC = sys.argv[1] if len(sys.argv) > 1 else "index.html"
+OUT = sys.argv[2] if len(sys.argv) > 2 else "build/presets-x-h2s.md"
 
 ORDER = ["Objectif", "AF", "Détection", "Pre-AF", "Flash", "Expo", "Obturateur",
          "Mode MAP", "AF-C Set", "ISO", "Cadence", "Mesure", "DR", "Clarté", "IBIS", "EVF"]
@@ -133,6 +135,7 @@ def main():
         for li in rc.select("li"):
             w("- " + li.get_text(" ", strip=True))
         w("")
+    os.makedirs(os.path.dirname(OUT) or ".", exist_ok=True)
     open(OUT, "w", encoding="utf-8").write("\n".join(out) + "\n")
     print(f"{OUT} : {len(ents)} fiches, {len(out)} lignes")
 

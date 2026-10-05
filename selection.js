@@ -1,4 +1,4 @@
-// selection.js — sélection et impression de fiches, hors du corps de la page (artifact-source.html ne l'a pas).
+// selection.js — sélection et impression de fiches, hors du corps de la page.
 // Ajoute à chaque fiche et à chaque banque C1–C7 une pastille de sélection, une barre d'action
 // en bas de fenêtre, et la mise en page d'impression : seules les fiches sélectionnées sont imprimées.
 // Chargé par le <head> de index.html sur ordinateur (application web, Windows compris) et injecté
