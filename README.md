@@ -6,7 +6,7 @@ Référence de terrain pour un Fujifilm X-H2S (firmware 7.3) : banques personnal
 
 ## Fonctions
 
-- 106 fiches de presets classées par situation (portrait, mariage, événement, sport, faune, paysage, spectacle, street, technique), avec recherche instantanée et filtre par catégorie.
+- 107 fiches de presets classées par situation (portrait, mariage, événement, sport, faune, paysage, spectacle, street, technique), avec recherche instantanée et filtre par catégorie.
 - Les sept banques personnalisées C1–C7 du boîtier, détaillées réglage par réglage.
 - Les trois banques ISO Auto et le glossaire des réglages (AF-C Set, DR, obturateur, EVF…).
 - Une section à la fois : Bibliothèque, Banques C1–C7, ISO Auto et Référence sont des onglets ; chacun retrouve sa position de défilement.

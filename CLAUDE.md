@@ -101,6 +101,6 @@ Le README pointe vers `releases/latest/download/Presets-X-H2S.dmg`.
 
 ## État au transfert
 
-- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (106 fiches) ; Release v1.1 du 5 octobre 2026 avec le `.dmg` et l'export Markdown. L'artifact claude.ai n'existe plus.
+- Version 1.1 · 3 octobre 2026 dans le dépôt et sur GitHub Pages (107 fiches) ; Release v1.1 du 5 octobre 2026 avec le `.dmg` et l'export Markdown. L'artifact claude.ai n'existe plus.
 - Fait le 2 octobre 2026 : description du dépôt GitHub posée, GitHub Pages activé (branche `main`, racine), applications Mac, PC Windows, iPhone et Android en place.
 - Pistes discutées non appliquées : Set 2 pour « Street jour » et « Fête de quartier » (passants) ; AF+MF OUI sur les fiches AF-S de précision ; IBIS activée pour « Soirée — flash direct + synchro lente ».
