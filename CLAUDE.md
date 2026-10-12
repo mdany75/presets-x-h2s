@@ -59,7 +59,7 @@ Ordre des badges : Mode · Expo · AF (mode · Set) · AF (zone · détection) �
 - Pre-AF ON seulement pour les sujets qui surgissent (sport, faune en action, danse/concert) ; OFF partout ailleurs. Pre-AF (AF-C) et AF+MF (AF-S) ne sont jamais ON ensemble.
 - AF-C Set : 1 multi-usage (portrait, rue, événement) · 2 ignorer les obstacles · 3 accélération/décélération · 4 apparition soudaine · 5 erratique (oiseaux) · 6 personnalisé.
 - EVF : « Aperçu Exp./BB mode M → APERÇU EXP./BB » en lumière ambiante ; « → APERÇU BB » quand le flash domine ; « → NON » uniquement light painting.
-- Réglages globaux hors banques (documentés en conversation, pas dans la page) : Vue en direct naturelle NON ; Témoin AF NON ; Verr. EA spot et zone MAP OUI ; Vérification AF OUI ; Priorité décl./AF : AF-S = mise au point, AF-C = déclencheur ; RAW compressé sans perte ; Fn4 détection visage/œil, Fn6 ISO Auto, Fn5 détection sujet, Fn7 AF-C Set.
+- Réglages globaux hors banques (documentés en conversation, pas dans la page) : Vue en direct naturelle OUI (changé le 12 octobre 2026 ; l'histogramme reste calculé sur le JPEG) ; Témoin AF NON ; Verr. EA spot et zone MAP OUI ; Vérification AF OUI ; Priorité décl./AF : AF-S = mise au point, AF-C = déclencheur ; RAW compressé sans perte ; Fn4 détection visage/œil, Fn6 ISO Auto, Fn5 détection sujet, Fn7 AF-C Set.
 
 ## Commandes
 
