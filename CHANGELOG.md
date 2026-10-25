@@ -1,9 +1,12 @@
 # Changements
 
-## Non publié — 2026-10-12
+## Non publié — 2026-10-24
 
 ### Ajouté
 - Quatre fiches faune depuis un bateau : « Baleines depuis un bateau (observation en mer) », « Phoques et oiseaux marins depuis un bateau », « Dauphins à l'étrave (depuis un bateau) » et « Macareux et oiseaux de falaise depuis un bateau » (108 fiches).
+
+### Modifié
+- « Hockey en aréna » : mesure compensée de +0.7 à +1.0 EV pour la glace blanche, qui fait sous-exposer la mesure multizone.
 
 ## 1.1 — 2026-10-05
 
